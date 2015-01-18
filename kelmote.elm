@@ -30,8 +30,12 @@ pages pageCnt pageList =
     let pageByIdx idx = case get idx (fromList pageList) of
                           Just p -> p
                           Nothing -> div [] []
+        headerByIdx idx = case get idx (fromList Kelmote.Page.headers) of
+                            Just h -> h
+                            Nothing -> div [] []
         attrVisible currentCnt pageCnt = if pageCnt == currentCnt then styleVisible else styleHidden
-        hoge pageCnt currentCnt = div [ attrVisible currentCnt pageCnt ] [ Kelmote.Page.header pageCnt, pageByIdx pageCnt ]
+        hoge pageCnt currentCnt = div [ attrVisible currentCnt pageCnt ] [ headerByIdx pageCnt, pageByIdx pageCnt ]
+--         hoge pageCnt currentCnt = div [ attrVisible currentCnt pageCnt ] [ Kelmote.Page.header pageCnt, pageByIdx pageCnt ]
     in div [] [
                  hoge pageCnt 0
                , hoge pageCnt 1
@@ -39,6 +43,9 @@ pages pageCnt pageList =
                , hoge pageCnt 3
                , hoge pageCnt 4
                , hoge pageCnt 5
+               , hoge pageCnt 6
+               , hoge pageCnt 7
+               , hoge pageCnt 8
              ]
 
 styleHidden : Attribute
