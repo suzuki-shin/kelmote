@@ -1,4 +1,6 @@
 body {
+    font-family: 'Lucida Console', monospace;
+    font-weight: bold;
     background-color: #268bd2;
     color: white;
 }
