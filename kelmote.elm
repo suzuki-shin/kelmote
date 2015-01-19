@@ -36,7 +36,7 @@ pages pageCnt pageList =
         attrVisible currentCnt pageCnt = if pageCnt == currentCnt then styleVisible else styleHidden
         pageDiv pageCnt currentCnt = div [ attrVisible currentCnt pageCnt ] [ headerByIdx pageCnt, pageByIdx pageCnt ]
         maxPageCnt = List.length pageList
-    in div [] <| List.map (pageDiv pageCnt) [0..maxPageCnt+1]
+    in div [] <| List.map (pageDiv pageCnt) [0..maxPageCnt-1]
 
 styleHidden : Attribute
 styleHidden = style [ ("display", "none") ]
