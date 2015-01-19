@@ -12,7 +12,7 @@ import Text (asText)
 import Debug (log)
 import Mouse
 import Window
-import List (take)
+import List
 import Array (fromList, get)
 import Kelmote.Page
 
@@ -34,19 +34,9 @@ pages pageCnt pageList =
                             Just h -> h
                             Nothing -> div [] []
         attrVisible currentCnt pageCnt = if pageCnt == currentCnt then styleVisible else styleHidden
-        hoge pageCnt currentCnt = div [ attrVisible currentCnt pageCnt ] [ headerByIdx pageCnt, pageByIdx pageCnt ]
---         hoge pageCnt currentCnt = div [ attrVisible currentCnt pageCnt ] [ Kelmote.Page.header pageCnt, pageByIdx pageCnt ]
-    in div [] [
-                 hoge pageCnt 0
-               , hoge pageCnt 1
-               , hoge pageCnt 2
-               , hoge pageCnt 3
-               , hoge pageCnt 4
-               , hoge pageCnt 5
-               , hoge pageCnt 6
-               , hoge pageCnt 7
-               , hoge pageCnt 8
-             ]
+        pageDiv pageCnt currentCnt = div [ attrVisible currentCnt pageCnt ] [ headerByIdx pageCnt, pageByIdx pageCnt ]
+        maxPageCnt = List.length pageList
+    in div [] <| List.map (pageDiv pageCnt) [0..maxPageCnt+1]
 
 styleHidden : Attribute
 styleHidden = style [ ("display", "none") ]
