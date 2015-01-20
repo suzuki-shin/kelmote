@@ -4,7 +4,7 @@ module Kelmote.Page where
 
 import Html (..)
 import Html.Attributes (..)
-import List (take)
+import List (take, map2, length)
 import Array (fromList, get)
 
 -- page
@@ -19,27 +19,29 @@ headerElm pageCnt = div [] [
         , h1 [] [text "Elm?"]
         ]
 
-headers = [
-     headerSelf 0
-   , headerSelf 1
-   , headerSelf 2
-   , headerSelf 3
-   , headerSelf 4
-   , headerSelf 5
-   , headerSelf 6
-   , headerSelf 7
-   , headerSelf 8
-   , headerElm 9
-  ]
+headers = map2 (<|)
+          [ headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerElm, headerElm, headerElm, headerElm, headerElm ] 
+          [0..length(pageList)-1]
 
-
-liList = [ liName, liJob, liTwitter, liLike, liHate, liRecentInterest ]
+selfList = [ liName, liJob, liTwitter, liLike, liHate, liRecentInterest ]
 liName = li [] [text "名前: ", span [class "fontYellow"] [text "SUZUKI Shinichiro"]]
 liJob = li [] [text "職業: ", span [class "fontYellow"] [text "Programmer"]]
 liTwitter = li [] [text "twitter: ", span [class "fontYellow"] [text "shin16s"]]
 liLike = li [] [text "好き: ", span [class "fontYellow"] [text "Haskell, Cat, Sake, Shogi"]]
 liHate = li [] [text "嫌い: ", span [class "fontYellow"] [text "PHP, JavaScript,,, >_<"]]
 liRecentInterest = li [] [text "最近興味がある: ", span [class "fontYellow"] [text "Elm"]]
+
+liElm1 = li [] [span [class "fontYellow"] [text "AltJS."]]
+liElm1_2 = li [] [span [class "fontYellow"] [text "AltJS...?"]]
+liElm1_3 = li [] [
+             div [class "fontYellow"] [text "AltJS...?"]
+           , ul [] [
+               li [] [text "xxxxx"]
+             , li [] [text "xxxxx"]
+             ]
+           ]
+liElm2 = li [] [span [class "fontYellow"] [text "Functional"]]
+liElm3 = li [] [span [class "fontYellow"] [text "Reactive"]]
 
 imgHaskell = img [
                src "img/haskell_logo.png"
@@ -80,14 +82,18 @@ imgJS = img [
 
 pageList = [
      div [] []
-   , div [] [ ul [] (take 1 liList) ]
-   , div [] [ ul [] (take 2 liList) ]
-   , div [] [ ul [] (take 3 liList) ]
-   , div [] [ ul [] (take 4 liList)  ]
-   , div [] [ ul [] (take 4 liList) , imgHaskell, imgCat, imgSake, imgShoge ]
-   , div [] [ ul [] (take 5 liList) ]
-   , div [] [ ul [] (take 5 liList), imgPHP, imgJS ]
-   , div [] [ ul [] liList ]
-   , div [] [ text "Elm..." ]
+   , div [] [ ul [] (take 1 selfList) ]
+   , div [] [ ul [] (take 2 selfList) ]
+   , div [] [ ul [] (take 3 selfList) ]
+   , div [] [ ul [] (take 4 selfList)  ]
+   , div [] [ ul [] (take 4 selfList) , imgHaskell, imgCat, imgSake, imgShoge ]
+   , div [] [ ul [] (take 5 selfList) ]
+   , div [] [ ul [] (take 5 selfList), imgPHP, imgJS ]
+   , div [] [ ul [] selfList ]
+   , div [] [ ul [] [liElm1] ]
+   , div [] [ ul [] [liElm1_2] ]
+   , div [] [ ul [] [liElm1_3] ]
+   , div [] [ ul [] [liElm1_3, liElm2] ]
+   , div [] [ ul [] [liElm1_3, liElm2, liElm3] ]
   ]
 
