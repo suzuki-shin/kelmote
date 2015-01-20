@@ -41,37 +41,37 @@ liHate = li [] [text "嫌い:", span [class "fontYellow"] [text "PHP, JavaScript
 liRecentInterest = li [] [text "最近興味がある: ", span [class "fontYellow"] [text "Elm"]]
 
 imgHaskell = img [
-               src ""
+               src "img/haskell_logo.png"
              , width 100
              , id "imgHaskell"
              ] []
 
 imgCat = img [
-               src ""
+               src "img/cat.jpg"
              , width 100
              , id "imgCat"
              ] []
 
 imgSake = img [
-               src ""
+               src "img/sake.jpg"
              , width 100
              , id "imgSake"
              ] []
 
 imgShoge = img [
-               src ""
+               src "img/shogi.jpg"
              , width 100
              , id "imgShoge"
              ] []
 
 imgPHP = img [
-               src ""
+               src "img/php_logo.jpg"
              , width 100
              , id "imgPHP"
              ] []
 
 imgJS = img [
-               src ""
+               src "img/javascript_logo.jpg"
              , width 100
              , id "imgJS"
              ] []
