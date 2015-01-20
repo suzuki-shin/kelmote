@@ -28,7 +28,8 @@ headers = [
    , headerSelf 5
    , headerSelf 6
    , headerSelf 7
-   , headerElm 8
+   , headerSelf 8
+   , headerElm 9
   ]
 
 
@@ -37,7 +38,7 @@ liName = li [] [text "名前: ", span [class "fontYellow"] [text "SUZUKI Shinich
 liJob = li [] [text "職業: ", span [class "fontYellow"] [text "Programmer"]]
 liTwitter = li [] [text "twitter: ", span [class "fontYellow"] [text "shin16s"]]
 liLike = li [] [text "好き: ", span [class "fontYellow"] [text "Haskell, Cat, Sake, Shogi"]]
-liHate = li [] [text "嫌い:", span [class "fontYellow"] [text "PHP, JavaScript,,, >_<"]]
+liHate = li [] [text "嫌い: ", span [class "fontYellow"] [text "PHP, JavaScript,,, >_<"]]
 liRecentInterest = li [] [text "最近興味がある: ", span [class "fontYellow"] [text "Elm"]]
 
 imgHaskell = img [
@@ -77,14 +78,16 @@ imgJS = img [
              ] []
 
 
-pageList =
-    let page0 = div [] []
-        page1 = div [] [ ul [] (take 1 liList) ]
-        page2 = div [] [ ul [] (take 2 liList) ]
-        page3 = div [] [ ul [] (take 3 liList) ]
-        page4 = div [] [ ul [] (take 4 liList)  ]
-        page5 = div [] [ ul [] (take 4 liList) , imgHaskell, imgCat, imgSake, imgShoge ]
-        page6 = div [] [ ul [] (take 5 liList), imgPHP, imgJS ]
-        page7 = div [] [ ul [] liList ]
-        page8 = div [] [ text "Elm..." ]
-    in [page0, page1, page2, page3, page4, page5, page6, page7, page8]
+pageList = [
+     div [] []
+   , div [] [ ul [] (take 1 liList) ]
+   , div [] [ ul [] (take 2 liList) ]
+   , div [] [ ul [] (take 3 liList) ]
+   , div [] [ ul [] (take 4 liList)  ]
+   , div [] [ ul [] (take 4 liList) , imgHaskell, imgCat, imgSake, imgShoge ]
+   , div [] [ ul [] (take 5 liList) ]
+   , div [] [ ul [] (take 5 liList), imgPHP, imgJS ]
+   , div [] [ ul [] liList ]
+   , div [] [ text "Elm..." ]
+  ]
+
