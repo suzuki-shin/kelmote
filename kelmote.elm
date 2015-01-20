@@ -23,15 +23,16 @@ import Time (every, second)
 import Graphics.Input.Field as Field
 
 main : Signal Element
-main = let view = \pageCnt dims touches input sec
+main = let view : Int -> (Int, Int) -> List Touch.Touch -> a -> b -> Element
+           view = \pageCnt dims touches input sec
                        -> if | pageCnt <= 7 -> scene (pages pageCnt Kelmote.Page.pageList) dims
                              | pageCnt == 8 -> asText sec
                              | pageCnt == 9 -> sceneTouch dims touches
-       in map5 view pageCount
-                    Window.dimensions
-                    Touch.touches
-                    (subscribe content)
-                    (every second)
+       in view <~ pageCount
+                ~ Window.dimensions
+                ~ Touch.touches
+                ~ (subscribe content)
+                ~ (every second)
 
 content : Channel Field.Content
 content = channel Field.noContent
