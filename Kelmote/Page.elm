@@ -9,18 +9,12 @@ import Array (fromList, get)
 
 -- page
 
-headerSelf pageCnt = div [] [
-          div [id "pageCount"] [text (toString pageCnt)]
-        , h1 [] [text "自己紹介"]
-        ]
-
-headerElm pageCnt = div [] [
-          div [id "pageCount"] [text (toString pageCnt)]
-        , h1 [] [text "Elm?"]
-        ]
+header_ txt pageCnt = div [] [ div [id "pageCount"] [text (toString pageCnt)] , h1 [] [text txt] ]
+headerSelf = header_ "自己紹介"
+headerElm = header_ "Elm?"
 
 headers = map2 (<|)
-          [ headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerElm, headerElm, headerElm, headerElm, headerElm ] 
+          [ headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerElm, headerElm, headerElm, headerElm, headerElm, header_ "Example 1. Transform"] 
           [0..length(pageList)-1]
 
 selfList = [ liName, liJob, liTwitter, liLike, liHate, liRecentInterest ]
@@ -95,5 +89,10 @@ pageList = [
    , div [] [ ul [] [liElm1_3] ]
    , div [] [ ul [] [liElm1_3, liElm2] ]
    , div [] [ ul [] [liElm1_3, liElm2, liElm3] ]
+   , iframe [
+       seamless True
+     , src "http://elm-lang.org/edit/examples/Reactive/Transforms.elm"
+     , height 450
+     , width 800
+     ] []
   ]
-
