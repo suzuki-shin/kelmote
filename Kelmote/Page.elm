@@ -91,8 +91,8 @@ pageList = [
    , div [] [ ul [] [liElm1_3, liElm2, liElm3] ]
    , iframe [
        seamless True
-     , src "http://elm-lang.org/edit/examples/Reactive/Transforms.elm"
-     , height 450
-     , width 800
+     , src "calcTable.html"
+     , height 100
+     , width 100
      ] []
   ]
