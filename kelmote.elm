@@ -21,8 +21,8 @@ scene p (w, h) = container w h midTop (toElement 800 h p)
 
 pages : Int -> List Page -> Html
 pages pageCnt pageList =
-    let contentList = List.map (\a -> a.content) pageList
-        headerList = List.map (\a -> a.header) pageList
+    let contentList = List.map getContent pageList
+        headerList = List.map getHeader pageList
         pageByIdx idx = case get idx (fromList contentList) of
                           Just p -> p
                           Nothing -> div [] []
@@ -47,7 +47,14 @@ pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
 {-| Export
 -}
 
-type alias Page = {header : Html, content : Html}
+type alias Page = {header : String, content : List Html}
+
+getContent : Page -> Html
+getContent p = div [] p.content
+
+getHeader : Page -> Html
+getHeader p = div [] [ h1 [] [text p.header] ]
+
 
 run : List Page -> Signal Element
 run pageList =
