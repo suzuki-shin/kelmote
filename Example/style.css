@@ -1,0 +1,72 @@
+body {
+    font-family: 'Lucida Console', monospace;
+    font-weight: bold;
+    background-color: #268bd2;
+    color: white;
+}
+
+h1 {
+    position: relative;
+    text-align: center;
+}
+
+p {
+    font-size: x-large;
+    text-align: left;
+}
+
+li {
+    font-size: x-large;
+    text-align: left;
+}
+
+#pageCount {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: right;
+    font-size: large;
+}
+
+#imgHaskell, #imgPHP {
+    position: absolute;
+    top: 100px;
+    right: 100px;
+}
+
+#imgCat, #imgJS {
+    position: absolute;
+    top: 200px;
+    right: 100px;
+}
+
+#imgSake {
+    position: absolute;
+    top: 100px;
+    right: 0;
+}
+
+#imgShoge {
+    position: absolute;
+    top: 200px;
+    right: 0;
+}
+
+.bRed {
+    background-color: red;
+}
+.bGreen {
+    background-color: green;
+}
+.bYellow {
+    background-color: yellow;
+}
+
+.boxH100 {
+    height: 50%;
+    text-align: center;
+}
+
+.fontYellow {
+    color: yellow;
+}
