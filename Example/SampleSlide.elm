@@ -14,10 +14,6 @@ main = run pageList
 
 -- page
 
-header_ txt pageCnt = div [] [ div [id "pageCount"] [text (toString pageCnt)] , h1 [] [text txt] ]
-headerSelf = header_ "自己紹介"
-headerElm = header_ "Elm?"
-
 selfList = [ liName, liJob, liTwitter, liLike, liHate, liRecentInterest ]
 liName = li [] [text "名前: ", span [class "fontYellow"] [text "SUZUKI Shinichiro"]]
 liJob = li [] [text "職業: ", span [class "fontYellow"] [text "Programmer"]]
@@ -50,27 +46,25 @@ imgJS      = img [ width 100, id "imgJS", src "img/javascript_logo.jpg" ] []
 
 pageList : List Page
 pageList = [
-   Page (headerSelf 0) <| div [] []
- , Page (headerSelf 1) <| div [] [ ul [] (take 1 selfList) ]
- , Page (headerSelf 2) <| div [] [ ul [] (take 2 selfList) ]
- , Page (headerSelf 3) <| div [] [ ul [] (take 3 selfList) ]
- , Page (headerSelf 4) <| div [] [ ul [] (take 4 selfList)  ]
- , Page (headerSelf 5) <| div [] [ ul [] (take 4 selfList) , imgHaskell, imgCat, imgSake, imgShoge ]
- , Page (headerSelf 6) <| div [] [ ul [] (take 5 selfList) ]
- , Page (headerSelf 7) <| div [] [ ul [] (take 5 selfList), imgPHP, imgJS ]
- , Page (headerSelf 8) <| div [] [ ul [] selfList ]
- , Page (headerElm 9)  <| div [] [ ul [] [liElm1_1] ]
- , Page (headerElm 10) <| div [] [ ul [] [liElm1_2] ]
- , Page (headerElm 11) <| div [] [ ul [] [liElm1_2, liElm2_1] ]
- , Page (headerElm 12) <| div [] [ ul [] [liElm1_2, liElm2_2] ]
- , Page (headerElm 13) <| div [] [ ul [] [liElm1_2, liElm2_2, liElm3_1] ]
- , Page (headerElm 14) <| div [] [ ul [] [liElm1_2, liElm2_2, liElm3_2] ]
- , Page (headerElm 15) <| div [] [
-        iframe [
+   Page "xxx" <| []
+ , Page "xxx" <| [ul [] (take 1 selfList)]
+ , Page "xxx" <| [ul [] (take 2 selfList)]
+ , Page "xxx" <| [ul [] (take 3 selfList)]
+ , Page "xxx" <| [ul [] (take 4 selfList)]
+ , Page "xxx" <| [ul [] (take 4 selfList) , imgHaskell, imgCat, imgSake, imgShoge]
+ , Page "xxx" <| [ul [] (take 5 selfList)]
+ , Page "xxx" <| [ul [] (take 5 selfList), imgPHP, imgJS]
+ , Page "xxx" <| [ul [] selfList]
+ , Page "AAA" <| [ul [] [liElm1_1]]
+ , Page "AAA" <| [ul [] [liElm1_2]]
+ , Page "AAA" <| [ul [] [liElm1_2, liElm2_1]]
+ , Page "AAA" <| [ul [] [liElm1_2, liElm2_2]]
+ , Page "AAA" <| [ul [] [liElm1_2, liElm2_2, liElm3_1]]
+ , Page "AAA" <| [ul [] [liElm1_2, liElm2_2, liElm3_2]]
+ , Page "AAA" <| [iframe [
          seamless True
        , src "calcTable.html"
        , height 100
        , width 600
-       ] []
-     ]
+       ] []]
   ]
