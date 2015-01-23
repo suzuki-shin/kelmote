@@ -3,6 +3,7 @@ import Graphics.Input.Field as Field
 import Signal (..)
 import String
 import Text (plainText)
+import List
 
 type alias Cel = Channel Field.Content
 
@@ -26,26 +27,35 @@ celC2 : Cel
 celC2 = channel Field.noContent
 
 main : Signal Element
-main = scene <~ (subscribe celA0) ~ (subscribe celA1) ~ (subscribe celB0) ~ (subscribe celB1)
+main = scene <~ (subscribe celA0)
+              ~ (subscribe celA1)
+              ~ (subscribe celB0)
+              ~ (subscribe celB1)
 
 scene : Field.Content -> Field.Content -> Field.Content -> Field.Content -> Element
-scene valueA0 valueA1 valueB0 valueB1 = flow down
-   [ flow right [
-                 Field.field Field.defaultStyle (send celA0) "A0" valueA0
-               , Field.field Field.defaultStyle (send celB0) "B0" valueB0
-               , Field.field Field.defaultStyle (send celC0) "A0 + B0" (Field.Content (toString ((toInt valueA0.string) + (toInt valueB0.string))) (Field.Selection 0 0 Field.Forward))
+scene valueA0 valueA1 valueB0 valueB1 =
+    let field : Cel -> String -> Field.Content -> Element
+        field cel defStr val = Field.field Field.defaultStyle (send cel) defStr val
+        sumValue values =
+            let fieldContent n = (Field.Content (toString n) (Field.Selection 0 0 Field.Forward))
+            in fieldContent <| List.foldl (+) 0 <| List.map (\v -> v.string |> toInt) values
+    in flow down
+           [ flow right [
+                 field celA0 "A0" valueA0
+               , field celB0 "B0" valueB0
+               , field celC0 "A0 + B0" (sumValue [valueA0, valueB0])
               ]
-   , flow right [
-                 Field.field Field.defaultStyle (send celA1) "A1" valueA1
-               , Field.field Field.defaultStyle (send celB1) "B1" valueB1
-               , Field.field Field.defaultStyle (send celC1) "A1 + B1" (Field.Content (toString ((toInt valueA1.string) + (toInt valueB1.string))) (Field.Selection 0 0 Field.Forward))
+           , flow right [
+                 field celA1 "A1" valueA1
+               , field celB1 "B1" valueB1
+               , field celC1 "A1 + B1" (sumValue [valueA1, valueB1])
               ]
-   , flow right [
-                 Field.field Field.defaultStyle (send celA2) "A0 + A1" (Field.Content (toString ((toInt valueA0.string) + (toInt valueA1.string))) (Field.Selection 0 0 Field.Forward))
-               , Field.field Field.defaultStyle (send celB2) "B0 + B1" (Field.Content (toString ((toInt valueB0.string) + (toInt valueB1.string))) (Field.Selection 0 0 Field.Forward))
-               , Field.field Field.defaultStyle (send celC2) "A0 + A1 + B0 + B1" (Field.Content (toString ((toInt valueA0.string) + (toInt valueA1.string) + (toInt valueB0.string) + (toInt valueB1.string))) (Field.Selection 0 0 Field.Forward))
+           , flow right [
+                 field celA2 "A0 + A1" (sumValue [valueA0, valueA1])
+               , field celB2 "B0 + B1" (sumValue [valueB0, valueB1])
+               , field celC2 "A0 + A1 + B0 + B1" (sumValue [valueA0, valueA1, valueB0, valueB1])
               ]
-   ]
+           ]
 
 toInt str = case String.toInt str of
   Ok n -> n
