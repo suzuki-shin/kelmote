@@ -13,10 +13,6 @@ header_ txt pageCnt = div [] [ div [id "pageCount"] [text (toString pageCnt)] , 
 headerSelf = header_ "自己紹介"
 headerElm = header_ "Elm?"
 
-headers = map2 (<|)
-          [ headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerElm, headerElm, headerElm, headerElm, headerElm, header_ "Example 1. 表計算"] 
-          [0..length(pageList)-1]
-
 selfList = [ liName, liJob, liTwitter, liLike, liHate, liRecentInterest ]
 liName = li [] [text "名前: ", span [class "fontYellow"] [text "SUZUKI Shinichiro"]]
 liJob = li [] [text "職業: ", span [class "fontYellow"] [text "Programmer"]]
@@ -25,17 +21,20 @@ liLike = li [] [text "好き: ", span [class "fontYellow"] [text "Haskell, Cat, 
 liHate = li [] [text "嫌い: ", span [class "fontYellow"] [text "PHP, JavaScript,,, >_<"]]
 liRecentInterest = li [] [text "最近興味がある: ", span [class "fontYellow"] [text "Elm"]]
 
-liElm1 = li [] [span [class "fontYellow"] [text "AltJS."]]
+liElm1_1 = li [] [span [class "fontYellow"] [text "AltJS."]]
 liElm1_2 = li [] [span [class "fontYellow"] [text "AltJS...?"]]
-liElm1_3 = li [] [
-             div [class "fontYellow"] [text "AltJS...?"]
-           , ul [] [
-               li [] [text "xxxxx"]
-             , li [] [text "xxxxx"]
-             ]
-           ]
-liElm2 = li [] [span [class "fontYellow"] [text "Functional"]]
-liElm3 = li [] [span [class "fontYellow"] [text "Reactive"]]
+liElm2_1 = li [] [ div [class "fontYellow"] [text "Functional"] ]
+liElm2_2 = li [] [ div [class "fontYellow"] [text "Functional"]
+                 , ul [] [
+                    li [] [text "Haskellみたいな構文"]
+                   ]
+                 ]
+liElm3_1 = li [] [div [class "fontYellow"] [text "Reactive"]]
+liElm3_2 = li [] [div [class "fontYellow"] [text "Reactive"]
+                 , ul [] [
+                    li [] [text "コールバック地獄から解放される？"]
+                   ]
+                 ]
 
 imgHaskell = img [
                src "img/haskell_logo.png"
@@ -74,6 +73,26 @@ imgJS = img [
              ] []
 
 
+headers = map2 (<|) [
+             headerSelf
+           , headerSelf
+           , headerSelf
+           , headerSelf
+           , headerSelf
+           , headerSelf
+           , headerSelf
+           , headerSelf
+           , headerSelf
+           , headerElm
+           , headerElm
+           , headerElm
+           , headerElm
+           , headerElm
+           , headerElm
+           , header_ "例1. 表計算"
+          ]
+          [0..length(pageList)-1]
+
 pageList = [
      div [] []
    , div [] [ ul [] (take 1 selfList) ]
@@ -84,15 +103,18 @@ pageList = [
    , div [] [ ul [] (take 5 selfList) ]
    , div [] [ ul [] (take 5 selfList), imgPHP, imgJS ]
    , div [] [ ul [] selfList ]
-   , div [] [ ul [] [liElm1] ]
+   , div [] [ ul [] [liElm1_1] ]
    , div [] [ ul [] [liElm1_2] ]
-   , div [] [ ul [] [liElm1_3] ]
-   , div [] [ ul [] [liElm1_3, liElm2] ]
-   , div [] [ ul [] [liElm1_3, liElm2, liElm3] ]
-   , iframe [
-       seamless True
-     , src "calcTable.html"
-     , height 200
-     , width 700
-     ] []
+   , div [] [ ul [] [liElm1_2, liElm2_1] ]
+   , div [] [ ul [] [liElm1_2, liElm2_2] ]
+   , div [] [ ul [] [liElm1_2, liElm2_2, liElm3_1] ]
+   , div [] [ ul [] [liElm1_2, liElm2_2, liElm3_2] ]
+   , div [] [
+        iframe [
+         seamless True
+       , src "calcTable.html"
+       , height 100
+       , width 600
+       ] []
+     ]
   ]
