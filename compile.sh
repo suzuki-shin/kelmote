@@ -1,3 +1,3 @@
 #!/bin/sh
-elm-make calcTable.elm --output=calcTable.html
-elm-make kelmote.elm
+elm-make Example/calcTable.elm --output=Example/calcTable.html
+elm-make Example/SampleSlide.elm
