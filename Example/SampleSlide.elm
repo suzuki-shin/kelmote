@@ -3,12 +3,11 @@ module SampleSlide where
 -}
 
 import Kelmote
-import Graphics.Element (Element, container, midTop, layers)
-import Signal (..)
+import Graphics.Element (Element)
+import Signal (Signal)
 import Html (..)
 import Html.Attributes (..)
-import List (take, map2, length)
-import Array (fromList, get)
+import List (take)
 
 -- page
 
@@ -74,27 +73,6 @@ imgJS = img [
              , width 100
              , id "imgJS"
              ] []
-
-
--- headers = map2 (<|) [
---              headerSelf
---            , headerSelf
---            , headerSelf
---            , headerSelf
---            , headerSelf
---            , headerSelf
---            , headerSelf
---            , headerSelf
---            , headerSelf
---            , headerElm
---            , headerElm
---            , headerElm
---            , headerElm
---            , headerElm
---            , headerElm
---            , header_ "例1. 表計算"
---           ]
---           [0..length(pageList)-1]
 
 pageList : List Kelmote.Page
 pageList = [
