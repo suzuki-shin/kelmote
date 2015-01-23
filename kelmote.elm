@@ -12,21 +12,9 @@ import Keyboard
 import Signal (..)
 import Text (asText)
 import Debug (log)
-import Mouse
 import Window
 import List
 import Array (fromList, get)
--- import Kelmote.Page
-import Touch
-import Time (every, second)
-import Graphics.Input.Field as Field
-
--- main : Signal Element
--- main = let view : List Kelmote.Page.Page -> Int -> (Int, Int) -> Element
---            view pageList pageCnt dims = scene (pages pageCnt pageList) dims
---        in view Kelmote.Page.pageList <~ pageCount ~ Window.dimensions
-
-type alias Page = {content : Html, header : Html}
 
 scene : Html -> (Int, Int) -> Element
 scene p (w, h) = container w h midTop (toElement 800 h p)
@@ -54,6 +42,12 @@ styleVisible = style [ ("display", "block") ]
 
 pageCount : Signal Int
 pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
+
+
+{-| Export
+-}
+
+type alias Page = {content : Html, header : Html}
 
 run : List Page -> Signal Element
 run pageList =
