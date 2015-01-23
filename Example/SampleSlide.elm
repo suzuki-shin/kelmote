@@ -2,7 +2,7 @@ module SampleSlide where
 {-| Presentation tool by elm.
 -}
 
-import Kelmote
+import Kelmote (Page, run)
 import Graphics.Element (Element)
 import Signal (Signal)
 import Html (..)
@@ -74,32 +74,32 @@ imgJS = img [
              , id "imgJS"
              ] []
 
-pageList : List Kelmote.Page
+pageList : List Page
 pageList = [
-   { header = headerSelf 0, content = div [] [] }
- , { header = headerSelf 1, content = div [] [ ul [] (take 1 selfList) ] }
- , { header = headerSelf 2, content = div [] [ ul [] (take 2 selfList) ] }
- , { header = headerSelf 3, content = div [] [ ul [] (take 3 selfList) ] }
- , { header = headerSelf 4, content = div [] [ ul [] (take 4 selfList)  ] }
- , { header = headerSelf 5, content = div [] [ ul [] (take 4 selfList) , imgHaskell, imgCat, imgSake, imgShoge ] }
- , { header = headerSelf 6, content = div [] [ ul [] (take 5 selfList) ] }
- , { header = headerSelf 7, content = div [] [ ul [] (take 5 selfList), imgPHP, imgJS ] }
- , { header = headerSelf 8, content = div [] [ ul [] selfList ] }
- , { header = headerElm 9, content = div [] [ ul [] [liElm1_1] ] }
- , { header = headerElm 10, content = div [] [ ul [] [liElm1_2] ] }
- , { header = headerElm 11, content = div [] [ ul [] [liElm1_2, liElm2_1] ] }
- , { header = headerElm 12, content = div [] [ ul [] [liElm1_2, liElm2_2] ] }
- , { header = headerElm 13, content = div [] [ ul [] [liElm1_2, liElm2_2, liElm3_1] ] }
- , { header = headerElm 14, content = div [] [ ul [] [liElm1_2, liElm2_2, liElm3_2] ] }
- , { header = headerElm 15, content = div [] [
+   Page (headerSelf 0) <| div [] []
+ , Page (headerSelf 1) <| div [] [ ul [] (take 1 selfList) ]
+ , Page (headerSelf 2) <| div [] [ ul [] (take 2 selfList) ]
+ , Page (headerSelf 3) <| div [] [ ul [] (take 3 selfList) ]
+ , Page (headerSelf 4) <| div [] [ ul [] (take 4 selfList)  ]
+ , Page (headerSelf 5) <| div [] [ ul [] (take 4 selfList) , imgHaskell, imgCat, imgSake, imgShoge ]
+ , Page (headerSelf 6) <| div [] [ ul [] (take 5 selfList) ]
+ , Page (headerSelf 7) <| div [] [ ul [] (take 5 selfList), imgPHP, imgJS ]
+ , Page (headerSelf 8) <| div [] [ ul [] selfList ]
+ , Page (headerElm 9)  <| div [] [ ul [] [liElm1_1] ]
+ , Page (headerElm 10) <| div [] [ ul [] [liElm1_2] ]
+ , Page (headerElm 11) <| div [] [ ul [] [liElm1_2, liElm2_1] ]
+ , Page (headerElm 12) <| div [] [ ul [] [liElm1_2, liElm2_2] ]
+ , Page (headerElm 13) <| div [] [ ul [] [liElm1_2, liElm2_2, liElm3_1] ]
+ , Page (headerElm 14) <| div [] [ ul [] [liElm1_2, liElm2_2, liElm3_2] ]
+ , Page (headerElm 15) <| div [] [
         iframe [
          seamless True
        , src "calcTable.html"
        , height 100
        , width 600
        ] []
-     ] }
+     ]
   ]
 
 main : Signal Element
-main = Kelmote.run pageList
+main = run pageList
