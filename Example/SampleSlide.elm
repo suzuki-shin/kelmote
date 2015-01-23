@@ -9,6 +9,9 @@ import Html (..)
 import Html.Attributes (..)
 import List (take)
 
+main : Signal Element
+main = run pageList
+
 -- page
 
 header_ txt pageCnt = div [] [ div [id "pageCount"] [text (toString pageCnt)] , h1 [] [text txt] ]
@@ -38,41 +41,12 @@ liElm3_2 = li [] [div [class "fontYellow"] [text "Reactive"]
                    ]
                  ]
 
-imgHaskell = img [
-               src "img/haskell_logo.png"
-             , width 100
-             , id "imgHaskell"
-             ] []
-
-imgCat = img [
-               src "img/cat.jpg"
-             , width 100
-             , id "imgCat"
-             ] []
-
-imgSake = img [
-               src "img/sake.jpg"
-             , width 100
-             , id "imgSake"
-             ] []
-
-imgShoge = img [
-               src "img/shogi.jpg"
-             , width 100
-             , id "imgShoge"
-             ] []
-
-imgPHP = img [
-               src "img/php_logo.jpg"
-             , width 100
-             , id "imgPHP"
-             ] []
-
-imgJS = img [
-               src "img/javascript_logo.jpg"
-             , width 100
-             , id "imgJS"
-             ] []
+imgHaskell = img [ width 100, id "imgHaskell", src "img/haskell_logo.png" ] []
+imgCat     = img [ width 100, id "imgCat", src "img/cat.jpg" ] []
+imgSake    = img [ width 100, id "imgSake", src "img/sake.jpg" ] []
+imgShoge   = img [ width 100, id "imgShoge", src "img/shogi.jpg" ] []
+imgPHP     = img [ width 100, id "imgPHP", src "img/php_logo.jpg" ] []
+imgJS      = img [ width 100, id "imgJS", src "img/javascript_logo.jpg" ] []
 
 pageList : List Page
 pageList = [
@@ -100,6 +74,3 @@ pageList = [
        ] []
      ]
   ]
-
-main : Signal Element
-main = run pageList
