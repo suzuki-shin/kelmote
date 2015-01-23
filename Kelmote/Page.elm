@@ -14,7 +14,7 @@ headerSelf = header_ "自己紹介"
 headerElm = header_ "Elm?"
 
 headers = map2 (<|)
-          [ headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerElm, headerElm, headerElm, headerElm, headerElm, header_ "Example 1. Transform"] 
+          [ headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerSelf, headerElm, headerElm, headerElm, headerElm, headerElm, header_ "Example 1. 表計算"] 
           [0..length(pageList)-1]
 
 selfList = [ liName, liJob, liTwitter, liLike, liHate, liRecentInterest ]
@@ -92,7 +92,7 @@ pageList = [
    , iframe [
        seamless True
      , src "calcTable.html"
-     , height 100
-     , width 100
+     , height 200
+     , width 700
      ] []
   ]
