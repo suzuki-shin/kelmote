@@ -47,7 +47,7 @@ pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
 {-| Export
 -}
 
-type alias Page = {content : Html, header : Html}
+type alias Page = {header : Html, content : Html}
 
 run : List Page -> Signal Element
 run pageList =
