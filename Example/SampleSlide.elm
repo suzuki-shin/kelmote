@@ -46,22 +46,22 @@ imgJS      = img [ width 100, id "imgJS", src "img/javascript_logo.jpg" ] []
 
 pageList : List Page
 pageList = [
-   Page "xxx" <| []
- , Page "xxx" <| [ul [] (take 1 selfList)]
- , Page "xxx" <| [ul [] (take 2 selfList)]
- , Page "xxx" <| [ul [] (take 3 selfList)]
- , Page "xxx" <| [ul [] (take 4 selfList)]
- , Page "xxx" <| [ul [] (take 4 selfList) , imgHaskell, imgCat, imgSake, imgShoge]
- , Page "xxx" <| [ul [] (take 5 selfList)]
- , Page "xxx" <| [ul [] (take 5 selfList), imgPHP, imgJS]
- , Page "xxx" <| [ul [] selfList]
- , Page "AAA" <| [ul [] [liElm1_1]]
- , Page "AAA" <| [ul [] [liElm1_2]]
- , Page "AAA" <| [ul [] [liElm1_2, liElm2_1]]
- , Page "AAA" <| [ul [] [liElm1_2, liElm2_2]]
- , Page "AAA" <| [ul [] [liElm1_2, liElm2_2, liElm3_1]]
- , Page "AAA" <| [ul [] [liElm1_2, liElm2_2, liElm3_2]]
- , Page "AAA" <| [iframe [
+   Page "自己紹介" <| []
+ , Page "自己紹介" <| [ul [] (take 1 selfList)]
+ , Page "自己紹介" <| [ul [] (take 2 selfList)]
+ , Page "自己紹介" <| [ul [] (take 3 selfList)]
+ , Page "自己紹介" <| [ul [] (take 4 selfList)]
+ , Page "自己紹介" <| [ul [] (take 4 selfList) , imgHaskell, imgCat, imgSake, imgShoge]
+ , Page "自己紹介" <| [ul [] (take 5 selfList)]
+ , Page "自己紹介" <| [ul [] (take 5 selfList), imgPHP, imgJS]
+ , Page "自己紹介" <| [ul [] selfList]
+ , Page "Elm?" <| [ul [] [liElm1_1]]
+ , Page "Elm?" <| [ul [] [liElm1_2]]
+ , Page "Elm?" <| [ul [] [liElm1_2, liElm2_1]]
+ , Page "Elm?" <| [ul [] [liElm1_2, liElm2_2]]
+ , Page "Elm?" <| [ul [] [liElm1_2, liElm2_2, liElm3_1]]
+ , Page "Elm?" <| [ul [] [liElm1_2, liElm2_2, liElm3_2]]
+ , Page "例1. 表計算" <| [iframe [
          seamless True
        , src "calcTable.html"
        , height 100
