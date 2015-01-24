@@ -61,3 +61,18 @@ run pageList =
     let view : List Page -> Int -> (Int, Int) -> Element
         view pageList pageCnt dims = scene (pages pageCnt pageList) dims
     in view pageList <~ pageCount ~ Window.dimensions
+
+type PageElement = Ul (List String) | Dl (List (String, String))  | P (List String)
+
+ul_ : List String -> List Html
+ul_  x= Ul x |> toHtmlList
+dl_ : List (String, String) -> List Html
+dl_ x = Dl x |> toHtmlList
+p_ : List String -> List Html
+p_ x = P x |> toHtmlList
+
+toHtmlList : PageElement -> List Html
+toHtmlList pElem = case pElem of
+    Ul lis -> [ul [] <| List.map (\lStr -> li [] [text lStr]) lis]
+    Dl lis -> [dl [] <| List.concatMap (\(tStr, dStr) -> [dt [] [text tStr], dd [] [text dStr]]) lis]
+    P lis  -> [p [] <| List.map text lis]
