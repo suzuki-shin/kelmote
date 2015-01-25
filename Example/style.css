@@ -11,8 +11,11 @@ h1 {
 }
 
 p {
-    font-size: x-large;
-    text-align: left;
+/*     font-size: xx-large; */
+    font-size: 400%;
+    text-align: center;
+/*     background-color: red; */
+    width: 100%;
 }
 
 li, dt, dd {

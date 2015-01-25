@@ -53,9 +53,9 @@ toHtmlList : PageElement -> List Html
 toHtmlList pElem = case pElem of
     Ul lis -> [ul [] <| List.map (\lStr -> li [] [text lStr]) lis]
     Dl lis -> [dl [] <| List.concatMap (\(tStr, dStr) -> [dt [] [text tStr], dd [] [text dStr]]) lis]
-    P lis  -> [p [] <| List.map text lis]
+    P str  -> [p [style [("position", "absolute"), ("top", "50%"),  ("margin-top", "-50px")]] [text str]]
 
-type PageElement = Ul (List String) | Dl (List (String, String))  | P (List String)
+type PageElement = Ul (List String) | Dl (List (String, String))  | P String
 
 {-| Export
 -}
@@ -72,6 +72,5 @@ ul_ : List String -> List Html
 ul_  x= Ul x |> toHtmlList
 dl_ : List (String, String) -> List Html
 dl_ x = Dl x |> toHtmlList
-p_ : List String -> List Html
+p_ : String -> List Html
 p_ x = P x |> toHtmlList
-

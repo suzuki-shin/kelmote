@@ -39,18 +39,19 @@ imgJS      = img [ width 100, id "imgJS", src "img/javascript_logo.jpg" ] []
 
 pageList : List Page
 pageList = [
-   Page "自己紹介" <| []
+   Page "" <| p_ "Elmやってみた"
+ , Page "自己紹介" <| []
  , Page "自己紹介" <| dl_ <| take 1 selfList
  , Page "自己紹介" <| dl_ (take 2 selfList)
  , Page "自己紹介" <| dl_ (take 3 selfList)
  , Page "自己紹介" <| dl_ (take 4 selfList) ++ [imgHaskell, imgCat, imgSake, imgShoge]
  , Page "自己紹介" <| dl_ (take 5 selfList) ++ [imgJS, imgPHP]
  , Page "自己紹介" <| dl_ selfList
- , Page "Elm?" <| []
- , Page "Elm?" <| dl_ (take 1 elmList)
- , Page "Elm?" <| dl_ (drop 1 elmList |> take 1)
- , Page "Elm?" <| dl_ (drop 1 elmList |> take 2)
- , Page "Elm?" <| dl_ (drop 1 elmList |> take 3)
+ , Page "" <| p_ "Elm?"
+ , Page "Elm" <| dl_ (take 1 elmList)
+ , Page "Elm" <| dl_ (drop 1 elmList |> take 1)
+ , Page "Elm" <| dl_ (drop 1 elmList |> take 2)
+ , Page "Elm" <| dl_ (drop 1 elmList |> take 3)
  , Page "例1. 表計算" <| [iframe [
          seamless True
        , src "calcTable.html"
