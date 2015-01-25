@@ -14,12 +14,11 @@ main = run pageList
 
 -- page
 
--- selfList = [ liName, liJob, liTwitter, liLike, liHate, liRecentInterest ]
 selfList = [
     ("名前: ", "SUZUKI Shinichiro")
   , ("職業: ", "Programmer")
   , ("twitter: ", "shin16s")
-  , ("好き: ", "Haskell, Cat, Sake, Shogi")
+  , ("好き: ", "Haskell, ねこ, お酒, 将棋")
   , ("嫌い: " , "PHP, JavaScript,,, >_<")
   , ("最近興味がある: ", "Elm")
   ]
@@ -27,7 +26,7 @@ selfList = [
 elmList = [
     ("AltJS.", "")
   , ("AltJS...?", "ではないかも")
-  , ("Functional", "Immutable, Type inference, Haskell like syntax.")
+  , ("Functional", "参照透明, 型推論, Haskellっぽい構文.")
   , ("Reactive", "コールバック地獄から開放される？")
   ]
 
