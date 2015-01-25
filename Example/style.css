@@ -15,9 +15,22 @@ p {
     text-align: left;
 }
 
-li {
+li, dt, dd {
     font-size: x-large;
     text-align: left;
+}
+
+dd {
+    color: yellow;
+}
+dt {
+  float:left;
+  clear:left;
+  width:170px;
+}
+dd {
+  float:left;
+  width:500px;
 }
 
 #pageCount {
