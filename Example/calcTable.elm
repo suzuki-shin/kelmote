@@ -25,15 +25,23 @@ celC1 : Cel
 celC1 = channel Field.noContent
 celC2 : Cel
 celC2 = channel Field.noContent
+celD0 : Cel
+celD0 = channel Field.noContent
+celD1 : Cel
+celD1 = channel Field.noContent
+celD2 : Cel
+celD2 = channel Field.noContent
 
 main : Signal Element
 main = scene <~ (subscribe celA0)
               ~ (subscribe celA1)
               ~ (subscribe celB0)
               ~ (subscribe celB1)
+              ~ (subscribe celC0)
+              ~ (subscribe celC1)
 
-scene : Field.Content -> Field.Content -> Field.Content -> Field.Content -> Element
-scene valueA0 valueA1 valueB0 valueB1 =
+scene : Field.Content -> Field.Content -> Field.Content -> Field.Content -> Field.Content -> Field.Content -> Element
+scene valueA0 valueA1 valueB0 valueB1 valueC0 valueC1 =
     let field : Cel -> String -> Field.Content -> Element
         field cel defStr val = Field.field Field.defaultStyle (send cel) defStr val
         sumValue values =
@@ -43,17 +51,20 @@ scene valueA0 valueA1 valueB0 valueB1 =
            [ flow right [
                  field celA0 "A0" valueA0
                , field celB0 "B0" valueB0
-               , field celC0 "A0 + B0" (sumValue [valueA0, valueB0])
+               , field celC0 "C0" valueC0
+               , field celD0 "A0 + B0 + C0" (sumValue [valueA0, valueB0, valueC0])
               ]
            , flow right [
                  field celA1 "A1" valueA1
                , field celB1 "B1" valueB1
-               , field celC1 "A1 + B1" (sumValue [valueA1, valueB1])
+               , field celC1 "C1" valueC1
+               , field celC1 "A1 + B1 + C1" (sumValue [valueA1, valueB1, valueC1])
               ]
            , flow right [
                  field celA2 "A0 + A1" (sumValue [valueA0, valueA1])
                , field celB2 "B0 + B1" (sumValue [valueB0, valueB1])
-               , field celC2 "A0 + A1 + B0 + B1" (sumValue [valueA0, valueA1, valueB0, valueB1])
+               , field celC2 "C0 + C1" (sumValue [valueC0, valueC1])
+               , field celC2 "A0 + A1 + B0 + B1 + C0 + C1" (sumValue [valueA0, valueA1, valueB0, valueB1, valueC0, valueC1])
               ]
            ]
 

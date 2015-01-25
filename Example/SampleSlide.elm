@@ -55,7 +55,7 @@ pageList = [
  , Page "例1. 表計算" <| [iframe [
          seamless True
        , src "calcTable.html"
-       , height 100
-       , width 600
+       , height 95
+       , width 800
        ] []]
   ]
