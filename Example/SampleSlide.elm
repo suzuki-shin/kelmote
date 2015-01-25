@@ -43,9 +43,10 @@ pageList = [
  , Page "自己紹介" <| dl_ <| take 1 selfList
  , Page "自己紹介" <| dl_ (take 2 selfList)
  , Page "自己紹介" <| dl_ (take 3 selfList)
- , Page "自己紹介" <| dl_ (take 4 selfList)
- , Page "自己紹介" <| dl_ (take 5 selfList)
+ , Page "自己紹介" <| dl_ (take 4 selfList) ++ [imgHaskell, imgCat, imgSake, imgShoge]
+ , Page "自己紹介" <| dl_ (take 5 selfList) ++ [imgJS, imgPHP]
  , Page "自己紹介" <| dl_ selfList
+ , Page "Elm?" <| []
  , Page "Elm?" <| dl_ (take 1 elmList)
  , Page "Elm?" <| dl_ (drop 1 elmList |> take 1)
  , Page "Elm?" <| dl_ (drop 1 elmList |> take 2)
