@@ -27,7 +27,7 @@ selfList = [
 elmList = [
     ("AltJS.", "")
   , ("AltJS...?", "ではないかも")
-  , ("Functional", "Haskell like")
+  , ("Functional", "Immutable, Type inference, Haskell like syntax.")
   , ("Reactive", "コールバック地獄から開放される？")
   ]
 

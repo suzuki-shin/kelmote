@@ -43,26 +43,30 @@ styleVisible = style [ ("display", "block") ]
 pageCount : Signal Int
 pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
 
-
-{-| Export
--}
-
-type alias Page = {header : String, content : List Html}
-
 getContent : Page -> Html
 getContent p = div [] p.content
 
 getHeader : Page -> Html
 getHeader p = div [] [ h1 [] [text p.header] ]
 
+toHtmlList : PageElement -> List Html
+toHtmlList pElem = case pElem of
+    Ul lis -> [ul [] <| List.map (\lStr -> li [] [text lStr]) lis]
+    Dl lis -> [dl [] <| List.concatMap (\(tStr, dStr) -> [dt [] [text tStr], dd [] [text dStr]]) lis]
+    P lis  -> [p [] <| List.map text lis]
+
+type PageElement = Ul (List String) | Dl (List (String, String))  | P (List String)
+
+{-| Export
+-}
+
+type alias Page = {header : String, content : List Html}
 
 run : List Page -> Signal Element
 run pageList =
     let view : List Page -> Int -> (Int, Int) -> Element
         view pageList pageCnt dims = scene (pages pageCnt pageList) dims
     in view pageList <~ pageCount ~ Window.dimensions
-
-type PageElement = Ul (List String) | Dl (List (String, String))  | P (List String)
 
 ul_ : List String -> List Html
 ul_  x= Ul x |> toHtmlList
@@ -71,8 +75,3 @@ dl_ x = Dl x |> toHtmlList
 p_ : List String -> List Html
 p_ x = P x |> toHtmlList
 
-toHtmlList : PageElement -> List Html
-toHtmlList pElem = case pElem of
-    Ul lis -> [ul [] <| List.map (\lStr -> li [] [text lStr]) lis]
-    Dl lis -> [dl [] <| List.concatMap (\(tStr, dStr) -> [dt [] [text tStr], dd [] [text dStr]]) lis]
-    P lis  -> [p [] <| List.map text lis]
