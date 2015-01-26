@@ -15,6 +15,7 @@ import Debug (log)
 import Window
 import List
 import Array (fromList, get)
+import Markdown
 
 scene : Html -> (Int, Int) -> Element
 scene p (w, h) = container w h midTop (toElement 800 h p)
@@ -74,3 +75,6 @@ dl_ : List (String, String) -> List Html
 dl_ x = Dl x |> toHtmlList
 p_ : String -> List Html
 p_ x = P x |> toHtmlList
+
+md_ : String -> Html
+md_ x = fromElement <| Markdown.toElement x

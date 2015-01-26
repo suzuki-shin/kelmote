@@ -2,7 +2,7 @@ module SampleSlide where
 {-| Presentation tool by elm.
 -}
 
-import Kelmote (Page, run, ul_, dl_, p_)
+import Kelmote (Page, run, ul_, dl_, p_, md_)
 import Graphics.Element (Element)
 import Signal (Signal)
 import Html (..)
@@ -52,10 +52,26 @@ pageList = [
  , Page "Elm" <| dl_ (drop 1 elmList |> take 1)
  , Page "Elm" <| dl_ (drop 1 elmList |> take 2)
  , Page "Elm" <| dl_ (drop 1 elmList |> take 3)
+ , Page "Elm" <| (dl_ (drop 1 elmList |> take 3)) ++ [iframe [
+         seamless True
+       , src "calcTable.html"
+       , height 95
+       , width 800
+       ] []]
  , Page "例1. 表計算" <| [iframe [
          seamless True
        , src "calcTable.html"
        , height 95
        , width 800
        ] []]
+ , Page "Markdownでも行けるよ" <| [md_ mdSample]
+
   ]
+
+mdSample = """
+# Apple Pie Recipe
+
+  1. Invent the universe.
+  2. Bake an apple pie.
+
+"""
