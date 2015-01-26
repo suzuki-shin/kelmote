@@ -77,4 +77,4 @@ p_ : String -> Html
 p_ x = P x |> toHtmlList
 
 md_ : String -> Html
-md_ x = fromElement <| Markdown.toElement x
+md_ markdownStr = fromElement <| Markdown.toElement markdownStr
