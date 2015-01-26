@@ -2,7 +2,7 @@ module SampleSlide where
 {-| Presentation tool by elm.
 -}
 
-import Kelmote (Page, run, ul_, dl_, p_, md_)
+import Kelmote (Page, page, run, ul_, dl_, p_, md_)
 import Graphics.Element (Element)
 import Signal (Signal)
 import Html (..)
@@ -17,10 +17,9 @@ main = run pageList
 selfList = [
     ("名前: ", "SUZUKI Shinichiro")
   , ("職業: ", "Programmer")
-  , ("twitter: ", "shin16s")
   , ("好き: ", "Haskell, ねこ, お酒, 将棋")
-  , ("嫌い: " , "特に無いです、、、")
-  , ("最近興味がある: ", "Elm")
+  , ("嫌い: " , "特に無し")
+  , ("最近興味がある: ", "elm")
   ]
 
 elmList = [
@@ -39,29 +38,45 @@ imgJS      = img [ width 100, id "imgJS", src "img/javascript_logo.jpg" ] []
 
 pageList : List Page
 pageList = [
-   Page "" <| [p_ "Elmやってみた"]
- , Page "自己紹介" <| []
- , Page "自己紹介" <| [dl_ <| take 1 selfList]
- , Page "自己紹介" <| [dl_ (take 2 selfList)]
- , Page "自己紹介" <| [dl_ (take 3 selfList)]
- , Page "自己紹介" <| [dl_ (take 4 selfList), imgHaskell, imgCat, imgSake, imgShoge]
- , Page "自己紹介" <| [dl_ (take 5 selfList), imgJS, imgPHP]
- , Page "自己紹介" <| [dl_ selfList]
- , Page "" <| [p_ "Elm?"]
- , Page "Elm" <| [dl_ (take 1 elmList)]
- , Page "Elm" <| [dl_ (drop 1 elmList |> take 1)]
- , Page "Elm" <| [dl_ (drop 1 elmList |> take 2)]
- , Page "Elm" <| [dl_ (drop 1 elmList |> take 3)]
---  , Page "Elm" <| [(dl_ (drop 1 elmList |> take 3))]
+   page "" <| [p_ "elmやってみた"]
+ , page "自己紹介" <| []
+ , page "自己紹介" <| [dl_ <| take 1 selfList]
+ , page "自己紹介" <| [dl_ (take 2 selfList)]
+ , page "自己紹介" <| [dl_ (take 3 selfList)]
+ , page "自己紹介" <| [dl_ (take 3 selfList), imgHaskell, imgCat, imgSake, imgShoge]
+ , page "自己紹介" <| [dl_ (take 4 selfList)]
+ , page "自己紹介" <| [dl_ (take 4 selfList), imgJS, imgPHP]
+ , page "自己紹介" <| [dl_ selfList]
+ , page "" <| [p_ "elm?"]
+ , page "elm" <| [dl_ (take 1 elmList)]
+ , page "elm" <| [dl_ (drop 1 elmList |> take 1)]
+ , page "elm" <| [dl_ (drop 1 elmList |> take 2)]
+ , page "elm" <| [dl_ (drop 1 elmList |> take 3)]
+--  , Page "elm" <| [(dl_ (drop 1 elmList |> take 3))]
 --  , Page "例1. 表計算" <| [iframe [
 --          seamless True
 --        , src "calcTable.html"
 --        , height 95
 --        , width 800
 --        ] []]
- , Page "Markdownでも行けるよ" <| [md_ mdSample]
+ , page "" <| [p_ "そんなelmでプレゼン用スライドツール作ってみた"]
+ , page "" <| [p_ "Kelmote"]
+ , page "" <| [p_ "Keynote"]
+ , page "" <| [p_ "Kelmote"]
+ , page "Kelmote" <| [md_ xxx]
+ , page "Markdownでも行けるよ" <| [md_ mdSample]
 
   ]
+
+
+xxx = """
+page関数でページを作って、run関数にページのリストを渡す
+
+     p0 = page "" <| [p_ "そんなelmでプレゼン用スライドツール作ってみた"]
+     p1 = page "" <| [p_ "Kelmote"]
+     run [p0, p1]
+
+"""
 
 mdSample = """
 # Apple Pie Recipe

@@ -8,19 +8,24 @@ body {
 h1 {
     position: relative;
     text-align: center;
+    font-size: 300%;
 }
 
+/* p { */
+/* /\*     font-size: xx-large; *\/ */
+/*     font-size: 400%; */
+/*     text-align: center; */
+/* /\*     background-color: red; *\/ */
+/*     width: 100%; */
+/* } */
+
 p {
-/*     font-size: xx-large; */
-    font-size: 400%;
-    text-align: center;
-/*     background-color: red; */
-    width: 100%;
+    font-size: 150%;
 }
 
 li, dt, dd {
-    font-size: x-large;
     text-align: left;
+    font-size: 200%;
 }
 
 dd {
@@ -91,4 +96,5 @@ pre {
     padding: 3px;
     background-color: black;
     color: lime;
+    font-size: 120%;
 }
