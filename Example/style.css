@@ -86,3 +86,9 @@ dd {
 .fontYellow {
     color: yellow;
 }
+
+pre {
+    padding: 3px;
+    background-color: black;
+    color: lime;
+}

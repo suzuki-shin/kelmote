@@ -50,11 +50,11 @@ getContent p = div [] p.content
 getHeader : Page -> Html
 getHeader p = div [] [ h1 [] [text p.header] ]
 
-toHtmlList : PageElement -> List Html
+toHtmlList : PageElement -> Html
 toHtmlList pElem = case pElem of
-    Ul lis -> [ul [] <| List.map (\lStr -> li [] [text lStr]) lis]
-    Dl lis -> [dl [] <| List.concatMap (\(tStr, dStr) -> [dt [] [text tStr], dd [] [text dStr]]) lis]
-    P str  -> [p [style [("position", "absolute"), ("top", "50%"),  ("margin-top", "-50px")]] [text str]]
+    Ul lis -> ul [] <| List.map (\lStr -> li [] [text lStr]) lis
+    Dl lis -> dl [] <| List.concatMap (\(tStr, dStr) -> [dt [] [text tStr], dd [] [text dStr]]) lis
+    P str  -> p [style [("position", "absolute"), ("top", "50%"),  ("margin-top", "-50px")]] [text str]
 
 type PageElement = Ul (List String) | Dl (List (String, String))  | P String
 
@@ -69,11 +69,11 @@ run pageList =
         view pageList pageCnt dims = scene (pages pageCnt pageList) dims
     in view pageList <~ pageCount ~ Window.dimensions
 
-ul_ : List String -> List Html
+ul_ : List String -> Html
 ul_  x= Ul x |> toHtmlList
-dl_ : List (String, String) -> List Html
+dl_ : List (String, String) -> Html
 dl_ x = Dl x |> toHtmlList
-p_ : String -> List Html
+p_ : String -> Html
 p_ x = P x |> toHtmlList
 
 md_ : String -> Html
