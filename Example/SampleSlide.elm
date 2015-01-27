@@ -1,6 +1,4 @@
 module SampleSlide where
-{-| Presentation tool by elm.
--}
 
 import Kelmote (Page, page, run, ul_, dl_, p_, md_)
 import Graphics.Element (Element)
@@ -38,43 +36,44 @@ imgJS      = img [ width 100, id "imgJS", src "img/javascript_logo.jpg" ] []
 
 pageList : List Page
 pageList = [
-   page "" <| [p_ "elmやってみた"]
- , page "自己紹介" <| []
- , page "自己紹介" <| [dl_ <| take 1 selfList]
- , page "自己紹介" <| [dl_ (take 2 selfList)]
- , page "自己紹介" <| [dl_ (take 3 selfList)]
- , page "自己紹介" <| [dl_ (take 3 selfList), imgHaskell, imgCat, imgSake, imgShoge]
- , page "自己紹介" <| [dl_ (take 4 selfList)]
- , page "自己紹介" <| [dl_ (take 4 selfList), imgJS, imgPHP]
- , page "自己紹介" <| [dl_ selfList]
- , page "" <| [p_ "elm?"]
- , page "elm" <| [dl_ (take 1 elmList)]
- , page "elm" <| [dl_ (drop 1 elmList |> take 1)]
- , page "elm" <| [dl_ (drop 1 elmList |> take 2)]
- , page "elm" <| [dl_ (drop 1 elmList |> take 3)]
---  , Page "elm" <| [(dl_ (drop 1 elmList |> take 3))]
---  , Page "例1. 表計算" <| [iframe [
---          seamless True
---        , src "calcTable.html"
---        , height 95
---        , width 800
---        ] []]
- , page "" <| [p_ "そんなelmでプレゼン用スライドツール作ってみた"]
- , page "" <| [p_ "Kelmote"]
- , page "" <| [p_ "Keynote"]
- , page "" <| [p_ "Kelmote"]
- , page "Kelmote" <| [md_ xxx]
- , page "Markdownでも行けるよ" <| [md_ mdSample]
+   page "" [p_ "elmやってみた"]
+ , page "自己紹介" []
+ , page "自己紹介" [dl_ (take 1 selfList)]
+ , page "自己紹介" [dl_ (take 2 selfList)]
+ , page "自己紹介" [dl_ (take 3 selfList)]
+ , page "自己紹介" [dl_ (take 3 selfList), imgHaskell, imgCat, imgSake, imgShoge]
+ , page "自己紹介" [dl_ (take 4 selfList)]
+ , page "自己紹介" [dl_ (take 4 selfList), imgJS, imgPHP]
+ , page "自己紹介" [dl_ selfList]
+ , page "" [p_ "elm?"]
+ , page "elm" [dl_ (take 1 elmList)]
+ , page "elm" [dl_ (drop 1 elmList |> take 1)]
+ , page "elm" [dl_ (drop 1 elmList |> take 2)]
+ , page "elm" [dl_ (drop 1 elmList |> take 3)]
+ , page "" [p_ "そんなelmでプレゼン用スライドツール作ってみた"]
+ , page "" [p_ "Kelmote"]
+ , page "" [p_ "Keynote"]
+ , page "" [p_ "Kelmote"]
+ , page "Kelmote" [md_ exUl_]
+ , page "Kelmote" [ul_ ["Michael Jordan", "Magic Johnson", "Kevin Johonson"]]
+ , page "Kelmote" [md_ exDl_]
+ , page "Kelmote" [dl_ [("hoge", "hogeとは..."),("fuga", "fuga即ち...")]]
+ , page "Markdownでも行けるよ" [md_ mdSample]
 
   ]
 
 
-xxx = """
-page関数でページを作って、run関数にページのリストを渡す
+exDl_ = """
+定義リスト
 
-     p0 = page "" <| [p_ "そんなelmでプレゼン用スライドツール作ってみた"]
-     p1 = page "" <| [p_ "Kelmote"]
-     run [p0, p1]
+    page "Kelmote" [dl_ [("hoge", "hogeとは..."),("fuga", "fuga即ち...")]]
+
+"""
+
+exUl_ = """
+リスト
+
+    page "Kelmote" [ul_ ["Michael Jordan", "Magic Johnson", "Kevin Johonson"]]
 
 """
 
