@@ -57,16 +57,32 @@ pageList = [
  , page "Kelmote" [md_ exUl_]
  , page "Kelmote" [ul_ ["Michael Jordan", "Magic Johnson", "Kevin Johonson"]]
  , page "Kelmote" [md_ exDl_]
- , page "Kelmote" [dl_ [("hoge", "hogeとは..."),("fuga", "fuga即ち...")]]
- , page "Markdownでも行けるよ" [md_ mdSample]
+ , page "Kelmote" [dl_ [("John", "ギター、ベース")
+                       ,("Paul", "ベース、ギター")
+                       ,("George","ギター")
+                       ,("Ringo","ドラムス、パーカッション")
+                        ]]
+ , page "Kelmote" [md_ exMd_]
+ , page "Kelmote" [md_ """
+## Hoge
 
+1. Invent the universe.
+2. Bake an apple pie.
+3. [elm](http://elm-lang.org/)
+"""
+   ]
   ]
 
 
 exDl_ = """
 定義リスト
 
-    page "Kelmote" [dl_ [("hoge", "hogeとは..."),("fuga", "fuga即ち...")]]
+     page "Kelmote" [dl_ [
+                      ("John", "ギター、ベース")
+                     ,("Paul", "ベース、ギター")
+                     ,("George","ギター")
+                     ,("Ringo","ドラムス、パーカッション")
+                     ]]
 
 """
 
@@ -77,17 +93,15 @@ exUl_ = """
 
 """
 
-mdSample = """
-# Apple Pie Recipe
+exMd_ = """
+Markdown
 
-1. Invent the universe.
-2. Bake an apple pie.
-3. [elm](http://elm-lang.org/)
-
-
-    # Apple Pie Recipe
+    page "Kelmote" [md_ \"""
+    ## Hoge
     
     1. Invent the universe.
     2. Bake an apple pie.
     3. [elm](http://elm-lang.org/)
+    \"""
+     ]
 """

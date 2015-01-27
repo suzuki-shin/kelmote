@@ -18,7 +18,7 @@ import Array (fromList, get)
 import Markdown
 
 scene : Html -> (Int, Int) -> Element
-scene p (w, h) = container w h midTop (toElement 800 h p)
+scene p (w, h) = container w h midTop (toElement 1000 h p)
 
 pages : Int -> List Page -> Html
 pages pageCnt pageList =
