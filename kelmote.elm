@@ -18,31 +18,8 @@ import List ((::))
 import Array (fromList, get)
 import Markdown
 
-scene : (Int -> Int -> Html) -> (Int, Int) -> Element
-scene p (w, h) = container w h middle (toElement 800 h (p w h))
-
-pages : Int -> List Page -> Int -> Int -> Html
-pages pageCnt pageList w h =
-    let contentList = List.map getContent pageList
-        headerList = List.map getHeader pageList
-        pageByIdx idx = case get idx (fromList contentList) of
-                          Just pg -> [pg]
-                          Nothing -> []
-        headerByIdx idx = case get idx (fromList headerList) of
-                            Just hdr -> [hdr]
-                            Nothing -> []
-    in div [] <| headerByIdx pageCnt ++ pageByIdx pageCnt
---         pageDiv pageCnt = div [] <| headerByIdx pageCnt ++ pageByIdx pageCnt
---     in pageDiv pageCnt
-
 pageCount : Signal Int
 pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
-
-getContent : Page -> Html
-getContent p = div [] p.content
-
-getHeader : Page -> Html
-getHeader p = div [] [ h1 [] [text p.header] ]
 
 fromPageElement : PageElement -> Html
 fromPageElement pElem = case pElem of
@@ -53,13 +30,6 @@ fromPageElement pElem = case pElem of
                        , ("text-align", "center")
                        , ("width", "100%")
                        ]] [text str]
---     P str  -> p [style [ ("position", "absolute")
---                        , ("top", "50%")
---                        , ("margin-top", "-50px")
---                        , ("font-size", "400%")
---                        , ("text-align", "center")
---                        , ("width", "100%")
---                        ]] [text str]
 
 type PageElement = Ul (List String) | Dl (List (String, String))  | P String
 
