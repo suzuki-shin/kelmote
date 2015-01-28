@@ -18,28 +18,21 @@ import Array (fromList, get)
 import Markdown
 
 scene : Html -> (Int, Int) -> Element
-scene p (w, h) = container w h midTop (toElement 1000 h p)
+scene p (w, h) = container w h midTop (toElement 800 h p)
 
 pages : Int -> List Page -> Html
 pages pageCnt pageList =
     let contentList = List.map getContent pageList
         headerList = List.map getHeader pageList
         pageByIdx idx = case get idx (fromList contentList) of
-                          Just p -> p
-                          Nothing -> div [] []
+                          Just p -> [p]
+                          Nothing -> []
         headerByIdx idx = case get idx (fromList headerList) of
-                            Just h -> h
-                            Nothing -> div [] []
-        attrVisible currentCnt pageCnt = if pageCnt == currentCnt then styleVisible else styleHidden
-        pageDiv pageCnt currentCnt = div [ attrVisible currentCnt pageCnt ] [ headerByIdx pageCnt, pageByIdx pageCnt ]
+                            Just h -> [h]
+                            Nothing -> []
+        pageDiv pageCnt = div [] <| headerByIdx pageCnt ++ pageByIdx pageCnt
         maxPageCnt = List.length contentList
-    in div [] <| List.map (pageDiv pageCnt) [0..maxPageCnt-1]
-
-styleHidden : Attribute
-styleHidden = style [ ("display", "none") ]
-
-styleVisible : Attribute
-styleVisible = style [ ("display", "block") ]
+    in div [] [pageDiv pageCnt]
 
 pageCount : Signal Int
 pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
