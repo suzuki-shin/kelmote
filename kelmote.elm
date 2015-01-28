@@ -5,34 +5,35 @@ module Kelmote where
 import Html (..)
 import Html.Attributes (..)
 import Html.Lazy (lazy, lazy2)
-import Graphics.Element (Element, container, midTop, layers)
+import Graphics.Element (Element, container, midTop, middle, layers, flow, down)
 import Graphics.Collage (collage, circle, filled, move, Form)
 import Color (..)
 import Keyboard
 import Signal (..)
-import Text (asText)
+import Text as T
 import Debug (log)
 import Window
 import List
+import List ((::))
 import Array (fromList, get)
 import Markdown
 
-scene : Html -> (Int, Int) -> Element
-scene p (w, h) = container w h midTop (toElement 800 h p)
+scene : (Int -> Int -> Html) -> (Int, Int) -> Element
+scene p (w, h) = container w h middle (toElement 800 h (p w h))
 
-pages : Int -> List Page -> Html
-pages pageCnt pageList =
+pages : Int -> List Page -> Int -> Int -> Html
+pages pageCnt pageList w h =
     let contentList = List.map getContent pageList
         headerList = List.map getHeader pageList
         pageByIdx idx = case get idx (fromList contentList) of
-                          Just p -> [p]
+                          Just pg -> [pg]
                           Nothing -> []
         headerByIdx idx = case get idx (fromList headerList) of
-                            Just h -> [h]
+                            Just hdr -> [hdr]
                             Nothing -> []
-        pageDiv pageCnt = div [] <| headerByIdx pageCnt ++ pageByIdx pageCnt
-        maxPageCnt = List.length contentList
-    in div [] [pageDiv pageCnt]
+    in div [] <| headerByIdx pageCnt ++ pageByIdx pageCnt
+--         pageDiv pageCnt = div [] <| headerByIdx pageCnt ++ pageByIdx pageCnt
+--     in pageDiv pageCnt
 
 pageCount : Signal Int
 pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
@@ -47,26 +48,49 @@ fromPageElement : PageElement -> Html
 fromPageElement pElem = case pElem of
     Ul lis -> ul [] <| List.map (\lStr -> li [] [text lStr]) lis
     Dl lis -> dl [] <| List.concatMap (\(tStr, dStr) -> [dt [] [text tStr], dd [] [text dStr]]) lis
-    P str  -> p [style [ ("position", "absolute")
-                       , ("top", "50%")
-                       , ("margin-top", "-50px")
-                       , ("font-size", "400%")
+    P str  -> p [style [
+                         ("font-size", "400%")
                        , ("text-align", "center")
                        , ("width", "100%")
                        ]] [text str]
+--     P str  -> p [style [ ("position", "absolute")
+--                        , ("top", "50%")
+--                        , ("margin-top", "-50px")
+--                        , ("font-size", "400%")
+--                        , ("text-align", "center")
+--                        , ("width", "100%")
+--                        ]] [text str]
 
 type PageElement = Ul (List String) | Dl (List (String, String))  | P String
 
 type alias Page = {header : String, content : List Html}
 
+view : List Page -> Int -> (Int, Int) -> Element
+view pageList currentPage (w, h) =
+    let page : Page
+        page = case get currentPage (fromList pageList) of
+                     Just pg -> pg
+                     Nothing -> Page "" []
+        pageContent : Element
+        pageContent = container w h middle <| flow down <| fromPageToContent w h page
+        pageHeader : Element
+        pageHeader = fromPageToHeader w h page
+    in flow down [pageHeader, pageContent]
+
+fromPageToContent : Int -> Int -> Page -> List Element
+fromPageToContent w h p = List.map (toElement w h) p.content
+
+fromPageToHeader : Int -> Int -> Page -> Element
+fromPageToHeader w h p = T.fromString p.header
+                       |> T.style T.defaultStyle
+                       |> T.centered
+
+
 {-| Export
 -}
 
 run : List Page -> Signal Element
-run pageList =
-    let view : List Page -> Int -> (Int, Int) -> Element
-        view pageList pageCnt dims = scene (pages pageCnt pageList) dims
-    in view pageList <~ pageCount ~ Window.dimensions
+run pageList = view pageList <~ pageCount ~ Window.dimensions
 
 page : String -> List Html -> Page
 page header content = Page header content
