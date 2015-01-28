@@ -5,7 +5,7 @@ module Kelmote where
 import Html (..)
 import Html.Attributes (..)
 import Html.Lazy (lazy, lazy2)
-import Graphics.Element (Element, container, midTop, middle, layers, flow, down)
+import Graphics.Element (Element, container, midTop, middle, layers, flow, down, color)
 import Graphics.Collage (collage, circle, filled, move, Form)
 import Color (..)
 import Keyboard
@@ -17,6 +17,7 @@ import List
 import List ((::))
 import Array (fromList, get)
 import Markdown
+import Color (..)
 
 pageCount : Signal Int
 pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
@@ -45,15 +46,13 @@ view pageList currentPage (w, h) =
         pageContent = container w h middle <| flow down <| fromPageToContent w h page
         pageHeader : Element
         pageHeader = fromPageToHeader w h page
-    in flow down [pageHeader, pageContent]
+    in flow down [pageHeader, pageContent] |> color blue
 
 fromPageToContent : Int -> Int -> Page -> List Element
 fromPageToContent w h p = List.map (toElement w h) p.content
 
 fromPageToHeader : Int -> Int -> Page -> Element
-fromPageToHeader w h p = T.fromString p.header
-                       |> T.style T.defaultStyle
-                       |> T.centered
+fromPageToHeader w h p = T.fromString p.header |> T.style T.defaultStyle |> T.centered
 
 
 {-| Export
