@@ -1,4 +1,15 @@
 module Kelmote where
+{- Export
+   (
+    Page
+  , run
+  , h_
+  , c_
+  , v2Page
+  , h2Page
+  , defaultTextStyle
+  )
+-}
 
 import Graphics.Element (..)
 import Text as T
@@ -10,21 +21,11 @@ import Keyboard
 import Array as A
 import Time (Time, fps, inSeconds)
 
-defaultTextStyle : T.Style
-defaultTextStyle = {
-    typeface = [ "Lucida Console", "monospace" ]
-  , height   = Just 50
-  , color    = white
-  , bold     = True
-  , italic   = False
-  , line     = Nothing
-  }
+strToContent : T.Style -> String -> Element
+strToContent styl s = T.fromString s |> T.style styl |> T.centered
 
-strToContent : String -> Element
-strToContent s = T.fromString s |> T.style { defaultTextStyle | color <- yellow } |> T.centered
-
-strToHeader : String -> Element
-strToHeader s = T.fromString s |> T.style { defaultTextStyle | height <- Just 70 } |> T.leftAligned
+strToHeader : T.Style -> String -> Element
+strToHeader styl s = T.fromString s |> T.style styl |> T.leftAligned
 
 pageCount : Signal Int
 pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
@@ -43,6 +44,14 @@ view pageList (w, h) currentPage sec =
 --     in color page.backGroundColor <| container w h middle <| flow down [ T.asText (inSeconds sec), page.content]
 --     in color page.backGroundColor <| container w h middle <| opacity (inSeconds sec) <| page.content
 
+{- Export -}
+
+h_ : T.Style -> String -> Element
+h_ = strToHeader
+
+ps_ : T.Style -> List String -> Element
+ps_ styl ss = flow down <| L.map (strToContent styl) ss
+
 v2Page : Element -> Element -> Element
 v2Page leftE rightE = flow left [ leftE , spacer 30 30, rightE ]
 
@@ -50,6 +59,17 @@ h2Page : Element -> Element -> Element
 h2Page upperE lowerE = flow down [ upperE , spacer 30 30, lowerE ]
 
 type alias Page = { header : Element, content : Element, backGroundColor : Color }
+
+
+defaultTextStyle : T.Style
+defaultTextStyle = {
+    typeface = [ "Lucida Console", "monospace" ]
+  , height   = Just 50
+  , color    = black
+  , bold     = True
+  , italic   = False
+  , line     = Nothing
+  }
 
 run : List Page -> Signal Element
 run pageList = view pageList <~ Window.dimensions
