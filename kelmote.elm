@@ -1,106 +1,57 @@
 module Kelmote where
-{-| Presentation tool by elm.
--}
 
-import Html (..)
-import Html.Attributes (..)
-import Html.Lazy (lazy, lazy2)
-import Graphics.Element (Element, container, midTop, middle, layers, flow, down)
-import Graphics.Collage (collage, circle, filled, move, Form)
-import Color (..)
-import Keyboard
-import Signal (..)
+import Graphics.Element (..)
 import Text as T
-import Debug (log)
+import Color (..)
+import List as L
 import Window
-import List
-import List ((::))
-import Array (fromList, get)
-import Markdown
+import Signal (Signal, (<~), (~), foldp)
+import Keyboard
+import Array as A
+import Time (Time, fps, inSeconds)
 
-scene : (Int -> Int -> Html) -> (Int, Int) -> Element
-scene p (w, h) = container w h middle (toElement 800 h (p w h))
+defaultTextStyle : T.Style
+defaultTextStyle = {
+    typeface = [ "Lucida Console", "monospace" ]
+  , height   = Just 50
+  , color    = white
+  , bold     = True
+  , italic   = False
+  , line     = Nothing
+  }
 
-pages : Int -> List Page -> Int -> Int -> Html
-pages pageCnt pageList w h =
-    let contentList = List.map getContent pageList
-        headerList = List.map getHeader pageList
-        pageByIdx idx = case get idx (fromList contentList) of
-                          Just pg -> [pg]
-                          Nothing -> []
-        headerByIdx idx = case get idx (fromList headerList) of
-                            Just hdr -> [hdr]
-                            Nothing -> []
-    in div [] <| headerByIdx pageCnt ++ pageByIdx pageCnt
---         pageDiv pageCnt = div [] <| headerByIdx pageCnt ++ pageByIdx pageCnt
---     in pageDiv pageCnt
+strToContent : String -> Element
+strToContent s = T.fromString s |> T.style { defaultTextStyle | color <- yellow } |> T.centered
+
+strToHeader : String -> Element
+strToHeader s = T.fromString s |> T.style { defaultTextStyle | height <- Just 70 } |> T.leftAligned
 
 pageCount : Signal Int
 pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
 
-getContent : Page -> Html
-getContent p = div [] p.content
+pageByIdx : Int -> List Page -> Page
+pageByIdx idx pList = case A.get idx (A.fromList pList) of
+                        Just p -> p
+                        Nothing -> Page empty empty white
 
-getHeader : Page -> Html
-getHeader p = div [] [ h1 [] [text p.header] ]
+view : List Page -> (Int, Int) -> Int -> Time -> Element
+view pageList (w, h) currentPage sec =
+    let page = pageByIdx currentPage pageList
+        header = container w (heightOf page.header + 20) midBottom page.header
+        content = container w h middle page.content
+    in color page.backGroundColor <| layers [ header, content ]
+--     in color page.backGroundColor <| container w h middle <| flow down [ T.asText (inSeconds sec), page.content]
+--     in color page.backGroundColor <| container w h middle <| opacity (inSeconds sec) <| page.content
 
-fromPageElement : PageElement -> Html
-fromPageElement pElem = case pElem of
-    Ul lis -> ul [] <| List.map (\lStr -> li [] [text lStr]) lis
-    Dl lis -> dl [] <| List.concatMap (\(tStr, dStr) -> [dt [] [text tStr], dd [] [text dStr]]) lis
-    P str  -> p [style [
-                         ("font-size", "400%")
-                       , ("text-align", "center")
-                       , ("width", "100%")
-                       ]] [text str]
---     P str  -> p [style [ ("position", "absolute")
---                        , ("top", "50%")
---                        , ("margin-top", "-50px")
---                        , ("font-size", "400%")
---                        , ("text-align", "center")
---                        , ("width", "100%")
---                        ]] [text str]
+v2Page : Element -> Element -> Element
+v2Page leftE rightE = flow left [ leftE , spacer 30 30, rightE ]
 
-type PageElement = Ul (List String) | Dl (List (String, String))  | P String
+h2Page : Element -> Element -> Element
+h2Page upperE lowerE = flow down [ upperE , spacer 30 30, lowerE ]
 
-type alias Page = {header : String, content : List Html}
-
-view : List Page -> Int -> (Int, Int) -> Element
-view pageList currentPage (w, h) =
-    let page : Page
-        page = case get currentPage (fromList pageList) of
-                     Just pg -> pg
-                     Nothing -> Page "" []
-        pageContent : Element
-        pageContent = container w h middle <| flow down <| fromPageToContent w h page
-        pageHeader : Element
-        pageHeader = fromPageToHeader w h page
-    in flow down [pageHeader, pageContent]
-
-fromPageToContent : Int -> Int -> Page -> List Element
-fromPageToContent w h p = List.map (toElement w h) p.content
-
-fromPageToHeader : Int -> Int -> Page -> Element
-fromPageToHeader w h p = T.fromString p.header
-                       |> T.style T.defaultStyle
-                       |> T.centered
-
-
-{-| Export
--}
+type alias Page = { header : Element, content : Element, backGroundColor : Color }
 
 run : List Page -> Signal Element
-run pageList = view pageList <~ pageCount ~ Window.dimensions
-
-page : String -> List Html -> Page
-page header content = Page header content
-
-ul_ : List String -> Html
-ul_  x= Ul x |> fromPageElement
-dl_ : List (String, String) -> Html
-dl_ x = Dl x |> fromPageElement
-p_ : String -> Html
-p_ x = P x |> fromPageElement
-
-md_ : String -> Html
-md_ markdownStr = fromElement <| Markdown.toElement markdownStr
+run pageList = view pageList <~ Window.dimensions
+                              ~ pageCount
+                              ~ fps 3
