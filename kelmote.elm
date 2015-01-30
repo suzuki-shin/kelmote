@@ -5,7 +5,7 @@ module Kelmote where
 import Html (..)
 import Html.Attributes (..)
 import Html.Lazy (lazy, lazy2)
-import Graphics.Element (Element, container, midTop, middle, layers, flow, down)
+import Graphics.Element (Element, container, midTop, middle, layers, flow, down, color)
 import Graphics.Collage (collage, circle, filled, move, Form)
 import Color (..)
 import Keyboard
@@ -17,32 +17,10 @@ import List
 import List ((::))
 import Array (fromList, get)
 import Markdown
-
-scene : (Int -> Int -> Html) -> (Int, Int) -> Element
-scene p (w, h) = container w h middle (toElement 800 h (p w h))
-
-pages : Int -> List Page -> Int -> Int -> Html
-pages pageCnt pageList w h =
-    let contentList = List.map getContent pageList
-        headerList = List.map getHeader pageList
-        pageByIdx idx = case get idx (fromList contentList) of
-                          Just pg -> [pg]
-                          Nothing -> []
-        headerByIdx idx = case get idx (fromList headerList) of
-                            Just hdr -> [hdr]
-                            Nothing -> []
-    in div [] <| headerByIdx pageCnt ++ pageByIdx pageCnt
---         pageDiv pageCnt = div [] <| headerByIdx pageCnt ++ pageByIdx pageCnt
---     in pageDiv pageCnt
+import Color (..)
 
 pageCount : Signal Int
 pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
-
-getContent : Page -> Html
-getContent p = div [] p.content
-
-getHeader : Page -> Html
-getHeader p = div [] [ h1 [] [text p.header] ]
 
 fromPageElement : PageElement -> Html
 fromPageElement pElem = case pElem of
@@ -53,13 +31,6 @@ fromPageElement pElem = case pElem of
                        , ("text-align", "center")
                        , ("width", "100%")
                        ]] [text str]
---     P str  -> p [style [ ("position", "absolute")
---                        , ("top", "50%")
---                        , ("margin-top", "-50px")
---                        , ("font-size", "400%")
---                        , ("text-align", "center")
---                        , ("width", "100%")
---                        ]] [text str]
 
 type PageElement = Ul (List String) | Dl (List (String, String))  | P String
 
@@ -75,15 +46,13 @@ view pageList currentPage (w, h) =
         pageContent = container w h middle <| flow down <| fromPageToContent w h page
         pageHeader : Element
         pageHeader = fromPageToHeader w h page
-    in flow down [pageHeader, pageContent]
+    in flow down [pageHeader, pageContent] |> color blue
 
 fromPageToContent : Int -> Int -> Page -> List Element
 fromPageToContent w h p = List.map (toElement w h) p.content
 
 fromPageToHeader : Int -> Int -> Page -> Element
-fromPageToHeader w h p = T.fromString p.header
-                       |> T.style T.defaultStyle
-                       |> T.centered
+fromPageToHeader w h p = T.fromString p.header |> T.style T.defaultStyle |> T.centered
 
 
 {-| Export
