@@ -1308,7 +1308,7 @@ Elm.Kelmote.make = function (_elm) {
                                                   ,"monospace"])};
    var Page = F3(function (a,b,c) {
       return {_: {}
-             ,backGroundColor: c
+             ,backGround: c
              ,content: b
              ,header: a};
    });
@@ -1332,56 +1332,82 @@ Elm.Kelmote.make = function (_elm) {
                    30)
                    ,rightE]));
    });
+   var BGImage = function (a) {
+      return {ctor: "BGImage"
+             ,_0: a};
+   };
+   var BGColor = function (a) {
+      return {ctor: "BGColor"
+             ,_0: a};
+   };
+   var bg = F4(function (w,h,b,e) {
+      return function () {
+         switch (b.ctor)
+         {case "BGColor":
+            return A2($Graphics$Element.color,
+              b._0,
+              e);
+            case "BGImage":
+            return $Graphics$Element.layers(_L.fromArray([A3($Graphics$Element.fittedImage,
+                                                         w,
+                                                         h,
+                                                         b._0)
+                                                         ,e]));}
+         _U.badCase($moduleName,
+         "between lines 46 and 48");
+      }();
+   });
    var pageByIdx = F2(function (idx,
    pList) {
       return function () {
-         var _v0 = A2($Array.get,
+         var _v3 = A2($Array.get,
          idx,
          $Array.fromList(pList));
-         switch (_v0.ctor)
-         {case "Just": return _v0._0;
+         switch (_v3.ctor)
+         {case "Just": return _v3._0;
             case "Nothing": return A3(Page,
               $Graphics$Element.empty,
               $Graphics$Element.empty,
-              $Color.white);}
+              BGColor($Color.white));}
          _U.badCase($moduleName,
          "between lines 34 and 36");
       }();
    });
    var view = F4(function (pageList,
-   _v2,
+   _v5,
    currentPage,
    sec) {
       return function () {
-         switch (_v2.ctor)
+         switch (_v5.ctor)
          {case "_Tuple2":
             return function () {
                  var page = A2(pageByIdx,
                  currentPage,
                  pageList);
                  var header = A4($Graphics$Element.container,
-                 _v2._0,
+                 _v5._0,
                  $Graphics$Element.heightOf(page.header) + 20,
                  $Graphics$Element.midBottom,
                  page.header);
                  var content = A4($Graphics$Element.container,
-                 _v2._0,
-                 _v2._1,
+                 _v5._0,
+                 _v5._1,
                  $Graphics$Element.middle,
                  page.content);
-                 return $Graphics$Element.color(page.backGroundColor)(A2($Graphics$Element.flow,
-                 $Graphics$Element.inward,
-                 _L.fromArray([header
-                              ,content])));
+                 return A3(bg,
+                 _v5._0,
+                 _v5._1,
+                 page.backGround)($Graphics$Element.layers(_L.fromArray([header
+                                                                        ,content])));
               }();}
          _U.badCase($moduleName,
          "between lines 40 and 43");
       }();
    });
    var pageCount = A3($Signal.foldp,
-   F2(function (_v6,count) {
+   F2(function (_v9,count) {
       return function () {
-         return count + _v6.x;
+         return count + _v9.x;
       }();
    }),
    0,
@@ -1416,6 +1442,9 @@ Elm.Kelmote.make = function (_elm) {
                          ,pageCount: pageCount
                          ,pageByIdx: pageByIdx
                          ,view: view
+                         ,bg: bg
+                         ,BGColor: BGColor
+                         ,BGImage: BGImage
                          ,h_: h_
                          ,ps_: ps_
                          ,v2Page: v2Page
@@ -5528,6 +5557,11 @@ Elm.Sample.make = function (_elm) {
    $Maybe = Elm.Maybe.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $Text = Elm.Text.make(_elm);
+   var element3 = A2($Kelmote.ps_,
+   _U.replace([["color"
+               ,$Color.darkBlue]],
+   $Kelmote.defaultTextStyle),
+   _L.fromArray(["** Q1: やる気がでないのは今日に入ってからですか？数日やる気がでない状態が続いているのですか？それとも今日に入ってからかですか？** Q2: 最近なにか新しい情報が明らかになりましたか？たとえば計画段階では知らなかった事実が明らかになって、今までやってきた作業が無駄になったとか。何らかの情報が最近明らかになりましたか？はい→状況が変わったのであれば、計画の通りに実行することが必要とは限りません。状況の変化に合わせて計画を変更したり中止したりしてはいけないのですか？利害関係者と相談してみましょう。"]));
    var element2 = A3($Graphics$Element.fittedImage,
    300,
    300,
@@ -5540,9 +5574,6 @@ Elm.Sample.make = function (_elm) {
    _L.fromArray(["コラボキャンペーンLP,"
                 ,"we can stack elements"
                 ,"on top of other elements."]));
-   var element3 = A2($Kelmote.ps_,
-   cStyle,
-   _L.fromArray(["** Q1: やる気がでないのは今日に入ってからですか？数日やる気がでない状態が続いているのですか？それとも今日に入ってからかですか？** Q2: 最近なにか新しい情報が明らかになりましたか？たとえば計画段階では知らなかった事実が明らかになって、今までやってきた作業が無駄になったとか。何らかの情報が最近明らかになりましたか？はい→状況が変わったのであれば、計画の通りに実行することが必要とは限りません。状況の変化に合わせて計画を変更したり中止したりしてはいけないのですか？利害関係者と相談してみましょう。"]));
    var element4 = A2($Kelmote.ps_,
    cStyle,
    _L.fromArray(["1. I can\'t do it,"
@@ -5558,35 +5589,33 @@ Elm.Sample.make = function (_elm) {
    var pageList = _L.fromArray([A3($Kelmote.Page,
                                header1,
                                element1,
-                               $Color.blue)
+                               $Kelmote.BGColor($Color.blue))
                                ,A3($Kelmote.Page,
                                header1,
                                A2($Kelmote.v2Page,
                                element1,
                                element2),
-                               $Color.green)
+                               $Kelmote.BGColor($Color.green))
                                ,A3($Kelmote.Page,
                                header1,
                                A2($Kelmote.h2Page,
                                element1,
                                element2),
-                               $Color.lightBlue)
+                               $Kelmote.BGColor($Color.lightBlue))
                                ,A3($Kelmote.Page,
                                $Graphics$Element.empty,
                                element3,
-                               $Color.brown)
+                               $Kelmote.BGColor($Color.brown))
                                ,A3($Kelmote.Page,
                                $Graphics$Element.empty,
                                A2($Kelmote.v2Page,
                                element4,
                                element2),
-                               $Color.darkRed)
+                               $Kelmote.BGColor($Color.darkRed))
                                ,A3($Kelmote.Page,
                                $Graphics$Element.empty,
-                               A2($Kelmote.h2Page,
-                               element1,
-                               element2),
-                               $Color.lightBlue)]);
+                               element3,
+                               $Kelmote.BGImage("IMG_0064.JPG"))]);
    var main = $Kelmote.run(pageList);
    _elm.Sample.values = {_op: _op
                         ,hStyle: hStyle
