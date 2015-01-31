@@ -14,7 +14,7 @@ cStyle1 = { defaultTextStyle | color <- yellow }
 cStyle2 = { defaultTextStyle | color <- lightBlue }
 
 header2 = h_ hStyle "Elmとは?"
-element2 = fittedImage 300 300 "haskell_logo.png"
+element2 = fittedImage 300 300 "Example/haskell_logo.png"
 
 
 pageList : List Page
@@ -38,7 +38,7 @@ pageList = [
   , Page empty (ps_ { cStyle2 | height <- Just 100 } ["文字サイズ変えたり"]) (BGColor blue)
   , Page empty rotatedElement (BGColor blue)
   , Page empty (ps_ cStyle1 ["背景色変えたり"]) (BGColor red)
-  , Page empty (ps_ { cStyle1 | color <- black } ["背景画像設定したり"]) (BGImage "IMG_0064.JPG")
+  , Page empty (ps_ { cStyle1 | color <- black } ["背景画像設定したり"]) (BGImage "Example/IMG_0064.JPG")
   , Page empty (ps_ cStyle1 ["今のところそんな感じです"]) (BGColor blue)
   ]
 
