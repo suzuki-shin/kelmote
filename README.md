@@ -1,2 +1,2 @@
 # kelmote
-Presentation tool that work on the browser.
+[sample](http://suzuki-shin.github.io/kelmote/)
