@@ -8,10 +8,12 @@ module Kelmote where
   , v2Page
   , h2Page
   , defaultTextStyle
+  , rotation
   )
 -}
 
 import Graphics.Element (..)
+import Graphics.Collage as GC
 import Text as T
 import Color (..)
 import List as L
@@ -62,6 +64,12 @@ v2Page leftE rightE = flow right [ leftE , spacer 30 30, rightE ]
 
 h2Page : Element -> Element -> Element
 h2Page upperE lowerE = flow down [ upperE , spacer 30 30, lowerE ]
+
+rotation : Float -> Element -> Element
+rotation angl e =
+    let h = round ((toFloat (widthOf e)) * (sin (degrees angl))) + heightOf e
+        w = widthOf e
+    in GC.collage w h [(GC.rotate (degrees angl) (GC.toForm e))]
 
 type alias Page = { header : Element, content : Element, backGround : Background }
 

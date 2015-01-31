@@ -36,6 +36,7 @@ pageList = [
   , Page empty (v2Page (ps_ cStyle1 ["レイアウト変えたり"]) element2) (BGColor blue)
   , Page empty (ps_ cStyle2 ["文字色変えたり"]) (BGColor blue)
   , Page empty (ps_ { cStyle2 | height <- Just 100 } ["文字サイズ変えたり"]) (BGColor blue)
+  , Page empty rotatedElement (BGColor blue)
   , Page empty (ps_ cStyle1 ["背景色変えたり"]) (BGColor red)
   , Page empty (ps_ { cStyle1 | color <- black } ["背景画像設定したり"]) (BGImage "IMG_0064.JPG")
   , Page empty (ps_ cStyle1 ["今のところそんな感じです"]) (BGColor blue)
@@ -43,3 +44,7 @@ pageList = [
 
 main : Signal Element
 main = run pageList
+
+
+rotatedElement : Element
+rotatedElement = ps_ cStyle1 ["傾かせたり"] |> rotation 30
