@@ -30,7 +30,7 @@ pageList = [
   , Page header2 (v2Page (ps_ cStyle1 ["Functional", "Reactive", "AltJS?"]) (ps_ cStyle2 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"])) (BGColor blue)
   , Page header2 (v2Page (ps_ cStyle1 ["Functional", "Reactive", "AltJS?"]) (ps_ cStyle2 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？", "ちょっと違うか？HTMLやCSSも出力する"])) (BGColor blue)
   , Page empty (ps_ cStyle1 ["そのelmでスライドツール作ってみました"]) (BGColor blue)
-  , Page empty (ps_ cStyle1 ["Kelmote"]) (BGColor blue)
+  , Page empty (ps_ { cStyle1 | height <- Just 80 } ["Kelmote"]) (BGColor blue)
   , Page empty (ps_ cStyle1 ["このスライドもそれで作ってます"]) (BGColor blue)
   , Page empty (h2Page (ps_ cStyle1 ["画像入れたり"]) element2) (BGColor blue)
   , Page empty (v2Page (ps_ cStyle1 ["レイアウト変えたり"]) element2) (BGColor blue)
