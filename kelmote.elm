@@ -58,7 +58,7 @@ ps_ : T.Style -> List String -> Element
 ps_ styl ss = flow down <| L.map (strToContent styl) ss
 
 v2Page : Element -> Element -> Element
-v2Page leftE rightE = flow left [ leftE , spacer 30 30, rightE ]
+v2Page leftE rightE = flow right [ leftE , spacer 30 30, rightE ]
 
 h2Page : Element -> Element -> Element
 h2Page upperE lowerE = flow down [ upperE , spacer 30 30, lowerE ]

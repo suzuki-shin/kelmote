@@ -9,24 +9,36 @@ import Text as T
 
 hStyle : T.Style
 hStyle = { defaultTextStyle | color <- white, height <- Just 70 }
-cStyle : T.Style
-cStyle = { defaultTextStyle | color <- yellow }
+cStyle1 : T.Style
+cStyle1 = { defaultTextStyle | color <- yellow }
+cStyle2 = { defaultTextStyle | color <- lightBlue }
 
-header1 = h_ hStyle "ELM KELMOTE"
-element1 = ps_ cStyle [ "コラボキャンペーンLP," , "we can stack elements" , "on top of other elements." ]
+header2 = h_ hStyle "Elmとは?"
 element2 = fittedImage 300 300 "haskell_logo.png"
-element3 = ps_ { defaultTextStyle | color <- darkBlue } ["** Q1: やる気がでないのは今日に入ってからですか？数日やる気がでない状態が続いているのですか？それとも今日に入ってからかですか？** Q2: 最近なにか新しい情報が明らかになりましたか？たとえば計画段階では知らなかった事実が明らかになって、今までやってきた作業が無駄になったとか。何らかの情報が最近明らかになりましたか？はい→状況が変わったのであれば、計画の通りに実行することが必要とは限りません。状況の変化に合わせて計画を変更したり中止したりしてはいけないのですか？利害関係者と相談してみましょう。"]
-element4 = ps_ cStyle [ "1. I can't do it," , "2. we can stack elements" , "3. on top of other elements." ]
 
 
 pageList : List Page
 pageList = [
-    Page header1 element1 (BGColor blue)
-  , Page header1 (v2Page element1 element2) (BGColor green)
-  , Page header1 (h2Page element1 element2) (BGColor lightBlue)
-  , Page empty element3 (BGColor brown)
-  , Page empty (v2Page element4 element2) (BGColor darkRed)
-  , Page empty element3 (BGImage "IMG_0064.JPG")
+    Page empty (ps_ hStyle ["Kelmote"]) (BGColor blue)
+  , Page empty (ps_ cStyle1 ["最近 elm を触っています"])  (BGColor blue)
+  , Page empty (ps_ { cStyle1 | height <- Just 100 } ["elm?"]) (BGColor blue)
+  , Page header2 empty (BGColor blue)
+  , Page header2 (v2Page (ps_ cStyle1 ["Functional"]) empty) (BGColor blue)
+  , Page header2 (v2Page (ps_ cStyle1 ["Functional"]) (ps_ cStyle2 ["Haskellっぽい感じ？"])) (BGColor blue)
+  , Page header2 (v2Page (ps_ cStyle1 ["Functional", "Reactive"])(ps_ cStyle2 ["Haskellっぽい感じ？"]) ) (BGColor blue)
+  , Page header2 (v2Page (ps_ cStyle1 ["Functional", "Reactive"]) (ps_ cStyle2 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"])) (BGColor blue)
+  , Page header2 (v2Page (ps_ cStyle1 ["Functional", "Reactive", "AltJS?"]) (ps_ cStyle2 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"])) (BGColor blue)
+  , Page header2 (v2Page (ps_ cStyle1 ["Functional", "Reactive", "AltJS?"]) (ps_ cStyle2 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？", "ちょっと違うか？HTMLやCSSも出力する"])) (BGColor blue)
+  , Page empty (ps_ cStyle1 ["そのelmでスライドツール作ってみました"]) (BGColor blue)
+  , Page empty (ps_ cStyle1 ["Kelmote"]) (BGColor blue)
+  , Page empty (ps_ cStyle1 ["このスライドもそれで作ってます"]) (BGColor blue)
+  , Page empty (h2Page (ps_ cStyle1 ["画像入れたり"]) element2) (BGColor blue)
+  , Page empty (v2Page (ps_ cStyle1 ["レイアウト変えたり"]) element2) (BGColor blue)
+  , Page empty (ps_ cStyle2 ["文字色変えたり"]) (BGColor blue)
+  , Page empty (ps_ { cStyle2 | height <- Just 100 } ["文字サイズ変えたり"]) (BGColor blue)
+  , Page empty (ps_ cStyle1 ["背景色変えたり"]) (BGColor red)
+  , Page empty (ps_ { cStyle1 | color <- black } ["背景画像設定したり"]) (BGImage "IMG_0064.JPG")
+  , Page empty (ps_ cStyle1 ["今のところそんな感じです"]) (BGColor blue)
   ]
 
 main : Signal Element
