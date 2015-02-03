@@ -36,14 +36,15 @@ pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
 pageByIdx : Int -> List Page -> Page
 pageByIdx idx pList = case A.get idx (A.fromList pList) of
                         Just p -> p
-                        Nothing -> Page empty empty (BGColor white)
+                        Nothing -> Page (\t -> empty) (\t -> empty) (BGColor white)
 
 view : List Page -> (Int, Int) -> Int -> Time -> Element
 view pageList (w, h) currentPage sec =
     let page = pageByIdx currentPage pageList
-        header = container w (heightOf page.header + 20) midBottom page.header
-        content = container w h middle page.content
-    in bg w h page.backGround <| layers [ header, blink (rotate sec) content ]
+        header t = container w (heightOf (page.header t) + 20) midBottom (page.header t)
+        content t = container w h middle (page.content t)
+    in bg w h page.backGround <| layers [ header sec, content sec ]
+--     in bg w h page.backGround <| layers [ header , blink (rotate sec) content ]
 
 bg : Int -> Int -> Background -> Element -> Element
 bg w h b e = case b of
@@ -72,7 +73,7 @@ rotation angl e =
         w = widthOf e
     in GC.collage w h [(GC.rotate (degrees angl) (GC.toForm e))]
 
-type alias Page = { header : Element, content : Element, backGround : Background }
+type alias Page = { header : (Time -> Element), content : (Time -> Element), backGround : Background }
 
 defaultTextStyle : T.Style
 defaultTextStyle = {
@@ -93,5 +94,5 @@ rotate : Time -> Float
 rotate = ES.cycle (ES.ease ES.linear ES.float 0 9) second
 
 blink : Time -> Element -> Element
-blink t e = let o = (toFloat ((round t) % 10)) / 10
+blink t e = let o = (toFloat ((round (rotate t)) % 10)) / 10
             in opacity o e
