@@ -90,9 +90,14 @@ run pageList = view pageList <~ Window.dimensions
                               ~ pageCount
                               ~ foldp (+) 0 (fps 5)
 
-rotate : Time -> Float
-rotate = ES.cycle (ES.ease ES.linear ES.float 0 9) second
+rotateEasing : Time -> Float
+rotateEasing = ES.cycle (ES.ease ES.linear ES.float 0 9) second
 
 blink : Time -> Element -> Element
-blink t e = let o = (toFloat ((round (rotate t)) % 10)) / 10
+blink t e = let o = (toFloat ((round (rotateEasing t)) % 10)) / 10
             in opacity o e
+
+scale : Time -> Element -> Element
+scale t e =
+    let x = ((toFloat ((round (rotateEasing t)) % 10)) / 10) + 1
+    in GC.collage (ceiling (toFloat ((widthOf e)) * x)) (ceiling ((toFloat (heightOf e)) * x)) [GC.scale x (GC.toForm e)]
