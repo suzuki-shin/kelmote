@@ -49,6 +49,7 @@ pageList = [
                 in opacity 0.8 (color black c1))
          (BGImage "Example/IMG_0064.JPG")
   , Page emptyElement (\t -> (ps_ cStyle1 ["今のところそんな感じです"])) (BGColor blue)
+  , Page emptyElement (\t -> mdcode) (BGColor blue)
   ]
 
 main : Signal Element
@@ -57,3 +58,29 @@ main = run pageList
 
 rotatedElement : Element
 rotatedElement = ps_ cStyle1 ["傾かせたり"] |> rotation 30
+
+codeSample = """
+
+```elm:markdown.elm
+module Sample where
+
+import Kelmote (..)
+import Signal (Signal)
+import Graphics.Element (..)
+import List as L
+import Color (..)
+import Text as T
+import Time (Time)
+import Markdown as MD
+
+pageList : List Page
+pageList = [
+    Page emptyElement (\t -> (ps_ hStyle ["Kelmote"])) (BGColor blue)
+  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (BGColor blue)
+  , Page emptyElement (\t -> (ps_ cStyle1 ["最近 Elm を触っています"])) (BGColor blue)
+  , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } ["Elm?"])) (BGColor blue)
+```
+
+"""
+
+mdcode = fromMD codeSample
