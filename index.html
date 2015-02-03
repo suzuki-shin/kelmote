@@ -3966,13 +3966,33 @@ Elm.Kelmote.make = function (_elm) {
    $Easing = Elm.Easing.make(_elm),
    $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
    $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
    $Keyboard = Elm.Keyboard.make(_elm),
    $List = Elm.List.make(_elm),
+   $Markdown = Elm.Markdown.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $Text = Elm.Text.make(_elm),
    $Time = Elm.Time.make(_elm),
    $Window = Elm.Window.make(_elm);
+   var fromMD = function (mdStr) {
+      return A2($Html.toElement,
+      900,
+      500)(A2($Html.div,
+      _L.fromArray([$Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
+                                                         ,_0: "backgroundColor"
+                                                         ,_1: "black"}
+                                                        ,{ctor: "_Tuple2"
+                                                         ,_0: "color"
+                                                         ,_1: "green"}
+                                                        ,{ctor: "_Tuple2"
+                                                         ,_0: "padding"
+                                                         ,_1: "5px"}]))]),
+      _L.fromArray([A2($Markdown.toHtmlWith,
+      $Markdown.defaultOptions,
+      mdStr)])));
+   };
    var rotateEasing = A2($Easing.cycle,
    A4($Easing.ease,
    $Easing.linear,
@@ -4072,7 +4092,7 @@ Elm.Kelmote.make = function (_elm) {
                                                          b._0)
                                                          ,e]));}
          _U.badCase($moduleName,
-         "between lines 50 and 52");
+         "between lines 53 and 55");
       }();
    });
    var pageByIdx = F2(function (idx,
@@ -4092,7 +4112,7 @@ Elm.Kelmote.make = function (_elm) {
               },
               BGColor($Color.white));}
          _U.badCase($moduleName,
-         "between lines 37 and 39");
+         "between lines 40 and 42");
       }();
    });
    var view = F4(function (pageList,
@@ -4127,7 +4147,7 @@ Elm.Kelmote.make = function (_elm) {
                                                                         ,content(sec)])));
               }();}
          _U.badCase($moduleName,
-         "between lines 43 and 46");
+         "between lines 46 and 49");
       }();
    });
    var pageCount = A3($Signal.foldp,
@@ -4186,7 +4206,8 @@ Elm.Kelmote.make = function (_elm) {
                          ,run: run
                          ,rotateEasing: rotateEasing
                          ,blink: blink
-                         ,scale: scale};
+                         ,scale: scale
+                         ,fromMD: fromMD};
    return _elm.Kelmote.values;
 };Elm.Keyboard = Elm.Keyboard || {};
 Elm.Keyboard.make = function (_elm) {
@@ -11728,30 +11749,13 @@ Elm.Sample.make = function (_elm) {
    $Basics = Elm.Basics.make(_elm),
    $Color = Elm.Color.make(_elm),
    $Graphics$Element = Elm.Graphics.Element.make(_elm),
-   $Html = Elm.Html.make(_elm),
-   $Html$Attributes = Elm.Html.Attributes.make(_elm),
    $Kelmote = Elm.Kelmote.make(_elm),
-   $Markdown = Elm.Markdown.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $Text = Elm.Text.make(_elm),
    $Time = Elm.Time.make(_elm);
    var codeSample = "\n\n```elm:markdown.elm\nmodule Sample where\n\nimport Kelmote (..)\nimport Signal (Signal)\nimport Graphics.Element (..)\nimport List as L\nimport Color (..)\nimport Text as T\nimport Time (Time)\nimport Markdown as MD\n\npageList : List Page\npageList = [\n    Page emptyElement (\t -> (ps_ hStyle [\"Kelmote\"])) (BGColor blue)\n  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (BGColor blue)\n  , Page emptyElement (\t -> (ps_ cStyle1 [\"最近 Elm を触っています\"])) (BGColor blue)\n  , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } [\"Elm?\"])) (BGColor blue)\n```\n\n";
-   var mdcode = A2($Html.toElement,
-   900,
-   500)(A2($Html.div,
-   _L.fromArray([$Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
-                                                      ,_0: "backgroundColor"
-                                                      ,_1: "black"}
-                                                     ,{ctor: "_Tuple2"
-                                                      ,_0: "color"
-                                                      ,_1: "green"}
-                                                     ,{ctor: "_Tuple2"
-                                                      ,_0: "padding"
-                                                      ,_1: "5px"}]))]),
-   _L.fromArray([A2($Markdown.toHtmlWith,
-   $Markdown.defaultOptions,
-   codeSample)])));
+   var mdcode = $Kelmote.fromMD(codeSample);
    var element2 = A3($Graphics$Element.fittedImage,
    400,
    400,
@@ -11783,12 +11787,6 @@ Elm.Sample.make = function (_elm) {
                                   return A2($Kelmote.ps_,
                                   hStyle,
                                   _L.fromArray(["Kelmote"]));
-                               },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
-                               emptyElement,
-                               function (t) {
-                                  return mdcode;
                                },
                                $Kelmote.BGColor($Color.blue))
                                ,A3($Kelmote.Page,
@@ -12014,6 +12012,12 @@ Elm.Sample.make = function (_elm) {
                                   return A2($Kelmote.ps_,
                                   cStyle1,
                                   _L.fromArray(["今のところそんな感じです"]));
+                               },
+                               $Kelmote.BGColor($Color.blue))
+                               ,A3($Kelmote.Page,
+                               emptyElement,
+                               function (t) {
+                                  return mdcode;
                                },
                                $Kelmote.BGColor($Color.blue))]);
    var main = $Kelmote.run(pageList);

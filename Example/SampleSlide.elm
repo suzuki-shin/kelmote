@@ -7,9 +7,6 @@ import List as L
 import Color (..)
 import Text as T
 import Time (Time)
-import Markdown as MD
-import Html as H
-import Html.Attributes as H
 
 hStyle : T.Style
 hStyle = { defaultTextStyle | color <- white, height <- Just 70 }
@@ -27,7 +24,6 @@ element2 = fittedImage 400 400 "Example/IMG_1448.JPG"
 pageList : List Page
 pageList = [
     Page emptyElement (\t -> (ps_ hStyle ["Kelmote"])) (BGColor blue)
-  , Page emptyElement (\t -> mdcode) (BGColor blue)
   , Page emptyElement (\t -> (ps_ cStyle1 ["最近 Elm を触っています"])) (BGColor blue)
   , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } ["Elm?"])) (BGColor blue)
   , Page header2      emptyElement (BGColor blue)
@@ -53,6 +49,7 @@ pageList = [
                 in opacity 0.8 (color black c1))
          (BGImage "Example/IMG_0064.JPG")
   , Page emptyElement (\t -> (ps_ cStyle1 ["今のところそんな感じです"])) (BGColor blue)
+  , Page emptyElement (\t -> mdcode) (BGColor blue)
   ]
 
 main : Signal Element
@@ -86,10 +83,4 @@ pageList = [
 
 """
 
-mdcode = H.div
-          [H.style [ ("backgroundColor", "black")
-                    ,("color", "green")
-                    ,("padding", "5px")
-                   ]]
-          [ MD.toHtmlWith MD.defaultOptions codeSample ]
-         |> H.toElement 900 500
+mdcode = fromMD codeSample

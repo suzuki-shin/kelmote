@@ -23,6 +23,9 @@ import Keyboard
 import Array as A
 import Time (Time, fps, inSeconds, second)
 import Easing as ES
+import Markdown as MD
+import Html as H
+import Html.Attributes as H
 
 strToContent : T.Style -> String -> Element
 strToContent styl s = T.fromString s |> T.style styl |> T.centered
@@ -101,3 +104,12 @@ scale : Time -> Element -> Element
 scale t e =
     let x = ((toFloat ((round (rotateEasing t)) % 10)) / 10) + 1
     in GC.collage (ceiling (toFloat ((widthOf e)) * x)) (ceiling ((toFloat (heightOf e)) * x)) [GC.scale x (GC.toForm e)]
+
+fromMD : String -> Element
+fromMD mdStr = H.div
+          [H.style [ ("backgroundColor", "black")
+                    ,("color", "green")
+                    ,("padding", "5px")
+                   ]]
+          [ MD.toHtmlWith MD.defaultOptions mdStr ]
+         |> H.toElement 900 500
