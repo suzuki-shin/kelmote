@@ -21,7 +21,8 @@ import Window
 import Signal (Signal, (<~), (~), foldp)
 import Keyboard
 import Array as A
-import Time (Time, fps, inSeconds)
+import Time (Time, fps, inSeconds, second)
+import Easing as ES
 
 strToContent : T.Style -> String -> Element
 strToContent styl s = T.fromString s |> T.style styl |> T.centered
@@ -42,7 +43,7 @@ view pageList (w, h) currentPage sec =
     let page = pageByIdx currentPage pageList
         header = container w (heightOf page.header + 20) midBottom page.header
         content = container w h middle page.content
-    in bg w h page.backGround <| layers [ header, content ]
+    in bg w h page.backGround <| layers [ header, blink (rotate sec) content ]
 
 bg : Int -> Int -> Background -> Element -> Element
 bg w h b e = case b of
@@ -86,4 +87,11 @@ defaultTextStyle = {
 run : List Page -> Signal Element
 run pageList = view pageList <~ Window.dimensions
                               ~ pageCount
-                              ~ fps 3
+                              ~ foldp (+) 0 (fps 5)
+
+rotate : Time -> Float
+rotate = ES.cycle (ES.ease ES.linear ES.float 0 9) second
+
+blink : Time -> Element -> Element
+blink t e = let o = (toFloat ((round t) % 10)) / 10
+            in opacity o e
