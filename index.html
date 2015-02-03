@@ -1961,7 +1961,7 @@ Elm.Kelmote.make = function (_elm) {
    $Text = Elm.Text.make(_elm),
    $Time = Elm.Time.make(_elm),
    $Window = Elm.Window.make(_elm);
-   var rotate = A2($Easing.cycle,
+   var rotateEasing = A2($Easing.cycle,
    A4($Easing.ease,
    $Easing.linear,
    $Easing.$float,
@@ -1971,11 +1971,24 @@ Elm.Kelmote.make = function (_elm) {
    var blink = F2(function (t,e) {
       return function () {
          var o = $Basics.toFloat(A2($Basics._op["%"],
-         $Basics.round(rotate(t)),
+         $Basics.round(rotateEasing(t)),
          10)) / 10;
          return A2($Graphics$Element.opacity,
          o,
          e);
+      }();
+   });
+   var scale = F2(function (t,e) {
+      return function () {
+         var x = $Basics.toFloat(A2($Basics._op["%"],
+         $Basics.round(rotateEasing(t)),
+         10)) / 10 + 1;
+         return A3($Graphics$Collage.collage,
+         $Basics.ceiling($Basics.toFloat($Graphics$Element.widthOf(e)) * x),
+         $Basics.ceiling($Basics.toFloat($Graphics$Element.heightOf(e)) * x),
+         _L.fromArray([A2($Graphics$Collage.scale,
+         x,
+         $Graphics$Collage.toForm(e))]));
       }();
    });
    var defaultTextStyle = {_: {}
@@ -2159,8 +2172,9 @@ Elm.Kelmote.make = function (_elm) {
                          ,Page: Page
                          ,defaultTextStyle: defaultTextStyle
                          ,run: run
-                         ,rotate: rotate
-                         ,blink: blink};
+                         ,rotateEasing: rotateEasing
+                         ,blink: blink
+                         ,scale: scale};
    return _elm.Kelmote.values;
 };Elm.Keyboard = Elm.Keyboard || {};
 Elm.Keyboard.make = function (_elm) {
@@ -6990,8 +7004,18 @@ Elm.Sample.make = function (_elm) {
                                   return A2($Kelmote.ps_,
                                   _U.replace([["height"
                                               ,$Maybe.Just(100)]],
-                                  cStyle2),
+                                  cStyle1),
                                   _L.fromArray(["文字サイズ変えたり"]));
+                               },
+                               $Kelmote.BGColor($Color.blue))
+                               ,A3($Kelmote.Page,
+                               emptyElement,
+                               function (t) {
+                                  return A2($Kelmote.scale,
+                                  t,
+                                  A2($Kelmote.ps_,
+                                  cStyle1,
+                                  _L.fromArray(["ボワンボワンさせたり"])));
                                },
                                $Kelmote.BGColor($Color.blue))
                                ,A3($Kelmote.Page,

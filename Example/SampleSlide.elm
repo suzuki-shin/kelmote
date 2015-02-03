@@ -23,7 +23,7 @@ element2 = fittedImage 400 400 "Example/IMG_1448.JPG"
 
 pageList : List Page
 pageList = [
-    Page emptyElement (\t -> scale t (ps_ hStyle ["Kelmote"])) (BGColor blue)
+    Page emptyElement (\t -> (ps_ hStyle ["Kelmote"])) (BGColor blue)
   , Page emptyElement (\t -> (ps_ cStyle1 ["最近 Elm を触っています"])) (BGColor blue)
   , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } ["Elm?"])) (BGColor blue)
   , Page header2      emptyElement (BGColor blue)
@@ -40,7 +40,8 @@ pageList = [
   , Page emptyElement (\t -> (v2Page (ps_ cStyle1 ["レイアウト変えたり"]) element2)) (BGColor blue)
   , Page emptyElement (\t -> (ps_ cStyle2 ["文字色変えたり"])) (BGColor blue)
   , Page emptyElement (\t -> blink t (ps_ cStyle1 ["点滅させたり"])) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ { cStyle2 | height <- Just 100 } ["文字サイズ変えたり"])) (BGColor blue)
+  , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } ["文字サイズ変えたり"])) (BGColor blue)
+  , Page emptyElement (\t -> scale t (ps_ cStyle1 ["ボワンボワンさせたり"])) (BGColor blue)
   , Page emptyElement (\t -> rotatedElement) (BGColor blue)
   , Page emptyElement (\t -> (ps_ cStyle1 ["背景色変えたり"])) (BGColor red)
   , Page emptyElement
