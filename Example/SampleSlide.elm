@@ -38,7 +38,10 @@ pageList = [
   , Page empty (ps_ { cStyle2 | height <- Just 100 } ["文字サイズ変えたり"]) (BGColor blue)
   , Page empty rotatedElement (BGColor blue)
   , Page empty (ps_ cStyle1 ["背景色変えたり"]) (BGColor red)
-  , Page empty (ps_ { cStyle1 | color <- black } ["背景画像設定したり"]) (BGImage "Example/IMG_0064.JPG")
+  , Page empty
+         (let c1 = ps_ { cStyle1 | color <- white } ["背景画像設定したり"]
+          in opacity 0.8 (color black c1))
+         (BGImage "Example/IMG_0064.JPG")
   , Page empty (ps_ cStyle1 ["今のところそんな感じです"]) (BGColor blue)
   ]
 
