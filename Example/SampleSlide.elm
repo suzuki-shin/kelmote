@@ -7,6 +7,9 @@ import List as L
 import Color (..)
 import Text as T
 import Time (Time)
+import Markdown as MD
+import Html as H
+import Html.Attributes as H
 
 hStyle : T.Style
 hStyle = { defaultTextStyle | color <- white, height <- Just 70 }
@@ -24,6 +27,7 @@ element2 = fittedImage 400 400 "Example/IMG_1448.JPG"
 pageList : List Page
 pageList = [
     Page emptyElement (\t -> (ps_ hStyle ["Kelmote"])) (BGColor blue)
+  , Page emptyElement (\t -> mdcode) (BGColor blue)
   , Page emptyElement (\t -> (ps_ cStyle1 ["最近 Elm を触っています"])) (BGColor blue)
   , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } ["Elm?"])) (BGColor blue)
   , Page header2      emptyElement (BGColor blue)
@@ -57,3 +61,35 @@ main = run pageList
 
 rotatedElement : Element
 rotatedElement = ps_ cStyle1 ["傾かせたり"] |> rotation 30
+
+codeSample = """
+
+```elm:markdown.elm
+module Sample where
+
+import Kelmote (..)
+import Signal (Signal)
+import Graphics.Element (..)
+import List as L
+import Color (..)
+import Text as T
+import Time (Time)
+import Markdown as MD
+
+pageList : List Page
+pageList = [
+    Page emptyElement (\t -> (ps_ hStyle ["Kelmote"])) (BGColor blue)
+  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (BGColor blue)
+  , Page emptyElement (\t -> (ps_ cStyle1 ["最近 Elm を触っています"])) (BGColor blue)
+  , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } ["Elm?"])) (BGColor blue)
+```
+
+"""
+
+mdcode = H.div
+          [H.style [ ("backgroundColor", "black")
+                    ,("color", "green")
+                    ,("padding", "5px")
+                   ]]
+          [ MD.toHtmlWith MD.defaultOptions codeSample ]
+         |> H.toElement 900 500
