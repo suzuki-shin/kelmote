@@ -1,16 +1,4 @@
 module Kelmote where
-{- Export
-   (
-    Page
-  , run
-  , h_
-  , c_
-  , v2Page
-  , h2Page
-  , defaultTextStyle
-  , rotation
-  )
--}
 
 import Graphics.Element (..)
 import Graphics.Collage as GC
@@ -26,43 +14,15 @@ import Easing as ES
 import Markdown as MD
 import Html as H
 import Html.Attributes as H
-
-strToContent : T.Style -> String -> Element
-strToContent styl s = T.fromString s |> T.style styl |> T.centered
-
-strToHeader : T.Style -> String -> Element
-strToHeader styl s = T.fromString s |> T.style styl |> T.leftAligned
-
-pageCount : Signal Int
-pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
-
-pageByIdx : Int -> List Page -> Page
-pageByIdx idx pList = case A.get idx (A.fromList pList) of
-                        Just p -> p
-                        Nothing -> Page (\t -> empty) (\t -> empty) (BGColor white)
-
-view : List Page -> (Int, Int) -> Int -> Time -> Element
-view pageList (w, h) currentPage sec =
-    let page = pageByIdx currentPage pageList
-        header t = container w (heightOf (page.header t) + 20) midBottom (page.header t)
-        content t = container w h middle (page.content t)
-    in bg w h page.backGround <| layers [ header sec, content sec ]
---     in bg w h page.backGround <| layers [ header , blink (rotate sec) content ]
-
-bg : Int -> Int -> Background -> Element -> Element
-bg w h b e = case b of
-         BGColor c -> color c e
-         BGImage s -> layers [fittedImage w h s, e]
-
-type Background = BGColor Color | BGImage String
+import Kelmote.Inner as Inner
 
 {- Export -}
 
 h_ : T.Style -> String -> Element
-h_ = strToHeader
+h_ = Inner.strToHeader
 
 ps_ : T.Style -> List String -> Element
-ps_ styl ss = flow down <| L.map (strToContent styl) ss
+ps_ styl = L.map (Inner.strToContent styl) >> flow down
 
 v2Page : Element -> Element -> Element
 v2Page leftE rightE = flow right [ leftE , spacer 30 30, rightE ]
@@ -76,7 +36,13 @@ rotation angl e =
         w = widthOf e
     in GC.collage w h [(GC.rotate (degrees angl) (GC.toForm e))]
 
-type alias Page = { header : (Time -> Element), content : (Time -> Element), backGround : Background }
+type alias Page = Inner.Page'
+page h c b = Inner.Page' h c b
+
+bgColor : Color -> Inner.Background
+bgColor = Inner.BGColor
+bgImage : String -> Inner.Background
+bgImage = Inner.BGImage
 
 defaultTextStyle : T.Style
 defaultTextStyle = {
@@ -89,8 +55,8 @@ defaultTextStyle = {
   }
 
 run : List Page -> Signal Element
-run pageList = view pageList <~ Window.dimensions
-                              ~ pageCount
+run pageList = Inner.view pageList <~ Window.dimensions
+                              ~ Inner.pageCount
                               ~ foldp (+) 0 (fps 5)
 
 rotateEasing : Time -> Float
@@ -107,9 +73,10 @@ scale t e =
 
 fromMD : String -> Element
 fromMD mdStr = H.div
-          [H.style [ ("backgroundColor", "black")
-                    ,("color", "green")
-                    ,("padding", "5px")
-                   ]]
-          [ MD.toHtmlWith MD.defaultOptions mdStr ]
-         |> H.toElement 900 500
+               [H.style [
+                      ("backgroundColor", "black")
+                     ,("color", "green")
+                     ,("padding", "5px")
+                     ]]
+               [ MD.toHtmlWith MD.defaultOptions mdStr ]
+                   |> H.toElement 900 500
