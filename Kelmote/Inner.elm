@@ -1,19 +1,14 @@
 module Kelmote.Inner where
 
 import Graphics.Element (..)
-import Graphics.Collage as GC
 import Text as T
 import Color (..)
 import List as L
 import Window
-import Signal (Signal, (<~), (~), foldp)
+import Signal (Signal, foldp, merge)
 import Keyboard
 import Array as A
-import Time (Time, fps, inSeconds, second)
-import Easing as ES
-import Markdown as MD
-import Html as H
-import Html.Attributes as H
+import Time (Time)
 
 strToContent : T.Style -> String -> Element
 strToContent styl = T.fromString >> T.style styl >> T.centered
@@ -21,8 +16,11 @@ strToContent styl = T.fromString >> T.style styl >> T.centered
 strToHeader : T.Style -> String -> Element
 strToHeader styl = T.fromString >> T.style styl >> T.leftAligned
 
-pageCount : Signal Int
-pageCount =  foldp (\{x, y} count -> count + x) 0 Keyboard.arrows
+type alias Tap = { x : Int, y : Int }
+type alias Arrow = { x : Int, y : Int }
+
+pageCount : Signal Arrow -> Signal Tap -> Signal Int
+pageCount a t = foldp (\{x, y} count -> count + (if x > 0 then 1 else -1)) 0 (merge a t)
 
 pageByIdx : Int -> List Page' -> Page'
 pageByIdx idx pList = case A.get idx (A.fromList pList) of
