@@ -8,48 +8,48 @@ import Color (..)
 import Text as T
 import Time (Time)
 
-hStyle : T.Style
-hStyle = { defaultTextStyle | color <- white, height <- Just 70 }
-cStyle1 : T.Style
-cStyle1 = { defaultTextStyle | color <- yellow }
-cStyle2 = { defaultTextStyle | color <- lightBlue }
+styl1 : T.Style
+styl1 = { defaultTextStyle | color <- white, height <- Just 70 }
+styl2 : T.Style
+styl2 = { defaultTextStyle | color <- yellow }
+styl3 : T.Style
+styl3 = { defaultTextStyle | color <- lightBlue }
 
+header2 : Time -> Element
+header2 t = h_ styl1 "Elmとは?"
+element2 = fittedImage 400 400 "Example/IMG_1448.JPG"
 emptyElement : Time -> Element
 emptyElement t = empty
-header2 : Time -> Element
-header2 t = h_ hStyle "Elmとは?"
-element2 = fittedImage 400 400 "Example/IMG_1448.JPG"
-
 
 pageList : List Page
 pageList = [
-    Page emptyElement (\t -> (ps_ hStyle ["Kelmote"])) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ cStyle1 ["最近 Elm を触っています"])) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } ["Elm?"])) (BGColor blue)
-  , Page header2      emptyElement (BGColor blue)
-  , Page header2      (\t -> (v2Page (ps_ cStyle1 ["Functional"]) empty)) (BGColor blue)
-  , Page header2      (\t -> (v2Page (ps_ cStyle1 ["Functional"]) (ps_ cStyle2 ["Haskellっぽい感じ？"]))) (BGColor blue)
-  , Page header2      (\t -> (v2Page (ps_ cStyle1 ["Functional", "Reactive"])(ps_ cStyle2 ["Haskellっぽい感じ？"]))) (BGColor blue)
-  , Page header2      (\t -> (v2Page (ps_ cStyle1 ["Functional", "Reactive"]) (ps_ cStyle2 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"]))) (BGColor blue)
-  , Page header2      (\t -> (v2Page (ps_ cStyle1 ["Functional", "Reactive", "AltJS?"]) (ps_ cStyle2 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"]))) (BGColor blue)
-  , Page header2      (\t -> (v2Page (ps_ cStyle1 ["Functional", "Reactive", "AltJS?"]) (ps_ cStyle2 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？", "ちょっと違うか？HTMLやCSSも出力する"]))) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ cStyle1 ["そのElmでスライドツール作ってみました"])) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 80 } ["Kelmote"])) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ cStyle1 ["このスライドもそれで作ってます"])) (BGColor blue)
-  , Page emptyElement (\t -> (h2Page (ps_ cStyle1 ["画像入れたり"]) element2)) (BGColor blue)
-  , Page emptyElement (\t -> (v2Page (ps_ cStyle1 ["レイアウト変えたり"]) element2)) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ cStyle2 ["文字色変えたり"])) (BGColor blue)
-  , Page emptyElement (\t -> blink t (ps_ cStyle1 ["点滅させたり"])) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } ["文字サイズ変えたり"])) (BGColor blue)
-  , Page emptyElement (\t -> scale t (ps_ cStyle1 ["ボワンボワンさせたり"])) (BGColor blue)
-  , Page emptyElement (\t -> rotatedElement) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ cStyle1 ["背景色変えたり"])) (BGColor red)
-  , Page emptyElement
-         (\t -> let c1 = ps_ { cStyle1 | color <- white } ["背景画像設定したり"]
+    page emptyElement (\t -> (ps_ styl1 ["Kelmote"])) (bgColor blue)
+  , page emptyElement (\t -> (ps_ styl2 ["最近 Elm を触っています"])) (bgColor blue)
+  , page emptyElement (\t -> (ps_ { styl2 | height <- Just 100 } ["Elm?"])) (bgColor blue)
+  , page header2      emptyElement (bgColor blue)
+  , page header2      (\t -> (v2Page (ps_ styl2 ["Functional"]) empty)) (bgColor blue)
+  , page header2      (\t -> (v2Page (ps_ styl2 ["Functional"]) (ps_ styl3 ["Haskellっぽい感じ？"]))) (bgColor blue)
+  , page header2      (\t -> (v2Page (ps_ styl2 ["Functional", "Reactive"])(ps_ styl3 ["Haskellっぽい感じ？"]))) (bgColor blue)
+  , page header2      (\t -> (v2Page (ps_ styl2 ["Functional", "Reactive"]) (ps_ styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"]))) (bgColor blue)
+  , page header2      (\t -> (v2Page (ps_ styl2 ["Functional", "Reactive", "AltJS?"]) (ps_ styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"]))) (bgColor blue)
+  , page header2      (\t -> (v2Page (ps_ styl2 ["Functional", "Reactive", "AltJS?"]) (ps_ styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？", "ちょっと違うか？HTMLやCSSも出力する"]))) (bgColor blue)
+  , page emptyElement (\t -> (ps_ styl2 ["そのElmでスライドツール作ってみました"])) (bgColor blue)
+  , page emptyElement (\t -> (ps_ { styl2 | height <- Just 80 } ["Kelmote"])) (bgColor blue)
+  , page emptyElement (\t -> (ps_ styl2 ["このスライドもそれで作ってます"])) (bgColor blue)
+  , page emptyElement (\t -> (h2Page (ps_ styl2 ["画像入れたり"]) element2)) (bgColor blue)
+  , page emptyElement (\t -> (v2Page (ps_ styl2 ["レイアウト変えたり"]) element2)) (bgColor blue)
+  , page emptyElement (\t -> (ps_ styl3 ["文字色変えたり"])) (bgColor blue)
+  , page emptyElement (\t -> blink t (ps_ styl2 ["点滅させたり"])) (bgColor blue)
+  , page emptyElement (\t -> (ps_ { styl2 | height <- Just 100 } ["文字サイズ変えたり"])) (bgColor blue)
+  , page emptyElement (\t -> scale t (ps_ styl2 ["ボワンボワンさせたり"])) (bgColor blue)
+  , page emptyElement (\t -> rotatedElement) (bgColor blue)
+  , page emptyElement (\t -> (ps_ styl2 ["背景色変えたり"])) (bgColor red)
+  , page emptyElement
+         (\t -> let c1 = ps_ { styl2 | color <- white } ["背景画像設定したり"]
                 in opacity 0.8 (color black c1))
-         (BGImage "Example/IMG_0064.JPG")
-  , Page emptyElement (\t -> (ps_ cStyle1 ["今のところそんな感じです"])) (BGColor blue)
-  , Page emptyElement (\t -> mdcode) (BGColor blue)
+         (bgImage "Example/IMG_0064.JPG")
+  , page emptyElement (\t -> (ps_ styl2 ["今のところそんな感じです"])) (bgColor blue)
+--   , Page emptyElement (\t -> mdcode) (bgColor blue)
   ]
 
 main : Signal Element
@@ -57,7 +57,7 @@ main = run pageList
 
 
 rotatedElement : Element
-rotatedElement = ps_ cStyle1 ["傾かせたり"] |> rotation 30
+rotatedElement = ps_ styl2 ["傾かせたり"] |> rotation 30
 
 codeSample = """
 
@@ -75,10 +75,10 @@ import Markdown as MD
 
 pageList : List Page
 pageList = [
-    Page emptyElement (\t -> (ps_ hStyle ["Kelmote"])) (BGColor blue)
-  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ cStyle1 ["最近 Elm を触っています"])) (BGColor blue)
-  , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } ["Elm?"])) (BGColor blue)
+    Page emptyElement (\t -> (ps_ styl1 ["Kelmote"])) (bgColor blue)
+  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (bgColor blue)
+  , Page emptyElement (\t -> (ps_ styl2 ["最近 Elm を触っています"])) (bgColor blue)
+  , Page emptyElement (\t -> (ps_ { styl2 | height <- Just 100 } ["Elm?"])) (bgColor blue)
 ```
 
 """
