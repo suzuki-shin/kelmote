@@ -14,6 +14,8 @@ styl2 : T.Style
 styl2 = { defaultTextStyle | color <- yellow }
 styl3 : T.Style
 styl3 = { defaultTextStyle | color <- lightBlue }
+styl4 : T.Style
+styl4 = { styl2 | height <- Just 100 }
 
 header2 : Time -> Element
 header2 t = h_ styl1 "Elmとは?"
@@ -23,24 +25,36 @@ img3 = fittedImage 400 400 "Example/IMG_1127.jpg"
 emptyElement : Time -> Element
 emptyElement t = empty
 
+page' : Page
+page' = page emptyElement emptyElement (bgColor blue)
+
+-- シンプルなテキストだけのページを返す
+simple : String -> T.Style -> List String -> Page
+simple h cStyle c = { page' | header <- (\_ -> h_ styl1 h) , content <- (\_ -> texts cStyle c) }
+
 pageList : List Page
 pageList = [
-    page emptyElement (\t -> (texts styl1 ["Kelmote"])) (bgColor blue)
-  , page emptyElement (\t -> (texts styl2 ["最近 Elm を触っています"])) (bgColor blue)
-  , page emptyElement (\t -> (texts { styl2 | height <- Just 100 } ["Elm?"])) (bgColor blue)
-  , page header2      emptyElement (bgColor blue)
-  , page header2      (\t -> (v2L (texts styl2 ["Functional"]) empty)) (bgColor blue)
-  , page header2      (\t -> (v2L (texts styl2 ["Functional"]) (texts styl3 ["Haskellっぽい感じ？"]))) (bgColor blue)
-  , page header2      (\t -> (v2L (texts styl2 ["Functional", "Reactive"])(texts styl3 ["Haskellっぽい感じ？"]))) (bgColor blue)
-  , page header2      (\t -> (v2L (texts styl2 ["Functional", "Reactive"]) (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"]))) (bgColor blue)
+    simple "" styl1 ["Kelmote"]
+  , simple "" styl2 ["最近 Elm を触っています"]
+  , simple "" styl4 ["Elm?"]
+  , simple "Elmとは?" styl1 []
+  , { page' | header <- header2 , content <- (\t -> v2L (texts styl2 ["Functional"]) empty) }
+  , { page' | header <- header2
+            , content <- (\t -> v2L (texts styl2 ["Functional"])
+                                    (texts styl3 ["Haskellっぽい感じ？"])) }
+  , { page' | header <-  header2
+            , content <- (\t -> v2L (texts styl2 ["Functional", "Reactive"]) (texts styl3 ["Haskellっぽい感じ？"])) }
+  , { page' | header <- header2
+            , content <- (\t -> v2L (texts styl2 ["Functional", "Reactive"])
+                                    (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"])) }
   , page header2      (\t -> (v2L (texts styl2 ["Functional", "Reactive", "AltJS?"]) (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"]))) (bgColor blue)
   , page header2      (\t -> (v2L (texts styl2 ["Functional", "Reactive", "AltJS?"]) (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？", "ちょっと違うか？HTMLやCSSも出力する"]))) (bgColor blue)
-  , page emptyElement (\t -> (texts styl2 ["そのElmでスライドツール作ってみました"])) (bgColor blue)
+  , simple "" styl2 ["そのElmでスライドツール作ってみました"]
   , page emptyElement (\t -> (texts { styl2 | height <- Just 80 } ["Kelmote"])) (bgColor blue)
   , page emptyElement (\t -> (texts styl2 ["このスライドもそれで作ってます"])) (bgColor blue)
-  , page emptyElement (\t -> (texts styl2 ["-> でページ送り"])) (bgColor blue)
-  , page emptyElement (\t -> (texts styl2 ["-> でページ送り", "<- で戻り"])) (bgColor blue)
-  , page emptyElement (\t -> (texts styl2 ["-> でページ送り", "<- で戻り", "タッチでもOK"])) (bgColor blue)
+  , page emptyElement (\t -> (texts styl2 ["→ でページ送り"])) (bgColor blue)
+  , page emptyElement (\t -> (texts styl2 ["→ でページ送り", "← で戻り"])) (bgColor blue)
+  , page emptyElement (\t -> (texts styl2 ["→ でページ送り", "← で戻り", "タッチでもOK"])) (bgColor blue)
   , page emptyElement (\t -> (h2L (texts styl2 ["画像入れたり"]) img3)) (bgColor blue)
   , page emptyElement (\t -> (texts styl3 ["文字色変えたり"])) (bgColor blue)
   , page emptyElement (\t -> blink t (h2L (texts styl2 ["点滅させたり"]) img2)) (bgColor blue)

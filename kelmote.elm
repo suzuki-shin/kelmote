@@ -39,6 +39,8 @@ rotation angl e =
     in GC.collage w h [(GC.rotate (degrees angl) (GC.toForm e))]
 
 type alias Page = Inner.Page'
+
+page : (Time -> Element) -> (Time -> Element) -> (Inner.Background) -> Page
 page header content background = Inner.Page' header content background
 
 bgColor : Color -> Inner.Background
