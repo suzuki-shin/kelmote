@@ -4046,11 +4046,13 @@ Elm.Kelmote.make = function (_elm) {
                                                   ,"monospace"])};
    var bgImage = $Kelmote$Inner.BGImage;
    var bgColor = $Kelmote$Inner.BGColor;
-   var page = F3(function (h,c,b) {
+   var page = F3(function (header,
+   content,
+   background) {
       return A3($Kelmote$Inner.Page$,
-      h,
-      c,
-      b);
+      header,
+      content,
+      background);
    });
    var rotation = F2(function (angl,
    e) {
@@ -4065,7 +4067,7 @@ Elm.Kelmote.make = function (_elm) {
          $Graphics$Collage.toForm(e))]));
       }();
    });
-   var h2Page = F2(function (upperE,
+   var h2L = F2(function (upperE,
    lowerE) {
       return A2($Graphics$Element.flow,
       $Graphics$Element.down,
@@ -4075,7 +4077,7 @@ Elm.Kelmote.make = function (_elm) {
                    30)
                    ,lowerE]));
    });
-   var v2Page = F2(function (leftE,
+   var v2L = F2(function (leftE,
    rightE) {
       return A2($Graphics$Element.flow,
       $Graphics$Element.right,
@@ -4085,7 +4087,7 @@ Elm.Kelmote.make = function (_elm) {
                    30)
                    ,rightE]));
    });
-   var ps_ = function (styl) {
+   var texts = function (styl) {
       return function ($) {
          return $Graphics$Element.flow($Graphics$Element.down)($List.map($Kelmote$Inner.strToContent(styl))($));
       };
@@ -4093,9 +4095,9 @@ Elm.Kelmote.make = function (_elm) {
    var h_ = $Kelmote$Inner.strToHeader;
    _elm.Kelmote.values = {_op: _op
                          ,h_: h_
-                         ,ps_: ps_
-                         ,v2Page: v2Page
-                         ,h2Page: h2Page
+                         ,texts: texts
+                         ,v2L: v2L
+                         ,h2L: h2L
                          ,rotation: rotation
                          ,page: page
                          ,bgColor: bgColor
@@ -11993,8 +11995,7 @@ Elm.Sample.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $Text = Elm.Text.make(_elm),
    $Time = Elm.Time.make(_elm);
-   var exCalcTable = "\n[表計算](Example/calcTable.html)\n";
-   var codeSample = "\n\n```elm:markdown.elm\nmodule Sample where\n\nimport Kelmote (..)\nimport Signal (Signal)\nimport Graphics.Element (..)\nimport List as L\nimport Color (..)\nimport Text as T\nimport Time (Time)\nimport Markdown as MD\n\npageList : List Page\npageList = [\n    Page emptyElement (\t -> (ps_ styl1 [\"Kelmote\"])) (bgColor blue)\n  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (bgColor blue)\n  , Page emptyElement (\t -> (ps_ styl2 [\"最近 Elm を触っています\"])) (bgColor blue)\n  , Page emptyElement (\t -> (ps_ { styl2 | height <- Just 100 } [\"Elm?\"])) (bgColor blue)\n```\n\n";
+   var codeSample = "\n\n```elm:markdown.elm\nmodule Sample where\n\nimport Kelmote (..)\nimport Signal (Signal)\nimport Graphics.Element (..)\nimport List as L\nimport Color (..)\nimport Text as T\nimport Time (Time)\nimport Markdown as MD\n\npageList : List Page\npageList = [\n    Page emptyElement (\t -> (texts styl1 [\"Kelmote\"])) (bgColor blue)\n  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (bgColor blue)\n  , Page emptyElement (\t -> (texts styl2 [\"最近 Elm を触っています\"])) (bgColor blue)\n  , Page emptyElement (\t -> (texts { styl2 | height <- Just 100 } [\"Elm?\"])) (bgColor blue)\n```\n\n";
    var mdcode = $Kelmote.fromMD(codeSample);
    var emptyElement = function (t) {
       return $Graphics$Element.empty;
@@ -12017,7 +12018,7 @@ Elm.Sample.make = function (_elm) {
    var styl2 = _U.replace([["color"
                            ,$Color.yellow]],
    $Kelmote.defaultTextStyle);
-   var rotatedElement = $Kelmote.rotation(30)(A2($Kelmote.ps_,
+   var rotatedElement = $Kelmote.rotation(30)(A2($Kelmote.texts,
    styl2,
    _L.fromArray(["傾かせたり"])));
    var styl1 = _U.replace([["color"
@@ -12032,7 +12033,7 @@ Elm.Sample.make = function (_elm) {
    var pageList = _L.fromArray([A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   styl1,
                                   _L.fromArray(["Kelmote"]));
                                },
@@ -12040,7 +12041,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["最近 Elm を触っています"]));
                                },
@@ -12048,7 +12049,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   _U.replace([["height"
                                               ,$Maybe.Just(100)]],
                                   styl2),
@@ -12062,8 +12063,8 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                header2,
                                function (t) {
-                                  return A2($Kelmote.v2Page,
-                                  A2($Kelmote.ps_,
+                                  return A2($Kelmote.v2L,
+                                  A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["Functional"])),
                                   $Graphics$Element.empty);
@@ -12072,11 +12073,11 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                header2,
                                function (t) {
-                                  return A2($Kelmote.v2Page,
-                                  A2($Kelmote.ps_,
+                                  return A2($Kelmote.v2L,
+                                  A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["Functional"])),
-                                  A2($Kelmote.ps_,
+                                  A2($Kelmote.texts,
                                   styl3,
                                   _L.fromArray(["Haskellっぽい感じ？"])));
                                },
@@ -12084,12 +12085,12 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                header2,
                                function (t) {
-                                  return A2($Kelmote.v2Page,
-                                  A2($Kelmote.ps_,
+                                  return A2($Kelmote.v2L,
+                                  A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["Functional"
                                                ,"Reactive"])),
-                                  A2($Kelmote.ps_,
+                                  A2($Kelmote.texts,
                                   styl3,
                                   _L.fromArray(["Haskellっぽい感じ？"])));
                                },
@@ -12097,12 +12098,12 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                header2,
                                function (t) {
-                                  return A2($Kelmote.v2Page,
-                                  A2($Kelmote.ps_,
+                                  return A2($Kelmote.v2L,
+                                  A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["Functional"
                                                ,"Reactive"])),
-                                  A2($Kelmote.ps_,
+                                  A2($Kelmote.texts,
                                   styl3,
                                   _L.fromArray(["Haskellっぽい感じ？"
                                                ,"コールバック地獄から抜け出せる？"])));
@@ -12111,13 +12112,13 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                header2,
                                function (t) {
-                                  return A2($Kelmote.v2Page,
-                                  A2($Kelmote.ps_,
+                                  return A2($Kelmote.v2L,
+                                  A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["Functional"
                                                ,"Reactive"
                                                ,"AltJS?"])),
-                                  A2($Kelmote.ps_,
+                                  A2($Kelmote.texts,
                                   styl3,
                                   _L.fromArray(["Haskellっぽい感じ？"
                                                ,"コールバック地獄から抜け出せる？"])));
@@ -12126,13 +12127,13 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                header2,
                                function (t) {
-                                  return A2($Kelmote.v2Page,
-                                  A2($Kelmote.ps_,
+                                  return A2($Kelmote.v2L,
+                                  A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["Functional"
                                                ,"Reactive"
                                                ,"AltJS?"])),
-                                  A2($Kelmote.ps_,
+                                  A2($Kelmote.texts,
                                   styl3,
                                   _L.fromArray(["Haskellっぽい感じ？"
                                                ,"コールバック地獄から抜け出せる？"
@@ -12142,7 +12143,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["そのElmでスライドツール作ってみました"]));
                                },
@@ -12150,7 +12151,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   _U.replace([["height"
                                               ,$Maybe.Just(80)]],
                                   styl2),
@@ -12160,7 +12161,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["このスライドもそれで作ってます"]));
                                },
@@ -12168,7 +12169,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["->でページ送り"]));
                                },
@@ -12176,7 +12177,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["タッチでもページ送りできます"]));
                                },
@@ -12184,8 +12185,8 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.h2Page,
-                                  A2($Kelmote.ps_,
+                                  return A2($Kelmote.h2L,
+                                  A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["画像入れたり"])),
                                   img3);
@@ -12194,7 +12195,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   styl3,
                                   _L.fromArray(["文字色変えたり"]));
                                },
@@ -12204,8 +12205,8 @@ Elm.Sample.make = function (_elm) {
                                function (t) {
                                   return A2($Kelmote.blink,
                                   t,
-                                  A2($Kelmote.h2Page,
-                                  A2($Kelmote.ps_,
+                                  A2($Kelmote.h2L,
+                                  A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["点滅させたり"])),
                                   img2));
@@ -12214,7 +12215,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   _U.replace([["height"
                                               ,$Maybe.Just(100)]],
                                   styl2),
@@ -12226,7 +12227,7 @@ Elm.Sample.make = function (_elm) {
                                function (t) {
                                   return A2($Kelmote.scale,
                                   t,
-                                  A2($Kelmote.ps_,
+                                  A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["ボワンボワンさせたり"])));
                                },
@@ -12240,7 +12241,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["背景色変えたり"]));
                                },
@@ -12249,7 +12250,7 @@ Elm.Sample.make = function (_elm) {
                                emptyElement,
                                function (t) {
                                   return function () {
-                                     var c1 = A2($Kelmote.ps_,
+                                     var c1 = A2($Kelmote.texts,
                                      _U.replace([["color"
                                                  ,$Color.white]],
                                      styl2),
@@ -12265,7 +12266,7 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.ps_,
+                                  return A2($Kelmote.texts,
                                   styl2,
                                   _L.fromArray(["今のところそんな感じです"]));
                                },
@@ -12284,7 +12285,6 @@ Elm.Sample.make = function (_elm) {
                         ,main: main
                         ,rotatedElement: rotatedElement
                         ,codeSample: codeSample
-                        ,exCalcTable: exCalcTable
                         ,mdcode: mdcode};
    return _elm.Sample.values;
 };Elm.Signal = Elm.Signal || {};

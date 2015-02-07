@@ -21,14 +21,16 @@ import Kelmote.Inner as Inner
 h_ : T.Style -> String -> Element
 h_ = Inner.strToHeader
 
-ps_ : T.Style -> List String -> Element
-ps_ styl = L.map (Inner.strToContent styl) >> flow down
+texts : T.Style -> List String -> Element
+texts styl = L.map (Inner.strToContent styl) >> flow down
 
-v2Page : Element -> Element -> Element
-v2Page leftE rightE = flow right [ leftE , spacer 30 30, rightE ]
+-- 横2分割レイアウト
+v2L : Element -> Element -> Element
+v2L leftE rightE = flow right [ leftE , spacer 30 30, rightE ]
 
-h2Page : Element -> Element -> Element
-h2Page upperE lowerE = flow down [ upperE , spacer 30 30, lowerE ]
+-- 縦2分割レイアウト
+h2L : Element -> Element -> Element
+h2L upperE lowerE = flow down [ upperE , spacer 30 30, lowerE ]
 
 rotation : Float -> Element -> Element
 rotation angl e =
@@ -37,7 +39,7 @@ rotation angl e =
     in GC.collage w h [(GC.rotate (degrees angl) (GC.toForm e))]
 
 type alias Page = Inner.Page'
-page h c b = Inner.Page' h c b
+page header content background = Inner.Page' header content background
 
 bgColor : Color -> Inner.Background
 bgColor = Inner.BGColor
