@@ -8,7 +8,7 @@ import List as L
 import Window
 import Signal (Signal, (<~), (~), foldp)
 import Keyboard
-import Array as A
+import Touch
 import Time (Time, fps, inSeconds, second)
 import Easing as ES
 import Markdown as MD
@@ -54,10 +54,14 @@ defaultTextStyle = {
   , line     = Nothing
   }
 
+hoge : Signal Int
+hoge = Inner.pageCount Keyboard.arrows Touch.taps
+-- hoge = Inner.pageCount <~ Keyboard.arrows ~ Touch.taps
+
 run : List Page -> Signal Element
 run pageList = Inner.view pageList <~ Window.dimensions
-                              ~ Inner.pageCount
-                              ~ foldp (+) 0 (fps 5)
+                                    ~ hoge
+                                    ~ foldp (+) 0 (fps 5)
 
 rotateEasing : Time -> Float
 rotateEasing = ES.cycle (ES.ease ES.linear ES.float 0 9) second

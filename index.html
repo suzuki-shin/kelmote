@@ -3960,7 +3960,6 @@ Elm.Kelmote.make = function (_elm) {
    _L = _N.List.make(_elm),
    _P = _N.Ports.make(_elm),
    $moduleName = "Kelmote",
-   $Array = Elm.Array.make(_elm),
    $Basics = Elm.Basics.make(_elm),
    $Color = Elm.Color.make(_elm),
    $Easing = Elm.Easing.make(_elm),
@@ -3968,6 +3967,7 @@ Elm.Kelmote.make = function (_elm) {
    $Graphics$Element = Elm.Graphics.Element.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Kelmote$Inner = Elm.Kelmote.Inner.make(_elm),
    $Keyboard = Elm.Keyboard.make(_elm),
    $List = Elm.List.make(_elm),
    $Markdown = Elm.Markdown.make(_elm),
@@ -3975,6 +3975,7 @@ Elm.Kelmote.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $Text = Elm.Text.make(_elm),
    $Time = Elm.Time.make(_elm),
+   $Touch = Elm.Touch.make(_elm),
    $Window = Elm.Window.make(_elm);
    var fromMD = function (mdStr) {
       return A2($Html.toElement,
@@ -4023,6 +4024,23 @@ Elm.Kelmote.make = function (_elm) {
          $Graphics$Collage.toForm(e))]));
       }();
    });
+   var hoge = A2($Kelmote$Inner.pageCount,
+   $Keyboard.arrows,
+   $Touch.taps);
+   var run = function (pageList) {
+      return A2($Signal._op["~"],
+      A2($Signal._op["~"],
+      A2($Signal._op["<~"],
+      $Kelmote$Inner.view(pageList),
+      $Window.dimensions),
+      hoge),
+      A3($Signal.foldp,
+      F2(function (x,y) {
+         return x + y;
+      }),
+      0,
+      $Time.fps(5)));
+   };
    var defaultTextStyle = {_: {}
                           ,bold: true
                           ,color: $Color.black
@@ -4031,11 +4049,13 @@ Elm.Kelmote.make = function (_elm) {
                           ,line: $Maybe.Nothing
                           ,typeface: _L.fromArray(["Lucida Console"
                                                   ,"monospace"])};
-   var Page = F3(function (a,b,c) {
-      return {_: {}
-             ,backGround: c
-             ,content: b
-             ,header: a};
+   var bgImage = $Kelmote$Inner.BGImage;
+   var bgColor = $Kelmote$Inner.BGColor;
+   var page = F3(function (h,c,b) {
+      return A3($Kelmote$Inner.Page$,
+      h,
+      c,
+      b);
    });
    var rotation = F2(function (angl,
    e) {
@@ -4070,6 +4090,59 @@ Elm.Kelmote.make = function (_elm) {
                    30)
                    ,rightE]));
    });
+   var ps_ = function (styl) {
+      return function ($) {
+         return $Graphics$Element.flow($Graphics$Element.down)($List.map($Kelmote$Inner.strToContent(styl))($));
+      };
+   };
+   var h_ = $Kelmote$Inner.strToHeader;
+   _elm.Kelmote.values = {_op: _op
+                         ,h_: h_
+                         ,ps_: ps_
+                         ,v2Page: v2Page
+                         ,h2Page: h2Page
+                         ,rotation: rotation
+                         ,page: page
+                         ,bgColor: bgColor
+                         ,bgImage: bgImage
+                         ,defaultTextStyle: defaultTextStyle
+                         ,hoge: hoge
+                         ,run: run
+                         ,rotateEasing: rotateEasing
+                         ,blink: blink
+                         ,scale: scale
+                         ,fromMD: fromMD};
+   return _elm.Kelmote.values;
+};Elm.Kelmote = Elm.Kelmote || {};
+Elm.Kelmote.Inner = Elm.Kelmote.Inner || {};
+Elm.Kelmote.Inner.make = function (_elm) {
+   "use strict";
+   _elm.Kelmote = _elm.Kelmote || {};
+   _elm.Kelmote.Inner = _elm.Kelmote.Inner || {};
+   if (_elm.Kelmote.Inner.values)
+   return _elm.Kelmote.Inner.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Kelmote.Inner",
+   $Array = Elm.Array.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Color = Elm.Color.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Text = Elm.Text.make(_elm),
+   $Time = Elm.Time.make(_elm);
+   var Page$ = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,backGround: c
+             ,content: b
+             ,header: a};
+   });
    var BGImage = function (a) {
       return {ctor: "BGImage"
              ,_0: a};
@@ -4092,7 +4165,7 @@ Elm.Kelmote.make = function (_elm) {
                                                          b._0)
                                                          ,e]));}
          _U.badCase($moduleName,
-         "between lines 53 and 55");
+         "between lines 39 and 41");
       }();
    });
    var pageByIdx = F2(function (idx,
@@ -4103,7 +4176,7 @@ Elm.Kelmote.make = function (_elm) {
          $Array.fromList(pList));
          switch (_v3.ctor)
          {case "Just": return _v3._0;
-            case "Nothing": return A3(Page,
+            case "Nothing": return A3(Page$,
               function (t) {
                  return $Graphics$Element.empty;
               },
@@ -4112,7 +4185,7 @@ Elm.Kelmote.make = function (_elm) {
               },
               BGColor($Color.white));}
          _U.badCase($moduleName,
-         "between lines 40 and 42");
+         "between lines 26 and 28");
       }();
    });
    var view = F4(function (pageList,
@@ -4147,68 +4220,50 @@ Elm.Kelmote.make = function (_elm) {
                                                                         ,content(sec)])));
               }();}
          _U.badCase($moduleName,
-         "between lines 46 and 49");
+         "between lines 32 and 36");
       }();
    });
-   var pageCount = A3($Signal.foldp,
-   F2(function (_v9,count) {
-      return function () {
-         return count + _v9.x;
-      }();
-   }),
-   0,
-   $Keyboard.arrows);
-   var run = function (pageList) {
-      return A2($Signal._op["~"],
-      A2($Signal._op["~"],
-      A2($Signal._op["<~"],
-      view(pageList),
-      $Window.dimensions),
-      pageCount),
-      A3($Signal.foldp,
-      F2(function (x,y) {
-         return x + y;
+   var pageCount = F2(function (a,
+   t) {
+      return A3($Signal.foldp,
+      F2(function (_v9,count) {
+         return function () {
+            return count + (_U.cmp(_v9.x,
+            0) > 0 ? 1 : -1);
+         }();
       }),
       0,
-      $Time.fps(5)));
+      A2($Signal.merge,a,t));
+   });
+   var Arrow = F2(function (a,b) {
+      return {_: {},x: a,y: b};
+   });
+   var Tap = F2(function (a,b) {
+      return {_: {},x: a,y: b};
+   });
+   var strToHeader = function (styl) {
+      return function ($) {
+         return $Text.leftAligned($Text.style(styl)($Text.fromString($)));
+      };
    };
-   var strToHeader = F2(function (styl,
-   s) {
-      return $Text.leftAligned($Text.style(styl)($Text.fromString(s)));
-   });
-   var h_ = strToHeader;
-   var strToContent = F2(function (styl,
-   s) {
-      return $Text.centered($Text.style(styl)($Text.fromString(s)));
-   });
-   var ps_ = F2(function (styl,
-   ss) {
-      return $Graphics$Element.flow($Graphics$Element.down)(A2($List.map,
-      strToContent(styl),
-      ss));
-   });
-   _elm.Kelmote.values = {_op: _op
-                         ,strToContent: strToContent
-                         ,strToHeader: strToHeader
-                         ,pageCount: pageCount
-                         ,pageByIdx: pageByIdx
-                         ,view: view
-                         ,bg: bg
-                         ,BGColor: BGColor
-                         ,BGImage: BGImage
-                         ,h_: h_
-                         ,ps_: ps_
-                         ,v2Page: v2Page
-                         ,h2Page: h2Page
-                         ,rotation: rotation
-                         ,Page: Page
-                         ,defaultTextStyle: defaultTextStyle
-                         ,run: run
-                         ,rotateEasing: rotateEasing
-                         ,blink: blink
-                         ,scale: scale
-                         ,fromMD: fromMD};
-   return _elm.Kelmote.values;
+   var strToContent = function (styl) {
+      return function ($) {
+         return $Text.centered($Text.style(styl)($Text.fromString($)));
+      };
+   };
+   _elm.Kelmote.Inner.values = {_op: _op
+                               ,strToContent: strToContent
+                               ,strToHeader: strToHeader
+                               ,Tap: Tap
+                               ,Arrow: Arrow
+                               ,pageCount: pageCount
+                               ,pageByIdx: pageByIdx
+                               ,view: view
+                               ,bg: bg
+                               ,BGColor: BGColor
+                               ,BGImage: BGImage
+                               ,Page$: Page$};
+   return _elm.Kelmote.Inner.values;
 };Elm.Keyboard = Elm.Keyboard || {};
 Elm.Keyboard.make = function (_elm) {
    "use strict";
@@ -9084,6 +9139,177 @@ Elm.Native.Time.make = function(elm) {
   };
 
 };
+Elm.Native = Elm.Native || {};
+Elm.Native.Touch = {};
+Elm.Native.Touch.make = function(localRuntime) {
+
+    localRuntime.Native = localRuntime.Native || {};
+    localRuntime.Native.Touch = localRuntime.Native.Touch || {};
+    if (localRuntime.Native.Touch.values) {
+        return localRuntime.Native.Touch.values;
+    }
+
+    var Signal = Elm.Signal.make(localRuntime);
+    var List = Elm.Native.List.make(localRuntime);
+    var Utils = Elm.Native.Utils.make(localRuntime);
+
+    function Dict() {
+        this.keys = [];
+        this.values = [];
+
+        this.insert = function(key,value) {
+            this.keys.push(key);
+            this.values.push(value);
+        };
+        this.lookup = function(key) {
+            var i = this.keys.indexOf(key)
+            return i >= 0 ? this.values[i] : {x:0,y:0,t:0};
+        };
+        this.remove = function(key) {
+            var i = this.keys.indexOf(key);
+            if (i < 0) return;
+            var t = this.values[i];
+            this.keys.splice(i,1);
+            this.values.splice(i,1);
+            return t;
+        };
+        this.clear = function() {
+            this.keys = [];
+            this.values = [];
+        };
+    }
+    
+    var root = Signal.constant([]),
+    tapTime = 500,
+    hasTap = false,
+    tap = {_:{},x:0,y:0},
+    dict = new Dict();
+
+    function touch(t) {
+        var r = dict.lookup(t.identifier);
+        var point = Utils.getXY(t);
+        return {
+            _ : {},
+            id: t.identifier,
+            x : point._0,
+            y : point._1,
+            x0: r.x,
+            y0: r.y,
+            t0: r.t
+         };
+    }
+
+    var node = localRuntime.isFullscreen()
+        ? document
+        : localRuntime.node;
+
+    function start(e) {
+        var point = Utils.getXY(e);
+        dict.insert(e.identifier, {
+            x: point._0,
+            y: point._1,
+            t: localRuntime.timer.now()
+        });
+    }
+    function end(e) {
+        var t = dict.remove(e.identifier);
+        if (localRuntime.timer.now() - t.t < tapTime) {
+            hasTap = true;
+            tap = {
+                _: {},
+                x: t.x,
+                y: t.y
+            };
+        }
+    }
+
+    function listen(name, f) {
+        function update(e) {
+            for (var i = e.changedTouches.length; i--; ) {
+                f(e.changedTouches[i]);
+            }
+            var ts = new Array(e.touches.length);
+            for (var i = e.touches.length; i--; ) {
+                ts[i] = touch(e.touches[i]);
+            }
+            localRuntime.notify(root.id, ts);
+            e.preventDefault();
+        }
+        localRuntime.addListener([root.id], node, name, update);
+    }
+
+    listen("touchstart", start);
+    listen("touchmove", function(_){});
+    listen("touchend", end);
+    listen("touchcancel", end);
+    listen("touchleave", end);
+
+    var mouseID = -1;
+    function move(e) {
+        var point = Utils.getXY(e);
+        for (var i = root.value.length; i--; ) {
+            if (root.value[i].id === mouseID) {
+                root.value[i].x = point._0;
+                root.value[i].y = point._1;
+                localRuntime.notify(root.id, root.value);
+                break;
+            }
+        }
+    }
+    localRuntime.addListener([root.id], node, "mousedown", function down(e) {
+        node.addEventListener("mousemove", move);
+        e.identifier = mouseID;
+        start(e);
+        root.value.push(touch(e));
+        localRuntime.notify(root.id, root.value);
+    });
+    localRuntime.addListener([root.id], document, "mouseup", function up(e) {
+        node.removeEventListener("mousemove", move);
+        e.identifier = mouseID;
+        end(e);
+        for (var i = root.value.length; i--; ) {
+            if (root.value[i].id === mouseID) {
+                root.value.splice(i, 1);
+                --mouseID;
+                break;
+            }
+        }
+        localRuntime.notify(root.id, root.value);
+    });
+    localRuntime.addListener([root.id], node, "blur", function blur(e) {
+        node.removeEventListener("mousemove", move);
+        if (root.value.length > 0) {
+            localRuntime.notify(root.id, []);
+            --mouseID;
+        }
+        dict.clear();
+    });
+
+    function dependency(f) {
+        var sig = A2( Signal.map, f, root );
+        root.defaultNumberOfKids += 1;
+        sig.defaultNumberOfKids = 0;
+        return sig;
+    }
+
+    var touches = dependency(List.fromArray);
+
+    var taps = function() {
+        var sig = dependency(function(_) { return tap; });
+        sig.defaultNumberOfKids = 1;
+        function pred(_) {
+            var b = hasTap;
+            hasTap = false;
+            return b;
+        }
+        var sig2 = A3( Signal.keepIf, pred, {_:{},x:0,y:0}, sig);
+        sig2.defaultNumberOfKids = 0;
+        return sig2;
+    }();
+
+    return localRuntime.Native.Touch.values = { touches: touches, taps: taps };
+
+};
 Elm.Native.Transform2D = {};
 Elm.Native.Transform2D.make = function(elm) {
 
@@ -11754,249 +11980,249 @@ Elm.Sample.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $Text = Elm.Text.make(_elm),
    $Time = Elm.Time.make(_elm);
-   var codeSample = "\n\n```elm:markdown.elm\nmodule Sample where\n\nimport Kelmote (..)\nimport Signal (Signal)\nimport Graphics.Element (..)\nimport List as L\nimport Color (..)\nimport Text as T\nimport Time (Time)\nimport Markdown as MD\n\npageList : List Page\npageList = [\n    Page emptyElement (\t -> (ps_ hStyle [\"Kelmote\"])) (BGColor blue)\n  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (BGColor blue)\n  , Page emptyElement (\t -> (ps_ cStyle1 [\"最近 Elm を触っています\"])) (BGColor blue)\n  , Page emptyElement (\t -> (ps_ { cStyle1 | height <- Just 100 } [\"Elm?\"])) (BGColor blue)\n```\n\n";
+   var codeSample = "\n\n```elm:markdown.elm\nmodule Sample where\n\nimport Kelmote (..)\nimport Signal (Signal)\nimport Graphics.Element (..)\nimport List as L\nimport Color (..)\nimport Text as T\nimport Time (Time)\nimport Markdown as MD\n\npageList : List Page\npageList = [\n    Page emptyElement (\t -> (ps_ styl1 [\"Kelmote\"])) (bgColor blue)\n  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (bgColor blue)\n  , Page emptyElement (\t -> (ps_ styl2 [\"最近 Elm を触っています\"])) (bgColor blue)\n  , Page emptyElement (\t -> (ps_ { styl2 | height <- Just 100 } [\"Elm?\"])) (bgColor blue)\n```\n\n";
    var mdcode = $Kelmote.fromMD(codeSample);
+   var emptyElement = function (t) {
+      return $Graphics$Element.empty;
+   };
    var element2 = A3($Graphics$Element.fittedImage,
    400,
    400,
    "Example/IMG_1448.JPG");
-   var emptyElement = function (t) {
-      return $Graphics$Element.empty;
-   };
-   var cStyle2 = _U.replace([["color"
-                             ,$Color.lightBlue]],
+   var styl3 = _U.replace([["color"
+                           ,$Color.lightBlue]],
    $Kelmote.defaultTextStyle);
-   var cStyle1 = _U.replace([["color"
-                             ,$Color.yellow]],
+   var styl2 = _U.replace([["color"
+                           ,$Color.yellow]],
    $Kelmote.defaultTextStyle);
    var rotatedElement = $Kelmote.rotation(30)(A2($Kelmote.ps_,
-   cStyle1,
+   styl2,
    _L.fromArray(["傾かせたり"])));
-   var hStyle = _U.replace([["color"
-                            ,$Color.white]
-                           ,["height",$Maybe.Just(70)]],
+   var styl1 = _U.replace([["color"
+                           ,$Color.white]
+                          ,["height",$Maybe.Just(70)]],
    $Kelmote.defaultTextStyle);
    var header2 = function (t) {
       return A2($Kelmote.h_,
-      hStyle,
+      styl1,
       "Elmとは?");
    };
-   var pageList = _L.fromArray([A3($Kelmote.Page,
+   var pageList = _L.fromArray([A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.ps_,
-                                  hStyle,
+                                  styl1,
                                   _L.fromArray(["Kelmote"]));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["最近 Elm を触っています"]));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.ps_,
                                   _U.replace([["height"
                                               ,$Maybe.Just(100)]],
-                                  cStyle1),
+                                  styl2),
                                   _L.fromArray(["Elm?"]));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                header2,
                                emptyElement,
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                header2,
                                function (t) {
                                   return A2($Kelmote.v2Page,
                                   A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["Functional"])),
                                   $Graphics$Element.empty);
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                header2,
                                function (t) {
                                   return A2($Kelmote.v2Page,
                                   A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["Functional"])),
                                   A2($Kelmote.ps_,
-                                  cStyle2,
+                                  styl3,
                                   _L.fromArray(["Haskellっぽい感じ？"])));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                header2,
                                function (t) {
                                   return A2($Kelmote.v2Page,
                                   A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["Functional"
                                                ,"Reactive"])),
                                   A2($Kelmote.ps_,
-                                  cStyle2,
+                                  styl3,
                                   _L.fromArray(["Haskellっぽい感じ？"])));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                header2,
                                function (t) {
                                   return A2($Kelmote.v2Page,
                                   A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["Functional"
                                                ,"Reactive"])),
                                   A2($Kelmote.ps_,
-                                  cStyle2,
+                                  styl3,
                                   _L.fromArray(["Haskellっぽい感じ？"
                                                ,"コールバック地獄から抜け出せる？"])));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                header2,
                                function (t) {
                                   return A2($Kelmote.v2Page,
                                   A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["Functional"
                                                ,"Reactive"
                                                ,"AltJS?"])),
                                   A2($Kelmote.ps_,
-                                  cStyle2,
+                                  styl3,
                                   _L.fromArray(["Haskellっぽい感じ？"
                                                ,"コールバック地獄から抜け出せる？"])));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                header2,
                                function (t) {
                                   return A2($Kelmote.v2Page,
                                   A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["Functional"
                                                ,"Reactive"
                                                ,"AltJS?"])),
                                   A2($Kelmote.ps_,
-                                  cStyle2,
+                                  styl3,
                                   _L.fromArray(["Haskellっぽい感じ？"
                                                ,"コールバック地獄から抜け出せる？"
                                                ,"ちょっと違うか？HTMLやCSSも出力する"])));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["そのElmでスライドツール作ってみました"]));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.ps_,
                                   _U.replace([["height"
                                               ,$Maybe.Just(80)]],
-                                  cStyle1),
+                                  styl2),
                                   _L.fromArray(["Kelmote"]));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["このスライドもそれで作ってます"]));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.h2Page,
                                   A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["画像入れたり"])),
                                   element2);
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.v2Page,
                                   A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["レイアウト変えたり"])),
                                   element2);
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.ps_,
-                                  cStyle2,
+                                  styl3,
                                   _L.fromArray(["文字色変えたり"]));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.blink,
                                   t,
                                   A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["点滅させたり"])));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.ps_,
                                   _U.replace([["height"
                                               ,$Maybe.Just(100)]],
-                                  cStyle1),
+                                  styl2),
                                   _L.fromArray(["文字サイズ変えたり"]));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.scale,
                                   t,
                                   A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["ボワンボワンさせたり"])));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return rotatedElement;
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["背景色変えたり"]));
                                },
-                               $Kelmote.BGColor($Color.red))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgColor($Color.red))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return function () {
                                      var c1 = A2($Kelmote.ps_,
                                      _U.replace([["color"
                                                  ,$Color.white]],
-                                     cStyle1),
+                                     styl2),
                                      _L.fromArray(["背景画像設定したり"]));
                                      return A2($Graphics$Element.opacity,
                                      0.8,
@@ -12005,29 +12231,23 @@ Elm.Sample.make = function (_elm) {
                                      c1));
                                   }();
                                },
-                               $Kelmote.BGImage("Example/IMG_0064.JPG"))
-                               ,A3($Kelmote.Page,
+                               $Kelmote.bgImage("Example/IMG_0064.JPG"))
+                               ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
                                   return A2($Kelmote.ps_,
-                                  cStyle1,
+                                  styl2,
                                   _L.fromArray(["今のところそんな感じです"]));
                                },
-                               $Kelmote.BGColor($Color.blue))
-                               ,A3($Kelmote.Page,
-                               emptyElement,
-                               function (t) {
-                                  return mdcode;
-                               },
-                               $Kelmote.BGColor($Color.blue))]);
+                               $Kelmote.bgColor($Color.blue))]);
    var main = $Kelmote.run(pageList);
    _elm.Sample.values = {_op: _op
-                        ,hStyle: hStyle
-                        ,cStyle1: cStyle1
-                        ,cStyle2: cStyle2
-                        ,emptyElement: emptyElement
+                        ,styl1: styl1
+                        ,styl2: styl2
+                        ,styl3: styl3
                         ,header2: header2
                         ,element2: element2
+                        ,emptyElement: emptyElement
                         ,pageList: pageList
                         ,main: main
                         ,rotatedElement: rotatedElement
@@ -12414,6 +12634,42 @@ Elm.Time.make = function (_elm) {
                       ,timestamp: timestamp
                       ,delay: delay};
    return _elm.Time.values;
+};Elm.Touch = Elm.Touch || {};
+Elm.Touch.make = function (_elm) {
+   "use strict";
+   _elm.Touch = _elm.Touch || {};
+   if (_elm.Touch.values)
+   return _elm.Touch.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Touch",
+   $Native$Touch = Elm.Native.Touch.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Time = Elm.Time.make(_elm);
+   var taps = $Native$Touch.taps;
+   var touches = $Native$Touch.touches;
+   var Touch = F6(function (a,
+   b,
+   c,
+   d,
+   e,
+   f) {
+      return {_: {}
+             ,id: c
+             ,t0: f
+             ,x: a
+             ,x0: d
+             ,y: b
+             ,y0: e};
+   });
+   _elm.Touch.values = {_op: _op
+                       ,Touch: Touch
+                       ,touches: touches
+                       ,taps: taps};
+   return _elm.Touch.values;
 };Elm.Transform2D = Elm.Transform2D || {};
 Elm.Transform2D.make = function (_elm) {
    "use strict";
