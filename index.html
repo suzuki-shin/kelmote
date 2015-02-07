@@ -11995,7 +11995,7 @@ Elm.Sample.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $Text = Elm.Text.make(_elm),
    $Time = Elm.Time.make(_elm);
-   var codeSample = "\n\n```elm:markdown.elm\nmodule Sample where\n\nimport Kelmote (..)\nimport Signal (Signal)\nimport Graphics.Element (..)\nimport List as L\nimport Color (..)\nimport Text as T\nimport Time (Time)\nimport Markdown as MD\n\npageList : List Page\npageList = [\n    Page emptyElement (\t -> (texts styl1 [\"Kelmote\"])) (bgColor blue)\n  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (bgColor blue)\n  , Page emptyElement (\t -> (texts styl2 [\"最近 Elm を触っています\"])) (bgColor blue)\n  , Page emptyElement (\t -> (texts { styl2 | height <- Just 100 } [\"Elm?\"])) (bgColor blue)\n```\n\n";
+   var codeSample = "\n\n```elm:markdown.elm\nmodule Sample where\n\nimport Kelmote (..)\nimport Signal (Signal)\nimport Graphics.Element (..)\nimport List as L\nimport Color (..)\nimport Text as T\nimport Time (Time)\nimport Markdown as MD\n\npageList : List Page\npageList = [\n    simple \"\" styl1 [\"Kelmote\"])) (bgColor blue)\n  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (bgColor blue)\n  , simple \"\" styl2 [\"最近 Elm を触っています\"])) (bgColor blue)\n  , simple \"\" { styl2 | height <- Just 100 } [\"Elm?\"])) (bgColor blue)\n```\n\n";
    var mdcode = $Kelmote.fromMD(codeSample);
    var emptyElement = function (t) {
       return $Graphics$Element.empty;
@@ -12025,9 +12025,6 @@ Elm.Sample.make = function (_elm) {
    var styl4 = _U.replace([["height"
                            ,$Maybe.Just(100)]],
    styl2);
-   var rotatedElement = $Kelmote.rotation(30)(A2($Kelmote.texts,
-   styl2,
-   _L.fromArray(["傾かせたり"])));
    var styl1 = _U.replace([["color"
                            ,$Color.white]
                           ,["height",$Maybe.Just(70)]],
@@ -12058,6 +12055,44 @@ Elm.Sample.make = function (_elm) {
                          }]],
       page$);
    });
+   var v2 = F3(function (h,
+   leftE,
+   rightE) {
+      return _U.replace([["header"
+                         ,function (_v4) {
+                            return function () {
+                               return A2($Kelmote.h_,
+                               styl1,
+                               h);
+                            }();
+                         }]
+                        ,["content"
+                         ,function (t) {
+                            return A2($Kelmote.v2L,
+                            leftE,
+                            rightE);
+                         }]],
+      page$);
+   });
+   var h2 = F3(function (h,
+   upperE,
+   lowerE) {
+      return _U.replace([["header"
+                         ,function (_v6) {
+                            return function () {
+                               return A2($Kelmote.h_,
+                               styl1,
+                               h);
+                            }();
+                         }]
+                        ,["content"
+                         ,function (t) {
+                            return A2($Kelmote.h2L,
+                            upperE,
+                            lowerE);
+                         }]],
+      page$);
+   });
    var pageList = _L.fromArray([A3(simple,
                                "",
                                styl1,
@@ -12074,153 +12109,101 @@ Elm.Sample.make = function (_elm) {
                                "Elmとは?",
                                styl1,
                                _L.fromArray([]))
-                               ,_U.replace([["header",header2]
-                                           ,["content"
-                                            ,function (t) {
-                                               return A2($Kelmote.v2L,
-                                               A2($Kelmote.texts,
-                                               styl2,
-                                               _L.fromArray(["Functional"])),
-                                               $Graphics$Element.empty);
-                                            }]],
-                               page$)
-                               ,_U.replace([["header",header2]
-                                           ,["content"
-                                            ,function (t) {
-                                               return A2($Kelmote.v2L,
-                                               A2($Kelmote.texts,
-                                               styl2,
-                                               _L.fromArray(["Functional"])),
-                                               A2($Kelmote.texts,
-                                               styl3,
-                                               _L.fromArray(["Haskellっぽい感じ？"])));
-                                            }]],
-                               page$)
-                               ,_U.replace([["header",header2]
-                                           ,["content"
-                                            ,function (t) {
-                                               return A2($Kelmote.v2L,
-                                               A2($Kelmote.texts,
-                                               styl2,
-                                               _L.fromArray(["Functional"
-                                                            ,"Reactive"])),
-                                               A2($Kelmote.texts,
-                                               styl3,
-                                               _L.fromArray(["Haskellっぽい感じ？"])));
-                                            }]],
-                               page$)
-                               ,_U.replace([["header",header2]
-                                           ,["content"
-                                            ,function (t) {
-                                               return A2($Kelmote.v2L,
-                                               A2($Kelmote.texts,
-                                               styl2,
-                                               _L.fromArray(["Functional"
-                                                            ,"Reactive"])),
-                                               A2($Kelmote.texts,
-                                               styl3,
-                                               _L.fromArray(["Haskellっぽい感じ？"
-                                                            ,"コールバック地獄から抜け出せる？"])));
-                                            }]],
-                               page$)
-                               ,A3($Kelmote.page,
-                               header2,
-                               function (t) {
-                                  return A2($Kelmote.v2L,
-                                  A2($Kelmote.texts,
-                                  styl2,
-                                  _L.fromArray(["Functional"
-                                               ,"Reactive"
-                                               ,"AltJS?"])),
-                                  A2($Kelmote.texts,
-                                  styl3,
-                                  _L.fromArray(["Haskellっぽい感じ？"
-                                               ,"コールバック地獄から抜け出せる？"])));
-                               },
-                               $Kelmote.bgColor($Color.blue))
-                               ,A3($Kelmote.page,
-                               header2,
-                               function (t) {
-                                  return A2($Kelmote.v2L,
-                                  A2($Kelmote.texts,
-                                  styl2,
-                                  _L.fromArray(["Functional"
-                                               ,"Reactive"
-                                               ,"AltJS?"])),
-                                  A2($Kelmote.texts,
-                                  styl3,
-                                  _L.fromArray(["Haskellっぽい感じ？"
-                                               ,"コールバック地獄から抜け出せる？"
-                                               ,"ちょっと違うか？HTMLやCSSも出力する"])));
-                               },
-                               $Kelmote.bgColor($Color.blue))
+                               ,A3(v2,
+                               "Elmとは?",
+                               A2($Kelmote.texts,
+                               styl2,
+                               _L.fromArray(["Functional"])),
+                               $Graphics$Element.empty)
+                               ,A3(v2,
+                               "Elmとは?",
+                               A2($Kelmote.texts,
+                               styl2,
+                               _L.fromArray(["Functional"])),
+                               A2($Kelmote.texts,
+                               styl3,
+                               _L.fromArray(["Haskellっぽい感じ？"])))
+                               ,A3(v2,
+                               "Elmとは?",
+                               A2($Kelmote.texts,
+                               styl2,
+                               _L.fromArray(["Functional"
+                                            ,"Reactive"])),
+                               A2($Kelmote.texts,
+                               styl3,
+                               _L.fromArray(["Haskellっぽい感じ？"])))
+                               ,A3(v2,
+                               "Elmとは?",
+                               A2($Kelmote.texts,
+                               styl2,
+                               _L.fromArray(["Functional"
+                                            ,"Reactive"])),
+                               A2($Kelmote.texts,
+                               styl3,
+                               _L.fromArray(["Haskellっぽい感じ？"
+                                            ,"コールバック地獄から抜け出せる？"])))
+                               ,A3(v2,
+                               "Elmとは?",
+                               A2($Kelmote.texts,
+                               styl2,
+                               _L.fromArray(["Functional"
+                                            ,"Reactive"
+                                            ,"AltJS?"])),
+                               A2($Kelmote.texts,
+                               styl3,
+                               _L.fromArray(["Haskellっぽい感じ？"
+                                            ,"コールバック地獄から抜け出せる？"])))
+                               ,A3(v2,
+                               "Elmとは?",
+                               A2($Kelmote.texts,
+                               styl2,
+                               _L.fromArray(["Functional"
+                                            ,"Reactive"
+                                            ,"AltJS?"])),
+                               A2($Kelmote.texts,
+                               styl3,
+                               _L.fromArray(["Haskellっぽい感じ？"
+                                            ,"コールバック地獄から抜け出せる？"
+                                            ,"ちょっと違うか？HTMLやCSSも出力する"])))
                                ,A3(simple,
                                "",
                                styl2,
                                _L.fromArray(["そのElmでスライドツール作ってみました"]))
-                               ,A3($Kelmote.page,
-                               emptyElement,
-                               function (t) {
-                                  return A2($Kelmote.texts,
-                                  _U.replace([["height"
-                                              ,$Maybe.Just(80)]],
-                                  styl2),
-                                  _L.fromArray(["Kelmote"]));
-                               },
-                               $Kelmote.bgColor($Color.blue))
-                               ,A3($Kelmote.page,
-                               emptyElement,
-                               function (t) {
-                                  return A2($Kelmote.texts,
-                                  styl2,
-                                  _L.fromArray(["このスライドもそれで作ってます"]));
-                               },
-                               $Kelmote.bgColor($Color.blue))
-                               ,A3($Kelmote.page,
-                               emptyElement,
-                               function (t) {
-                                  return A2($Kelmote.texts,
-                                  styl2,
-                                  _L.fromArray(["→ でページ送り"]));
-                               },
-                               $Kelmote.bgColor($Color.blue))
-                               ,A3($Kelmote.page,
-                               emptyElement,
-                               function (t) {
-                                  return A2($Kelmote.texts,
-                                  styl2,
-                                  _L.fromArray(["→ でページ送り"
-                                               ,"← で戻り"]));
-                               },
-                               $Kelmote.bgColor($Color.blue))
-                               ,A3($Kelmote.page,
-                               emptyElement,
-                               function (t) {
-                                  return A2($Kelmote.texts,
-                                  styl2,
-                                  _L.fromArray(["→ でページ送り"
-                                               ,"← で戻り"
-                                               ,"タッチでもOK"]));
-                               },
-                               $Kelmote.bgColor($Color.blue))
-                               ,A3($Kelmote.page,
-                               emptyElement,
-                               function (t) {
-                                  return A2($Kelmote.h2L,
-                                  A2($Kelmote.texts,
-                                  styl2,
-                                  _L.fromArray(["画像入れたり"])),
-                                  img3);
-                               },
-                               $Kelmote.bgColor($Color.blue))
-                               ,A3($Kelmote.page,
-                               emptyElement,
-                               function (t) {
-                                  return A2($Kelmote.texts,
-                                  styl3,
-                                  _L.fromArray(["文字色変えたり"]));
-                               },
-                               $Kelmote.bgColor($Color.blue))
+                               ,A3(simple,
+                               "",
+                               _U.replace([["height"
+                                           ,$Maybe.Just(80)]],
+                               styl2),
+                               _L.fromArray(["Kelmote"]))
+                               ,A3(simple,
+                               "",
+                               styl2,
+                               _L.fromArray(["このスライドもそれで作ってます"]))
+                               ,A3(simple,
+                               "",
+                               styl2,
+                               _L.fromArray(["→ でページ送り"]))
+                               ,A3(simple,
+                               "",
+                               styl2,
+                               _L.fromArray(["→ でページ送り"
+                                            ,"← で戻り"]))
+                               ,A3(simple,
+                               "",
+                               styl2,
+                               _L.fromArray(["→ でページ送り"
+                                            ,"← で戻り"
+                                            ,"タッチでもOK"]))
+                               ,A3(h2,
+                               "",
+                               A2($Kelmote.texts,
+                               styl2,
+                               _L.fromArray(["画像入れたり"])),
+                               img3)
+                               ,A3(simple,
+                               "",
+                               styl3,
+                               _L.fromArray(["文字色変えたり"]))
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
@@ -12233,16 +12216,12 @@ Elm.Sample.make = function (_elm) {
                                   img2));
                                },
                                $Kelmote.bgColor($Color.blue))
-                               ,A3($Kelmote.page,
-                               emptyElement,
-                               function (t) {
-                                  return A2($Kelmote.texts,
-                                  _U.replace([["height"
-                                              ,$Maybe.Just(100)]],
-                                  styl2),
-                                  _L.fromArray(["文字サイズ変えたり"]));
-                               },
-                               $Kelmote.bgColor($Color.blue))
+                               ,A3(simple,
+                               "",
+                               _U.replace([["height"
+                                           ,$Maybe.Just(100)]],
+                               styl2),
+                               _L.fromArray(["文字サイズ変えたり"]))
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
@@ -12256,17 +12235,15 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return rotatedElement;
+                                  return $Kelmote.rotation(30)(A2($Kelmote.texts,
+                                  styl2,
+                                  _L.fromArray(["傾かせたり"])));
                                },
                                $Kelmote.bgColor($Color.blue))
-                               ,A3($Kelmote.page,
-                               emptyElement,
-                               function (t) {
-                                  return A2($Kelmote.texts,
-                                  styl2,
-                                  _L.fromArray(["背景色変えたり"]));
-                               },
-                               $Kelmote.bgColor($Color.red))
+                               ,A3(simple,
+                               "",
+                               styl2,
+                               _L.fromArray(["背景色変えたり"]))
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
@@ -12284,14 +12261,10 @@ Elm.Sample.make = function (_elm) {
                                   }();
                                },
                                $Kelmote.bgImage("Example/IMG_0064.JPG"))
-                               ,A3($Kelmote.page,
-                               emptyElement,
-                               function (t) {
-                                  return A2($Kelmote.texts,
-                                  styl2,
-                                  _L.fromArray(["今のところそんな感じです"]));
-                               },
-                               $Kelmote.bgColor($Color.blue))]);
+                               ,A3(simple,
+                               "",
+                               styl2,
+                               _L.fromArray(["今のところそんな感じです"]))]);
    var main = $Kelmote.run(pageList);
    _elm.Sample.values = {_op: _op
                         ,styl1: styl1
@@ -12305,9 +12278,10 @@ Elm.Sample.make = function (_elm) {
                         ,emptyElement: emptyElement
                         ,page$: page$
                         ,simple: simple
+                        ,v2: v2
+                        ,h2: h2
                         ,pageList: pageList
                         ,main: main
-                        ,rotatedElement: rotatedElement
                         ,codeSample: codeSample
                         ,mdcode: mdcode};
    return _elm.Sample.values;

@@ -32,50 +32,47 @@ page' = page emptyElement emptyElement (bgColor blue)
 simple : String -> T.Style -> List String -> Page
 simple h cStyle c = { page' | header <- (\_ -> h_ styl1 h) , content <- (\_ -> texts cStyle c) }
 
+v2 : String -> Element -> Element -> Page
+v2 h leftE rightE = { page' | header <- (\_ -> h_ styl1 h) , content <- (\t -> v2L leftE rightE) }
+
+h2 : String -> Element -> Element -> Page
+h2 h upperE lowerE = { page' | header <- (\_ -> h_ styl1 h) , content <- (\t -> h2L upperE lowerE) }
+
 pageList : List Page
 pageList = [
     simple "" styl1 ["Kelmote"]
   , simple "" styl2 ["最近 Elm を触っています"]
   , simple "" styl4 ["Elm?"]
   , simple "Elmとは?" styl1 []
-  , { page' | header <- header2 , content <- (\t -> v2L (texts styl2 ["Functional"]) empty) }
-  , { page' | header <- header2
-            , content <- (\t -> v2L (texts styl2 ["Functional"])
-                                    (texts styl3 ["Haskellっぽい感じ？"])) }
-  , { page' | header <-  header2
-            , content <- (\t -> v2L (texts styl2 ["Functional", "Reactive"]) (texts styl3 ["Haskellっぽい感じ？"])) }
-  , { page' | header <- header2
-            , content <- (\t -> v2L (texts styl2 ["Functional", "Reactive"])
-                                    (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"])) }
-  , page header2      (\t -> (v2L (texts styl2 ["Functional", "Reactive", "AltJS?"]) (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"]))) (bgColor blue)
-  , page header2      (\t -> (v2L (texts styl2 ["Functional", "Reactive", "AltJS?"]) (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？", "ちょっと違うか？HTMLやCSSも出力する"]))) (bgColor blue)
+  , v2 "Elmとは?" (texts styl2 ["Functional"]) empty
+  , v2 "Elmとは?" (texts styl2 ["Functional"]) (texts styl3 ["Haskellっぽい感じ？"])
+  , v2 "Elmとは?" (texts styl2 ["Functional", "Reactive"]) (texts styl3 ["Haskellっぽい感じ？"])
+  , v2 "Elmとは?" (texts styl2 ["Functional", "Reactive"]) (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"])
+  , v2 "Elmとは?" (texts styl2 ["Functional", "Reactive", "AltJS?"]) (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"])
+  , v2 "Elmとは?" (texts styl2 ["Functional", "Reactive", "AltJS?"]) (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？", "ちょっと違うか？HTMLやCSSも出力する"])
   , simple "" styl2 ["そのElmでスライドツール作ってみました"]
-  , page emptyElement (\t -> (texts { styl2 | height <- Just 80 } ["Kelmote"])) (bgColor blue)
-  , page emptyElement (\t -> (texts styl2 ["このスライドもそれで作ってます"])) (bgColor blue)
-  , page emptyElement (\t -> (texts styl2 ["→ でページ送り"])) (bgColor blue)
-  , page emptyElement (\t -> (texts styl2 ["→ でページ送り", "← で戻り"])) (bgColor blue)
-  , page emptyElement (\t -> (texts styl2 ["→ でページ送り", "← で戻り", "タッチでもOK"])) (bgColor blue)
-  , page emptyElement (\t -> (h2L (texts styl2 ["画像入れたり"]) img3)) (bgColor blue)
-  , page emptyElement (\t -> (texts styl3 ["文字色変えたり"])) (bgColor blue)
+  , simple "" { styl2 | height <- Just 80 } ["Kelmote"]
+  , simple "" styl2 ["このスライドもそれで作ってます"]
+  , simple "" styl2 ["→ でページ送り"]
+  , simple "" styl2 ["→ でページ送り", "← で戻り"]
+  , simple "" styl2 ["→ でページ送り", "← で戻り", "タッチでもOK"]
+  , h2 "" (texts styl2 ["画像入れたり"]) img3
+  , simple "" styl3 ["文字色変えたり"]
   , page emptyElement (\t -> blink t (h2L (texts styl2 ["点滅させたり"]) img2)) (bgColor blue)
-  , page emptyElement (\t -> (texts { styl2 | height <- Just 100 } ["文字サイズ変えたり"])) (bgColor blue)
+  , simple "" { styl2 | height <- Just 100 } ["文字サイズ変えたり"]
   , page emptyElement (\t -> scale t (texts styl2 ["ボワンボワンさせたり"])) (bgColor blue)
-  , page emptyElement (\t -> rotatedElement) (bgColor blue)
-  , page emptyElement (\t -> (texts styl2 ["背景色変えたり"])) (bgColor red)
+  , page emptyElement (\t -> texts styl2 ["傾かせたり"] |> rotation 30) (bgColor blue)
+  , simple "" styl2 ["背景色変えたり"]
   , page emptyElement
          (\t -> let c1 = texts { styl2 | color <- white } ["背景画像設定したり"]
                 in opacity 0.8 (color black c1))
          (bgImage "Example/IMG_0064.JPG")
-  , page emptyElement (\t -> (texts styl2 ["今のところそんな感じです"])) (bgColor blue)
+  , simple "" styl2 ["今のところそんな感じです"]
 --   , Page emptyElement (\t -> mdcode) (bgColor blue)
   ]
 
 main : Signal Element
 main = run pageList
-
-
-rotatedElement : Element
-rotatedElement = texts styl2 ["傾かせたり"] |> rotation 30
 
 codeSample = """
 
@@ -93,10 +90,10 @@ import Markdown as MD
 
 pageList : List Page
 pageList = [
-    Page emptyElement (\t -> (texts styl1 ["Kelmote"])) (bgColor blue)
+    simple "" styl1 ["Kelmote"])) (bgColor blue)
   , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (bgColor blue)
-  , Page emptyElement (\t -> (texts styl2 ["最近 Elm を触っています"])) (bgColor blue)
-  , Page emptyElement (\t -> (texts { styl2 | height <- Just 100 } ["Elm?"])) (bgColor blue)
+  , simple "" styl2 ["最近 Elm を触っています"])) (bgColor blue)
+  , simple "" { styl2 | height <- Just 100 } ["Elm?"])) (bgColor blue)
 ```
 
 """
