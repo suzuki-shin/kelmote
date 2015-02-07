@@ -4162,7 +4162,7 @@ Elm.Kelmote.Inner.make = function (_elm) {
                                                          b._0)
                                                          ,e]));}
          _U.badCase($moduleName,
-         "between lines 46 and 48");
+         "between lines 47 and 49");
       }();
    });
    var pageByIdx = F2(function (idx,
@@ -4182,7 +4182,7 @@ Elm.Kelmote.Inner.make = function (_elm) {
               },
               BGColor($Color.white));}
          _U.badCase($moduleName,
-         "between lines 33 and 35");
+         "between lines 34 and 36");
       }();
    });
    var view = F4(function (pageList,
@@ -4217,7 +4217,7 @@ Elm.Kelmote.Inner.make = function (_elm) {
                                                                         ,content(sec)])));
               }();}
          _U.badCase($moduleName,
-         "between lines 39 and 43");
+         "between lines 40 and 44");
       }();
    });
    var pageCount = function () {
@@ -4234,9 +4234,10 @@ Elm.Kelmote.Inner.make = function (_elm) {
                switch (_v9.ctor)
                {case "_Tuple2":
                   return _U.cmp(_v10.x,
-                    $Basics.round($Basics.toFloat(_v9._0) / 2)) > -1 ? 1 : -1;}
+                    $Basics.round($Basics.toFloat(_v9._0) * 3 / 4)) > -1 ? 1 : _U.cmp(_v10.x,
+                    $Basics.round($Basics.toFloat(_v9._0) / 4)) < 1 ? -1 : 0;}
                _U.badCase($moduleName,
-               "between lines 25 and 26");
+               "between lines 25 and 27");
             }();
          }();
       }),
@@ -11992,6 +11993,7 @@ Elm.Sample.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $Text = Elm.Text.make(_elm),
    $Time = Elm.Time.make(_elm);
+   var exCalcTable = "\n[表計算](Example/calcTable.html)\n";
    var codeSample = "\n\n```elm:markdown.elm\nmodule Sample where\n\nimport Kelmote (..)\nimport Signal (Signal)\nimport Graphics.Element (..)\nimport List as L\nimport Color (..)\nimport Text as T\nimport Time (Time)\nimport Markdown as MD\n\npageList : List Page\npageList = [\n    Page emptyElement (\t -> (ps_ styl1 [\"Kelmote\"])) (bgColor blue)\n  , Page emptyElement (\t -> MD.toElementWith MD.defaultOptions codeSample) (bgColor blue)\n  , Page emptyElement (\t -> (ps_ styl2 [\"最近 Elm を触っています\"])) (bgColor blue)\n  , Page emptyElement (\t -> (ps_ { styl2 | height <- Just 100 } [\"Elm?\"])) (bgColor blue)\n```\n\n";
    var mdcode = $Kelmote.fromMD(codeSample);
    var emptyElement = function (t) {
@@ -12282,6 +12284,7 @@ Elm.Sample.make = function (_elm) {
                         ,main: main
                         ,rotatedElement: rotatedElement
                         ,codeSample: codeSample
+                        ,exCalcTable: exCalcTable
                         ,mdcode: mdcode};
    return _elm.Sample.values;
 };Elm.Signal = Elm.Signal || {};

@@ -22,8 +22,9 @@ type alias X = { x : Int, y : Int }
 pageCount : Signal Int
 pageCount =
     let tapSignal : Signal Int
-        tapSignal = (\(w,h) {x,y} -> if | x >= round (toFloat w/2) -> 1
-                                                | otherwise -> -1 ) <~ Window.dimensions ~ Touch.taps
+        tapSignal = (\(w,h) {x,y} -> if | x >= round (toFloat w*3/4) -> 1
+                                        | x <= round (toFloat w/4) -> -1
+                                        | otherwise -> 0 ) <~ Window.dimensions ~ Touch.taps
         arrowSignal : Signal Int
         arrowSignal = (.x) <~ Keyboard.arrows
     in foldp (\x count -> count + x) 0 (merge arrowSignal tapSignal)
