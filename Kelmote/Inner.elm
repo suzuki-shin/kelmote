@@ -37,11 +37,14 @@ pageByIdx idx pList = case A.get idx (A.fromList pList) of
 
 view : List Page' -> (Int, Int) -> Int -> Time -> Element
 view pageList (w, h) currentPage sec =
-    let page = pageByIdx currentPage pageList
+    let page : Page'
+        page = pageByIdx currentPage pageList
+        header : Time -> Element
         header t = container w (heightOf (page.header t) + 20) midBottom (page.header t)
+        content : Time -> Element
         content t = container w h middle (page.content t)
     in layers [ header sec, content sec ]
-        |> bg w h page.backGround
+        |> bg w h page.background
 
 bg : Int -> Int -> Background -> Element -> Element
 bg w h b e = case b of
@@ -49,4 +52,4 @@ bg w h b e = case b of
     BGImage s -> layers [fittedImage w h s, e]
 
 type Background = BGColor Color | BGImage String
-type alias Page' = { header : Time -> Element, content : Time -> Element, backGround : Background }
+type alias Page' = { header : Time -> Element, content : Time -> Element, background : Background }
