@@ -54,13 +54,13 @@ defaultTextStyle = {
   , line     = Nothing
   }
 
-hoge : Signal Int
-hoge = Inner.pageCount Keyboard.arrows Touch.taps
+-- hoge : Signal Int
+-- hoge = Inner.pageCount Keyboard.arrows Touch.taps
 -- hoge = Inner.pageCount <~ Keyboard.arrows ~ Touch.taps
 
 run : List Page -> Signal Element
 run pageList = Inner.view pageList <~ Window.dimensions
-                                    ~ hoge
+                                    ~ Inner.pageCount
                                     ~ foldp (+) 0 (fps 5)
 
 rotateEasing : Time -> Float

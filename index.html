@@ -3968,14 +3968,12 @@ Elm.Kelmote.make = function (_elm) {
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
    $Kelmote$Inner = Elm.Kelmote.Inner.make(_elm),
-   $Keyboard = Elm.Keyboard.make(_elm),
    $List = Elm.List.make(_elm),
    $Markdown = Elm.Markdown.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $Text = Elm.Text.make(_elm),
    $Time = Elm.Time.make(_elm),
-   $Touch = Elm.Touch.make(_elm),
    $Window = Elm.Window.make(_elm);
    var fromMD = function (mdStr) {
       return A2($Html.toElement,
@@ -4024,16 +4022,13 @@ Elm.Kelmote.make = function (_elm) {
          $Graphics$Collage.toForm(e))]));
       }();
    });
-   var hoge = A2($Kelmote$Inner.pageCount,
-   $Keyboard.arrows,
-   $Touch.taps);
    var run = function (pageList) {
       return A2($Signal._op["~"],
       A2($Signal._op["~"],
       A2($Signal._op["<~"],
       $Kelmote$Inner.view(pageList),
       $Window.dimensions),
-      hoge),
+      $Kelmote$Inner.pageCount),
       A3($Signal.foldp,
       F2(function (x,y) {
          return x + y;
@@ -4106,7 +4101,6 @@ Elm.Kelmote.make = function (_elm) {
                          ,bgColor: bgColor
                          ,bgImage: bgImage
                          ,defaultTextStyle: defaultTextStyle
-                         ,hoge: hoge
                          ,run: run
                          ,rotateEasing: rotateEasing
                          ,blink: blink
@@ -4131,10 +4125,13 @@ Elm.Kelmote.Inner.make = function (_elm) {
    $Basics = Elm.Basics.make(_elm),
    $Color = Elm.Color.make(_elm),
    $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $Keyboard = Elm.Keyboard.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $Text = Elm.Text.make(_elm),
-   $Time = Elm.Time.make(_elm);
+   $Time = Elm.Time.make(_elm),
+   $Touch = Elm.Touch.make(_elm),
+   $Window = Elm.Window.make(_elm);
    var Page$ = F3(function (a,
    b,
    c) {
@@ -4165,7 +4162,7 @@ Elm.Kelmote.Inner.make = function (_elm) {
                                                          b._0)
                                                          ,e]));}
          _U.badCase($moduleName,
-         "between lines 39 and 41");
+         "between lines 46 and 48");
       }();
    });
    var pageByIdx = F2(function (idx,
@@ -4185,7 +4182,7 @@ Elm.Kelmote.Inner.make = function (_elm) {
               },
               BGColor($Color.white));}
          _U.badCase($moduleName,
-         "between lines 26 and 28");
+         "between lines 33 and 35");
       }();
    });
    var view = F4(function (pageList,
@@ -4220,25 +4217,41 @@ Elm.Kelmote.Inner.make = function (_elm) {
                                                                         ,content(sec)])));
               }();}
          _U.badCase($moduleName,
-         "between lines 32 and 36");
+         "between lines 39 and 43");
       }();
    });
-   var pageCount = F2(function (a,
-   t) {
-      return A3($Signal.foldp,
-      F2(function (_v9,count) {
+   var pageCount = function () {
+      var arrowSignal = A2($Signal._op["<~"],
+      function (_) {
+         return _.x;
+      },
+      $Keyboard.arrows);
+      var tapSignal = A2($Signal._op["~"],
+      A2($Signal._op["<~"],
+      F2(function (_v9,_v10) {
          return function () {
-            return count + (_U.cmp(_v9.x,
-            0) > 0 ? 1 : -1);
+            return function () {
+               switch (_v9.ctor)
+               {case "_Tuple2":
+                  return _U.cmp(_v10.x,
+                    $Basics.round($Basics.toFloat(_v9._0) / 2)) > -1 ? 1 : -1;}
+               _U.badCase($moduleName,
+               "between lines 25 and 26");
+            }();
          }();
       }),
+      $Window.dimensions),
+      $Touch.taps);
+      return A3($Signal.foldp,
+      F2(function (x,count) {
+         return count + x;
+      }),
       0,
-      A2($Signal.merge,a,t));
-   });
-   var Arrow = F2(function (a,b) {
-      return {_: {},x: a,y: b};
-   });
-   var Tap = F2(function (a,b) {
+      A2($Signal.merge,
+      arrowSignal,
+      tapSignal));
+   }();
+   var X = F2(function (a,b) {
       return {_: {},x: a,y: b};
    });
    var strToHeader = function (styl) {
@@ -4254,8 +4267,7 @@ Elm.Kelmote.Inner.make = function (_elm) {
    _elm.Kelmote.Inner.values = {_op: _op
                                ,strToContent: strToContent
                                ,strToHeader: strToHeader
-                               ,Tap: Tap
-                               ,Arrow: Arrow
+                               ,X: X
                                ,pageCount: pageCount
                                ,pageByIdx: pageByIdx
                                ,view: view
