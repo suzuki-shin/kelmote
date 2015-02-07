@@ -12171,7 +12171,7 @@ Elm.Sample.make = function (_elm) {
                                function (t) {
                                   return A2($Kelmote.texts,
                                   styl2,
-                                  _L.fromArray(["->でページ送り"]));
+                                  _L.fromArray(["-> でページ送り"]));
                                },
                                $Kelmote.bgColor($Color.blue))
                                ,A3($Kelmote.page,
@@ -12179,7 +12179,18 @@ Elm.Sample.make = function (_elm) {
                                function (t) {
                                   return A2($Kelmote.texts,
                                   styl2,
-                                  _L.fromArray(["タッチでもページ送りできます"]));
+                                  _L.fromArray(["-> でページ送り"
+                                               ,"<- で戻り"]));
+                               },
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
+                               emptyElement,
+                               function (t) {
+                                  return A2($Kelmote.texts,
+                                  styl2,
+                                  _L.fromArray(["-> でページ送り"
+                                               ,"<- で戻り"
+                                               ,"タッチでもOK"]));
                                },
                                $Kelmote.bgColor($Color.blue))
                                ,A3($Kelmote.page,
