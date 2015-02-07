@@ -17,7 +17,9 @@ styl3 = { defaultTextStyle | color <- lightBlue }
 
 header2 : Time -> Element
 header2 t = h_ styl1 "Elmとは?"
-element2 = fittedImage 400 400 "Example/IMG_1448.JPG"
+img1 = fittedImage 400 400 "Example/IMG_1448.jpg"
+img2 = fittedImage 400 400 "Example/IMG_0638.jpg"
+img3 = fittedImage 400 400 "Example/IMG_1127.jpg"
 emptyElement : Time -> Element
 emptyElement t = empty
 
@@ -36,10 +38,11 @@ pageList = [
   , page emptyElement (\t -> (ps_ styl2 ["そのElmでスライドツール作ってみました"])) (bgColor blue)
   , page emptyElement (\t -> (ps_ { styl2 | height <- Just 80 } ["Kelmote"])) (bgColor blue)
   , page emptyElement (\t -> (ps_ styl2 ["このスライドもそれで作ってます"])) (bgColor blue)
-  , page emptyElement (\t -> (h2Page (ps_ styl2 ["画像入れたり"]) element2)) (bgColor blue)
-  , page emptyElement (\t -> (v2Page (ps_ styl2 ["レイアウト変えたり"]) element2)) (bgColor blue)
+  , page emptyElement (\t -> (ps_ styl2 ["->でページ送り"])) (bgColor blue)
+  , page emptyElement (\t -> (ps_ styl2 ["タッチでもページ送りできます"])) (bgColor blue)
+  , page emptyElement (\t -> (h2Page (ps_ styl2 ["画像入れたり"]) img3)) (bgColor blue)
   , page emptyElement (\t -> (ps_ styl3 ["文字色変えたり"])) (bgColor blue)
-  , page emptyElement (\t -> blink t (ps_ styl2 ["点滅させたり"])) (bgColor blue)
+  , page emptyElement (\t -> blink t (h2Page (ps_ styl2 ["点滅させたり"]) img2)) (bgColor blue)
   , page emptyElement (\t -> (ps_ { styl2 | height <- Just 100 } ["文字サイズ変えたり"])) (bgColor blue)
   , page emptyElement (\t -> scale t (ps_ styl2 ["ボワンボワンさせたり"])) (bgColor blue)
   , page emptyElement (\t -> rotatedElement) (bgColor blue)

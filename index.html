@@ -11997,10 +11997,18 @@ Elm.Sample.make = function (_elm) {
    var emptyElement = function (t) {
       return $Graphics$Element.empty;
    };
-   var element2 = A3($Graphics$Element.fittedImage,
+   var img3 = A3($Graphics$Element.fittedImage,
    400,
    400,
-   "Example/IMG_1448.JPG");
+   "Example/IMG_1127.jpg");
+   var img2 = A3($Graphics$Element.fittedImage,
+   400,
+   400,
+   "Example/IMG_0638.jpg");
+   var img1 = A3($Graphics$Element.fittedImage,
+   400,
+   400,
+   "Example/IMG_1448.jpg");
    var styl3 = _U.replace([["color"
                            ,$Color.lightBlue]],
    $Kelmote.defaultTextStyle);
@@ -12158,21 +12166,27 @@ Elm.Sample.make = function (_elm) {
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.h2Page,
-                                  A2($Kelmote.ps_,
+                                  return A2($Kelmote.ps_,
                                   styl2,
-                                  _L.fromArray(["画像入れたり"])),
-                                  element2);
+                                  _L.fromArray(["->でページ送り"]));
                                },
                                $Kelmote.bgColor($Color.blue))
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
-                                  return A2($Kelmote.v2Page,
+                                  return A2($Kelmote.ps_,
+                                  styl2,
+                                  _L.fromArray(["タッチでもページ送りできます"]));
+                               },
+                               $Kelmote.bgColor($Color.blue))
+                               ,A3($Kelmote.page,
+                               emptyElement,
+                               function (t) {
+                                  return A2($Kelmote.h2Page,
                                   A2($Kelmote.ps_,
                                   styl2,
-                                  _L.fromArray(["レイアウト変えたり"])),
-                                  element2);
+                                  _L.fromArray(["画像入れたり"])),
+                                  img3);
                                },
                                $Kelmote.bgColor($Color.blue))
                                ,A3($Kelmote.page,
@@ -12188,9 +12202,11 @@ Elm.Sample.make = function (_elm) {
                                function (t) {
                                   return A2($Kelmote.blink,
                                   t,
+                                  A2($Kelmote.h2Page,
                                   A2($Kelmote.ps_,
                                   styl2,
-                                  _L.fromArray(["点滅させたり"])));
+                                  _L.fromArray(["点滅させたり"])),
+                                  img2));
                                },
                                $Kelmote.bgColor($Color.blue))
                                ,A3($Kelmote.page,
@@ -12258,7 +12274,9 @@ Elm.Sample.make = function (_elm) {
                         ,styl2: styl2
                         ,styl3: styl3
                         ,header2: header2
-                        ,element2: element2
+                        ,img1: img1
+                        ,img2: img2
+                        ,img3: img3
                         ,emptyElement: emptyElement
                         ,pageList: pageList
                         ,main: main
