@@ -62,7 +62,7 @@ pageList = [
   , simple "" { styl2 | height <- Just 100 } ["文字サイズ変えたり"]
   , page emptyElement (\t -> scale t (texts styl2 ["ボワンボワンさせたり"])) (bgColor blue)
   , page emptyElement (\t -> texts styl2 ["傾かせたり"] |> rotation 30) (bgColor blue)
-  , simple "" styl2 ["背景色変えたり"]
+  , let p = simple "" styl2 ["背景色変えたり"] in { p | background <- (bgColor red)}
   , page emptyElement
          (\t -> let c1 = texts { styl2 | color <- white } ["背景画像設定したり"]
                 in opacity 0.8 (color black c1))

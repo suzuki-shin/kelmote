@@ -12240,10 +12240,15 @@ Elm.Sample.make = function (_elm) {
                                   _L.fromArray(["傾かせたり"])));
                                },
                                $Kelmote.bgColor($Color.blue))
-                               ,A3(simple,
-                               "",
-                               styl2,
-                               _L.fromArray(["背景色変えたり"]))
+                               ,function () {
+                                  var p = A3(simple,
+                                  "",
+                                  styl2,
+                                  _L.fromArray(["背景色変えたり"]));
+                                  return _U.replace([["background"
+                                                     ,$Kelmote.bgColor($Color.red)]],
+                                  p);
+                               }()
                                ,A3($Kelmote.page,
                                emptyElement,
                                function (t) {
