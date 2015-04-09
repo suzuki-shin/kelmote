@@ -75,6 +75,12 @@ scale t e =
     let x = ((toFloat ((round (rotateEasing t)) % 10)) / 10) + 1
     in GC.collage (ceiling (toFloat ((widthOf e)) * x)) (ceiling ((toFloat (heightOf e)) * x)) [GC.scale x (GC.toForm e)]
 
+swing : Time -> Element -> Element
+swing t e =
+    let h = round ((toFloat (widthOf e)) * 2.0) + heightOf e
+        w = widthOf e
+    in GC.collage w h [(GC.rotate (sin (t/250) * 0.2) (GC.toForm e))]
+
 fromMD : String -> Element
 fromMD mdStr = H.div
                [H.style [
