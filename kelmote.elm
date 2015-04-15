@@ -84,8 +84,7 @@ swing t e =
 fromMD : String -> Element
 fromMD mdStr = H.div
                [H.style [
-                      ("backgroundColor", "black")
-                     ,("color", "green")
+                      ("backgroundColor", "#fdf6e3")
                      ,("padding", "5px")
                      ]]
                [ MD.toHtmlWith MD.defaultOptions mdStr ]
