@@ -68,7 +68,7 @@ pageList = [
          (\t -> let c1 = texts { styl2 | color <- white } ["背景画像設定したり"]
                 in opacity 0.8 (color black c1))
          (bgImage "Example/IMG_0064.JPG")
-  , h2 "" (texts styl2 ["コードを貼ったり（Syntax Highlightもされたり）"]) mdcode
+  , h2 "" (texts styl2 ["コードを貼ったり"]) mdcode
   , simple "" styl2 ["今のところそんな感じです"]
   ]
 
