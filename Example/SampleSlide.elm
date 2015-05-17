@@ -1,12 +1,13 @@
 module Sample where
 
-import Kelmote (..)
-import Signal (Signal)
-import Graphics.Element (..)
-import List as L
-import Color (..)
-import Text as T
-import Time (Time)
+import Kelmote exposing (..)
+import Graphics.Element as GE exposing (empty, color)
+import Signal exposing (Signal)
+import Graphics.Element exposing (..)
+import List as L exposing (..)
+import Color exposing (..)
+import Text as T exposing (..)
+import Time exposing (Time)
 
 styl1 : T.Style
 styl1 = { defaultTextStyle | color <- white, height <- Just 70 }
@@ -23,7 +24,7 @@ img1 = fittedImage 400 400 "Example/IMG_1448.jpg"
 img2 = fittedImage 400 400 "Example/IMG_0638.jpg"
 img3 = fittedImage 400 400 "Example/IMG_1127.jpg"
 emptyElement : Time -> Element
-emptyElement t = empty
+emptyElement t = GE.empty
 
 page' : Page
 page' = page emptyElement emptyElement (bgColor blue)
@@ -44,7 +45,7 @@ pageList = [
   , simple "" styl2 ["最近 Elm を触っています"]
   , simple "" styl4 ["Elm?"]
   , simple "Elmとは?" styl1 []
-  , v2 "Elmとは?" (texts styl2 ["Functional"]) empty
+  , v2 "Elmとは?" (texts styl2 ["Functional"]) GE.empty
   , v2 "Elmとは?" (texts styl2 ["Functional"]) (texts styl3 ["Haskellっぽい感じ？"])
   , v2 "Elmとは?" (texts styl2 ["Functional", "Reactive"]) (texts styl3 ["Haskellっぽい感じ？"])
   , v2 "Elmとは?" (texts styl2 ["Functional", "Reactive"]) (texts styl3 ["Haskellっぽい感じ？", "コールバック地獄から抜け出せる？"])
@@ -66,7 +67,7 @@ pageList = [
   , let p = simple "" styl2 ["背景色変えたり"] in { p | background <- (bgColor red)}
   , page emptyElement
          (\t -> let c1 = texts { styl2 | color <- white } ["背景画像設定したり"]
-                in opacity 0.8 (color black c1))
+                in opacity 0.8 (GE.color black c1))
          (bgImage "Example/IMG_0064.JPG")
   , h2 "" (texts styl2 ["コードを貼ったり"]) mdcode
   , simple "" styl2 ["今のところそんな感じです"]
