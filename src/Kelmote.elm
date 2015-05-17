@@ -1,20 +1,20 @@
 module Kelmote where
 
-import Graphics.Element (..)
-import Graphics.Collage as GC
-import Text as T
-import Color (..)
-import List as L
+import Graphics.Element exposing (..)
+import Graphics.Collage as GC exposing (..)
+import Text as T exposing (..)
+import Color exposing (..)
+import List as L exposing (..)
 import Window
-import Signal (Signal, (<~), (~), foldp)
+import Signal exposing (Signal, (<~), (~), foldp)
 import Keyboard
 import Touch
-import Time (Time, fps, inSeconds, second)
-import Easing as ES
-import Markdown as MD
-import Html as H
-import Html.Attributes as H
-import Kelmote.Inner as Inner
+import Time exposing (Time, fps, inSeconds, second)
+-- import Easing as ES exposing (..)
+import Markdown as MD exposing (..)
+import Html as H exposing (..)
+import Html.Attributes as H exposing (..)
+import Kelmote.Inner as Inner exposing (..)
 
 {- Export -}
 
@@ -63,16 +63,13 @@ run pageList = Inner.view pageList <~ Window.dimensions
                                     ~ Inner.pageCount
                                     ~ foldp (+) 0 (fps 5)
 
-rotateEasing : Time -> Float
-rotateEasing = ES.cycle (ES.ease ES.linear ES.float 0 9) second
-
 blink : Time -> Element -> Element
-blink t e = let o = (toFloat ((round (rotateEasing t)) % 10)) / 10
+blink t e = let o = (toFloat ((round t) % 10)) / 10
             in opacity o e
 
 scale : Time -> Element -> Element
 scale t e =
-    let x = ((toFloat ((round (rotateEasing t)) % 10)) / 10) + 1
+    let x = ((toFloat ((round t) % 10)) / 10) + 1
     in GC.collage (ceiling (toFloat ((widthOf e)) * x)) (ceiling ((toFloat (heightOf e)) * x)) [GC.scale x (GC.toForm e)]
 
 swing : Time -> Element -> Element

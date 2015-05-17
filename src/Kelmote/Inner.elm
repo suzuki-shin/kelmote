@@ -1,21 +1,22 @@
 module Kelmote.Inner where
 
-import Graphics.Element (..)
-import Text as T
-import Color (..)
-import List as L
+import Graphics.Element exposing (..)
+import Graphics.Element as GE exposing (empty, color)
+import Text as T exposing (..)
+import Color exposing (..)
+import List as L exposing (..)
 import Window
-import Signal (Signal, foldp, merge, (<~), (~))
+import Signal exposing (Signal, foldp, merge, (<~), (~))
 import Keyboard
 import Touch
-import Array as A
-import Time (Time)
+import Array as A exposing (..)
+import Time exposing (Time)
 
 strToContent : T.Style -> String -> Element
-strToContent styl = T.fromString >> T.style styl >> T.centered
+strToContent styl = T.fromString >> T.style styl >> centered
 
 strToHeader : T.Style -> String -> Element
-strToHeader styl = T.fromString >> T.style styl >> T.leftAligned
+strToHeader styl = T.fromString >> T.style styl >> leftAligned
 
 type alias X = { x : Int, y : Int }
 
@@ -33,7 +34,7 @@ pageCount =
 pageByIdx : Int -> List Page' -> Page'
 pageByIdx idx pList = case A.get idx (A.fromList pList) of
     Just p -> p
-    Nothing -> Page' (\t -> empty) (\t -> empty) (BGColor white)
+    Nothing -> Page' (\t -> GE.empty) (\t -> GE.empty) (BGColor white)
 
 view : List Page' -> (Int, Int) -> Int -> Time -> Element
 view pageList (w, h) currentPage sec =
@@ -48,7 +49,7 @@ view pageList (w, h) currentPage sec =
 
 bg : Int -> Int -> Background -> Element -> Element
 bg w h b e = case b of
-    BGColor c -> color c e
+    BGColor c -> GE.color c e
     BGImage s -> layers [fittedImage w h s, e]
 
 type Background = BGColor Color | BGImage String
