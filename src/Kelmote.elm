@@ -45,6 +45,7 @@ import List as L
 import Array as A
 import Maybe exposing (withDefault)
 import Window
+import Touch
 import Debug
 
 
@@ -134,7 +135,8 @@ type Action
 -}
 run : List Page -> Signal GE.Element
 run ps =
-  view <~ (Signal.foldp update (model ps) arrowsToAction) ~ Window.dimensions
+  view <~ (Signal.foldp update (model ps) (Signal.merge arrowsToAction tapToAction))
+       ~ Window.dimensions
 
 
 model : List Page -> Model
@@ -238,6 +240,32 @@ update action (Model pageIdx pageList) =
 
     Decrement ->
         Model (pageIdx - 1) pageList
+
+
+tapToAction : Signal Action
+tapToAction =
+  let
+    tapSignal : Signal Int
+    tapSignal =
+      (\(w,h) {x,y} ->
+        if | x >= round (toFloat w*3/4) -> 1
+           | x <= round (toFloat w/4) -> -1
+           | otherwise -> 0
+      ) <~ Window.dimensions
+        ~ Touch.taps
+
+    toAction : Int -> Action
+    toAction x =
+      if | x == 1 ->
+             Increment
+
+         | x == -1 ->
+             Decrement
+
+         | otherwise ->
+             NoOp
+  in
+    toAction <~ tapSignal
 
 
 arrowsToAction : Signal Action
