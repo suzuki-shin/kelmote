@@ -138,10 +138,6 @@ bodyElementToElement t style be =
     ImageTimeDepend_ func imgs ->
       func t (bodyElementToElement t style (Image_ imgs))
 
-    otherwise ->
-      GE.show "unknown body element.."
-
-
 
 type alias PageIdx =
   Int
