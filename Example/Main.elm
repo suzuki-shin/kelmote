@@ -1,5 +1,8 @@
 import Kelmote exposing (..)
 import Color exposing (..)
+import Graphics.Element as GE
+import Graphics.Collage as GC
+import Time
 import Text as T
 
 main =
@@ -79,17 +82,17 @@ pages =
                            }
            }
            ""
-           (Text_ [
+           ((Text_ [
               "Kelmote"
-            ])
+            ]) ~@ swingEffectFunc)
   , simple pageStyle1
            "What is Kelmote"
            (Empty_)
   , simple pageStyle1
            "What is Kelmote"
-           (Text_ [
+           ((Text_ [
               "This is an application for creating simple slide."
-            ])
+            ]) ~@ zoomEffectFunc)
   , simple pageStyle1
            "What is Kelmote"
            (Text_ [
@@ -205,3 +208,22 @@ pages =
   ]
 ```
 """
+
+
+swingEffectFunc : Time.Time -> GE.Element -> GE.Element
+swingEffectFunc t e =
+  let
+    w = GE.widthOf e
+    h = (toFloat w) * (cos (degrees 20)) * (toFloat (GE.heightOf e)) |> ceiling
+  in
+    GC.collage w h <| [GC.rotate (sin (degrees (10 * (Time.inSeconds t)))) (GC.toForm e)]
+
+
+zoomEffectFunc : Time.Time -> GE.Element -> GE.Element
+zoomEffectFunc t e =
+  let
+    x = (sin (degrees (30 * (Time.inSeconds t)))) * 0.5 + 1.0
+    w = x * (toFloat (GE.widthOf e)) |> ceiling
+    h = x * (toFloat (GE.heightOf e)) |> ceiling
+  in
+    GC.collage w h <| [GC.scale x (GC.toForm e)]
