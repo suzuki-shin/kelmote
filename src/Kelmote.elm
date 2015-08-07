@@ -11,6 +11,8 @@ module Kelmote
   , defaultHeaderTextStyle
   , defaultBodyTextStyle
   , defaultPageStyle
+  , timeDepend
+  , (~@)
   ) where
 
 {-| This is a presentation slide maker.
@@ -30,11 +32,14 @@ module Kelmote
 @docs defaultHeaderTextStyle
 @docs defaultBodyTextStyle
 @docs defaultPageStyle
+@docs timeDepend
+@docs (~@)
 
 -}
 
 import Color exposing (..)
 import Graphics.Element as GE
+import Graphics.Collage as GC
 import Text as T
 import Text exposing (defaultStyle)
 import Color exposing (..)
@@ -47,6 +52,7 @@ import Maybe exposing (withDefault)
 import Window
 import Touch
 import Markdown
+import Time
 -- import Debug
 
 
@@ -83,6 +89,8 @@ type BodyElement
   | Image_ (List (Int, Int, String))
   | Chart_ ChartType ChartData
   | Code_ String
+  | TextTimeDepend_ (Time.Time -> GE.Element -> GE.Element) (List String)
+  | ImageTimeDepend_ (Time.Time -> GE.Element -> GE.Element) (List (Int, Int, String))
 
 
 {-| Style
@@ -101,8 +109,8 @@ type Background
   | BgImage String
 
 
-bodyElementToElement : Style -> BodyElement -> GE.Element
-bodyElementToElement style be =
+bodyElementToElement : Time.Time -> Style -> BodyElement -> GE.Element
+bodyElementToElement t style be =
   case be of
     Empty_ ->
       GE.empty
@@ -124,6 +132,11 @@ bodyElementToElement style be =
             el
         |> GE.color white
 
+    TextTimeDepend_ func ss ->
+      func t (bodyElementToElement t style (Text_ ss))
+
+    ImageTimeDepend_ func imgs ->
+      func t (bodyElementToElement t style (Image_ imgs))
 
     otherwise ->
       GE.show "unknown body element.."
@@ -150,6 +163,7 @@ run : List Page -> Signal GE.Element
 run ps =
   view <~ (Signal.foldp update (model ps) (Signal.merge arrowsToAction tapToAction))
        ~ Window.dimensions
+       ~ Time.every Time.millisecond
 
 
 model : List Page -> Model
@@ -157,8 +171,8 @@ model pages =
   Model 0 (A.fromList pages)
 
 
-view : Model -> (Int, Int) -> GE.Element
-view (Model pageIdx pageList) (w, h) =
+view : Model -> (Int, Int) -> Time.Time -> GE.Element
+view (Model pageIdx pageList) (w, h) t =
   let
     headerOf : Page -> GE.Element
     headerOf (Page style header _) =
@@ -172,22 +186,22 @@ view (Model pageIdx pageList) (w, h) =
     bodyOf (Page style _  body) =
       GE.container w h GE.middle <| case body of
         Simple b ->
-          bodyElementToElement style b
+          bodyElementToElement t style b
 
         Vertical b1 b2 ->
           GE.flow GE.right
                [
-                 bodyElementToElement style b1
+                 bodyElementToElement t style b1
                , GE.spacer 30 30
-               , bodyElementToElement style b2
+               , bodyElementToElement t style b2
                ]
 
         Horizontal b1 b2 ->
           GE.flow GE.down
                [
-                 bodyElementToElement style b1
+                 bodyElementToElement t style b1
                , GE.spacer 30 30
-               , bodyElementToElement style b2
+               , bodyElementToElement t style b2
                ]
 
         Split4 b1 b2 b3 b4 ->
@@ -195,15 +209,15 @@ view (Model pageIdx pageList) (w, h) =
               [
                 GE.flow GE.down
                     [
-                      bodyElementToElement style b1
+                      bodyElementToElement t style b1
                     , GE.spacer 30 30
-                    , bodyElementToElement style b2
+                    , bodyElementToElement t style b2
                     ]
               , GE.flow GE.down
                     [
-                      bodyElementToElement style b3
+                      bodyElementToElement t style b3
                     , GE.spacer 30 30
-                    , bodyElementToElement style b4
+                    , bodyElementToElement t style b4
                     ]
               ]
 
@@ -372,3 +386,21 @@ split4 : Style -> Header -> BodyElement
                -> BodyElement -> BodyElement -> BodyElement -> Page
 split4 style header bodyE1 bodyE2 bodyE3 bodyE4 =
   Page style header (Split4 bodyE1 bodyE2 bodyE3 bodyE4)
+
+
+{-| timeDepend
+-}
+timeDepend : (Time.Time -> GE.Element -> GE.Element) -> BodyElement -> BodyElement
+timeDepend f be =
+  case be of
+    Text_ a ->
+      TextTimeDepend_ f a
+    Image_ a ->
+      ImageTimeDepend_ f a
+
+
+{-| (~@)
+alias for timeDepend
+-}
+(~@) : BodyElement -> (Time.Time -> GE.Element -> GE.Element) -> BodyElement
+(~@) be f= timeDepend f be
