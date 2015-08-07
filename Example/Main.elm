@@ -4,6 +4,7 @@ import Graphics.Element as GE
 import Graphics.Collage as GC
 import Time
 import Text as T
+import Debug
 
 main =
   run pages
@@ -95,10 +96,10 @@ pages =
             ]) ~@ zoomEffectFunc)
   , simple pageStyle1
            "What is Kelmote"
-           (Text_ [
+           ((Text_ [
               "This is an application for creating simple slide."
             , "This slide also was created using the Kelmote."
-            ])
+            ]) ~@ moveEffectFunc)
   , simple pageStyle1
            "What is Kelmote"
            (Text_ [
@@ -227,3 +228,14 @@ zoomEffectFunc t e =
     h = x * (toFloat (GE.heightOf e)) |> ceiling
   in
     GC.collage w h <| [GC.scale x (GC.toForm e)]
+
+
+moveEffectFunc : Time.Time -> GE.Element -> GE.Element
+moveEffectFunc t e =
+  let
+    x = (sin (degrees (30 * (Time.inSeconds t)))) * 1000.0
+    w = toFloat (GE.widthOf e) |> ceiling
+    h = toFloat (GE.heightOf e) |> ceiling
+  in
+    GC.collage w h <| [GC.moveX (Debug.log "x" x) (GC.toForm e)]
+
