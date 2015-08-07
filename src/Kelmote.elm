@@ -46,7 +46,8 @@ import Array as A
 import Maybe exposing (withDefault)
 import Window
 import Touch
-import Debug
+import Markdown
+-- import Debug
 
 
 {-| Page
@@ -79,7 +80,7 @@ type alias ChartData = List Float
 type BodyElement
   = Empty_
   | Text_ (List String)
-  | Image_ Int Int String
+  | Image_ (List (Int, Int, String))
   | Chart_ ChartType ChartData
   | Code_ String
 
@@ -109,8 +110,20 @@ bodyElementToElement style be =
     Text_ ss ->
       texts style.bodyText ss
 
-    Image_ w h img ->
-      GE.fittedImage w h img
+    Image_ imgs ->
+      GE.flow GE.left <| L.map (\(w,h,img) -> GE.fittedImage w h img) imgs
+
+    Code_ md ->
+      let
+        el = Markdown.toElement md
+      in
+        GE.container
+            ((GE.widthOf el) + 20)
+            ((GE.heightOf el) + 20)
+            GE.middle
+            el
+        |> GE.color white
+
 
     otherwise ->
       GE.show "unknown body element.."
