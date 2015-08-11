@@ -63,7 +63,8 @@ pageStyle3 =
 pageStyle4 : Style
 pageStyle4 =
   { pageStyle1
-  | background <- BgColor darkYellow
+  | background <-
+    BgImage "Example/fog_city.jpg"
   , headerText <- { headerStyle | color <- lightYellow }
   }
 
@@ -71,14 +72,28 @@ pageStyle4 =
 pageStyle5 : Style
 pageStyle5 =
   { pageStyle1
-  | background <- BgColor black
+  | background <-
+    BgImage "Example/flickr_animal.jpg"
+  , headerText <- { headerStyle | color <- lightGreen }
+  , bodyText <- { bodyStyle | color <- green }
   }
 
 
 pageStyle6 : Style
 pageStyle6 =
   { pageStyle1
-  | background <- BgImage "Example/fog_city.jpg"
+  | background <-
+    BgImage "Example/flickr_sky3.jpg"
+  , headerText <- { headerStyle | color <- lightGray }
+  }
+
+
+pageStyle7 : Style
+pageStyle7 =
+  { pageStyle1
+  | background <-
+    BgImage "Example/flickr_orange.jpg"
+  , headerText <- { headerStyle | color <- white }
   }
 
 
@@ -113,15 +128,17 @@ pages =
     (Image_ [
       (1000, 400, "Example/twitter_img.png")
      ])
-  , simple
+  , horizontal
     pageStyle0
     ""
     (Text_ [
       "Twitter: shin16s"
      ,"Job: Programmer"
      ,"Like: Haskell, Elm, 将棋, ねこ, お酒"
-     ,"目黒もくもく会主催してます"
      ])
+    (Link_ "目黒もくもく会主催してます"
+           "http://meguro-mokumoku.connpass.com/event/16409/"
+    )
   , simple
     pageStyle1
     "Elmと私"
@@ -135,15 +152,16 @@ pages =
       "JavaScriptが怖い"
      ,"自由すぎる"
      ])
-  , simple
+  , horizontal
     pageStyle1
     "Elmと私"
     (Text_ [
       "JavaScriptが怖い"
      ,"自由すぎる"
-     ,"BK多過ぎる"
-     ,"http://nmi.jp/archives/488"
      ])
+    (Link_ "BK多過ぎる"
+           "http://nmi.jp/archives/488"
+    )
   , simple
     pageStyle1
     "Elmと私"
@@ -153,10 +171,9 @@ pages =
   , simple
     pageStyle1
     "Elmと私"
-    (Text_ [
-      "2014年のElmアドベントカレンダー"
-     ,"http://qiita.com/advent-calendar/2014/elm"
-     ])
+    (Link_ "2014年のElmアドベントカレンダー"
+           "http://qiita.com/advent-calendar/2014/elm"
+     )
   , simple
     pageStyle1
     "Elmと私"
@@ -205,16 +222,17 @@ pages =
   , simple
     pageStyle3
     "Elmと私"
-    (Text_ [
-      "2. どうぶつしょうぎ"
-     ])
-  , simple
+    (Link_ "2. どうぶつしょうぎ"
+           "http://suzuki-shin.github.io/doubutsuShogi/?xxx"
+    )
+  , horizontal
     pageStyle3
     "Elmと私"
+    (Link_ "2. どうぶつしょうぎ"
+           "http://suzuki-shin.github.io/doubutsuShogi/?xxx"
+    )
     (Text_ [
-      "2. どうぶつしょうぎ"
-     ,"バックエンドはmilkcocoaで通信対戦可能"
-     ,"http://suzuki-shin.github.io/doubutsuShogi/?xxx"
+      "バックエンドはmilkcocoaで通信対戦可能"
      ])
   , simple
     { pageStyle1
@@ -230,66 +248,67 @@ pages =
       "ようやく本題"
      ])
   , simple
-    pageStyle1
+    pageStyle4
     "What is Elm?"
     (Text_ [
       ""
      ])
   , simple
-    pageStyle1
+    pageStyle4
     "What is Elm?"
     (Text_ [
       "AltJS"
      ])
   , simple
-    pageStyle1
+    pageStyle4
     "AltJS"
     (Text_ [
       "HTMLとJSとCSSを生成"
      ])
   , simple
-    pageStyle1
+    pageStyle4
     "AltJS"
     (Text_ [
       "HTMLとJSとCSSを生成"
      ,"Virtual DOM"
      ])
   , simple
-    pageStyle1
+    pageStyle4
     "AltJS"
     (Text_ [
       "HTMLとJSとCSSを生成"
      ,"Virtual DOM"
      ,"FRP"
      ])
-  , simple
-    { pageStyle1
+  , horizontal
+    { pageStyle4
     | bodyText <-
       { bodyStyle
-      | height <-
-        Just 30
+      | height <- Just 30
       }
     }
     "Virtual DOM?"
-    (Text_ [
-      "http://qiita.com/mizchi/items/4d25bc26def1719d52e6"
-     ,"http://postd.cc/blazing-fast-html-virtual-dom-in-elm/"
-     ])
+    (Link_ "なぜ仮想DOMという概念が俺達の魂を震えさせるのか"
+           "http://qiita.com/mizchi/items/4d25bc26def1719d52e6"
+    )
+    (Link_ "爆速HTML – Elmでの仮想DOM"
+           "http://postd.cc/blazing-fast-html-virtual-dom-in-elm/"
+    )
   , simple
-    pageStyle2
+    pageStyle5
     "FRP?"
     (Text_ [
       "Functional Reactive Programming"
      ])
   , simple
-    pageStyle2
+    pageStyle5
     "FRP?"
     (Text_ [
       "Functional Reactive Programming"
      ,"時間変化する値がファーストクラス"
      ])
   , simple
-    pageStyle2
+    pageStyle5
     "FRP?"
     (Text_ [
       "Functional Reactive Programming"
@@ -297,7 +316,7 @@ pages =
      ,"ElmではSignalという型で表現"
      ])
   , simple
-    pageStyle2
+    pageStyle5
     "FRP?"
     (Text_ [
       "Functional Reactive Programming"
@@ -306,26 +325,26 @@ pages =
      ,"Bye bye callback hell?"
      ])
   , simple
-    pageStyle3
+    pageStyle6
     "What is Elm?"
     (Text_ [
       "関数型言語"
      ])
   , simple
-    pageStyle3
+    pageStyle6
     "What is Elm?"
     (Text_ [
       "静的型付け関数型言語"
      ])
   , simple
-    pageStyle3
+    pageStyle6
     "What is Elm?"
     (Text_ [
       "静的型付け関数型言語"
      ,"型推論"
      ])
   , simple
-    pageStyle3
+    pageStyle6
     "What is Elm?"
     (Text_ [
       "静的型付け関数型言語"
@@ -333,27 +352,38 @@ pages =
      ,"Haskell like Syntax"
      ])
   , vertical
-    pageStyle3
+    pageStyle6
     "Haskell like Syntax"
     (Text_ [
       "Hello World"
      ])
     (Code_ helloWorld)
   , simple
-    pageStyle4
+    pageStyle7
     "What is Elm?"
     (Text_ [
       "tool類の完成度が高い"
-     ,"コンパイラはもちろん"
-     ,"パッケージマネージャ"
-     ,"デバッガ"
      ])
-  , simple
-    pageStyle2
+  , horizontal
+    pageStyle7
     "What is Elm?"
     (Text_ [
-      "公式サイトが充実"
-     ,"http://elm-lang.org/"
+      "tool類の完成度が高い"
+     ])
+    (Link_ "公式サイトが充実"
+           "http://elm-lang.org/"
+    )
+  , simple
+    { pageStyle1
+    | background <- BgImage "Example/flickr_animal2.jpg"
+    , bodyText <-
+      { bodyStyle
+      | height <- Just 100
+      }
+    }
+    ""
+    (Text_ [
+      "以上です。何か？"
      ])
   ]
 

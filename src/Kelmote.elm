@@ -86,6 +86,7 @@ type alias ChartData = List Float
 type BodyElement
   = Empty_
   | Text_ (List String)
+  | Link_ String String
   | Image_ (List (Int, Int, String))
   | Chart_ ChartType ChartData
   | Code_ String
@@ -117,6 +118,9 @@ bodyElementToElement t style be =
 
     Text_ ss ->
       texts style.bodyText ss
+
+    Link_ caption url ->
+      link style.bodyText caption url
 
     Image_ imgs ->
       GE.flow GE.left <| L.map (\(w,h,img) -> GE.fittedImage w h img) imgs
@@ -196,7 +200,6 @@ view (Model pageIdx pageList) (w, h) t =
           GE.flow GE.down
                [
                  bodyElementToElement t style b1
-               , GE.spacer 30 30
                , bodyElementToElement t style b2
                ]
 
@@ -206,13 +209,11 @@ view (Model pageIdx pageList) (w, h) t =
                 GE.flow GE.down
                     [
                       bodyElementToElement t style b1
-                    , GE.spacer 30 30
                     , bodyElementToElement t style b2
                     ]
               , GE.flow GE.down
                     [
                       bodyElementToElement t style b3
-                    , GE.spacer 30 30
                     , bodyElementToElement t style b4
                     ]
               ]
@@ -321,6 +322,11 @@ strToContent styl =
 texts : T.Style -> List String -> GE.Element
 texts styl =
     L.map (strToContent styl) >> GE.flow GE.down
+
+
+link : T.Style -> String -> String -> GE.Element
+link styl caption url =
+  strToContent styl caption |> GE.link url
 
 
 {-| defaultHeaderTextStyle
