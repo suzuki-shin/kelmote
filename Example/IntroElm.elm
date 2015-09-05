@@ -284,7 +284,7 @@ pages =
     { pageStyle4
     | bodyText <-
       { bodyStyle
-      | height <- Just 30
+      | height <- Just 50
       }
     }
     "Virtual DOM?"
@@ -428,4 +428,3 @@ moveEffectFunc t e =
     h = toFloat (GE.heightOf e) |> ceiling
   in
     GC.collage w h <| [GC.moveX (Debug.log "x" x) (GC.toForm e)]
-
