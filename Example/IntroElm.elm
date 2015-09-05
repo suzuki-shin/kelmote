@@ -215,10 +215,19 @@ pages =
     "Elmと私"
     (Text_ [
       "むだなエフェクトも実装"
-     ] ~@ moveEffectFunc)
+     ] ~@ zoomEffectFunc)
     (Image_ [
       (600, 400, "Example/natsume.JPG")
      ] ~@ zoomEffectFunc)
+  , horizontal
+    pageStyle2
+    "Elmと私"
+    (Text_ [
+      "むだなエフェクトも実装"
+     ] ~@ moveEffectFunc)
+    (Image_ [
+      (600, 400, "Example/natsume.JPG")
+     ] ~@ moveEffectFunc)
   , simple
     pageStyle3
     "Elmと私"
